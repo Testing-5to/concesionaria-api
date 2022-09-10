@@ -4,4 +4,4 @@
 3. Create postgres database named "concesionaria" and set the connection values in the application properties.
 4. Run the application.
 
-Pd. You can insert fake data just ask me for it
+Pd. You can insert fake data just ask me for it.
