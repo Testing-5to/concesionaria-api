@@ -2,7 +2,6 @@ package com.autos.concesionaria.controller;
 
 
 import com.autos.concesionaria.dto.MarcaDTO;
-import com.autos.concesionaria.repository.MarcaRepository;
 import com.autos.concesionaria.service.MarcaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

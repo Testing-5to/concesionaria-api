@@ -10,9 +10,8 @@ public class ConcesionariaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ConcesionariaApplication.class, args);
-
-
     }
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
