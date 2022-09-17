@@ -32,8 +32,9 @@ public class PaisService {
     }
 
     public Pais actualizarPaisPorId(Long id, Pais pais) {
-        pais.setId(id);
-        return paisRepository.save(pais);
+        Pais paisActual = paisRepository.findById(id).get();
+        paisActual.setNombre(pais.getNombre());
+        return paisRepository.saveAndFlush(paisActual);
     }
 
     public void borrarPaisPorId(Long id) {
