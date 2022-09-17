@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.autos.concesionaria.entity.Localidad;
+import com.autos.concesionaria.repository.LocalidadRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,59 +15,33 @@ public class LocalidadService {
 
     @Autowired
     // Repository injected by constructor
-    private LocalidadService localidadService;
+    private LocalidadRepository localidadRepository;
 
-    /**
-     * Create a localidad
-     *
-     * @param localidad
-     * @return Localidad created
-     */
-    public Localidad crearLocalidad(Localidad localidad) {
-        return localidadService.crearLocalidad(localidad);
-    }
-
-    /**
-     * Get all the localidades
-     *
-     * @return List<Localidad> List of localidades
-     */
+    // Get all the localidades
     public List<Localidad> buscarLocalidades() {
-        return localidadService.buscarLocalidades();
+        return localidadRepository.findAll();
     }
 
-    /**
-     * Get a localidad by id
-     *
-     * @param id
-     * @return Localidad found or null
-     */
+    // Get a localidad by id
     public Localidad buscarLocalidadPorId(Long id) {
-        return localidadService.buscarLocalidadPorId(id);
+        return localidadRepository.findById(id).orElseThrow();
     }
 
-    /**
-     * Update a localidad
-     *
-     * @param id        Localidad id
-     * @param localidad Localidad data to update
-     * @return Localidad updated
-     */
+    // Create a localidad
+    public Localidad crearLocalidad(Localidad localidad) {
+        return localidadRepository.save(localidad);
+    }
+
+    // Update a localidad
     public Localidad actualizarLocalidadPorId(Long id, Localidad localidad) {
-        Localidad localidadActual = localidadService.buscarLocalidadPorId(id);
+        Localidad localidadActual = localidadRepository.findById(id).orElseThrow();
         localidadActual.setNombre(localidad.getNombre());
-        localidadActual.setCodigoPostal(localidad.getCodigoPostal());
-        localidadActual.setProvincia(localidad.getProvincia());
-        return localidadService.crearLocalidad(localidadActual);
+        return localidadRepository.save(localidadActual);
     }
 
-    /**
-     * Delete a localidad
-     *
-     * @param id Localidad id
-     */
+    // Delete a localidad
     public void eliminarLocalidadPorId(Long id) {
-        localidadService.eliminarLocalidadPorId(id);
+        localidadRepository.deleteById(id);
     }
 
 }
