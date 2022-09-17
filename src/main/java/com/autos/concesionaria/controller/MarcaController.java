@@ -1,7 +1,6 @@
 package com.autos.concesionaria.controller;
 
-
-import com.autos.concesionaria.dto.MarcaDTO;
+import com.autos.concesionaria.entity.Marca;
 import com.autos.concesionaria.service.MarcaService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,27 +20,27 @@ public class MarcaController {
     private MarcaService marcaService;
 
     @PostMapping()
-    public ResponseEntity<MarcaDTO> guardarMarca(@RequestBody MarcaDTO marca) {
+    public ResponseEntity<Marca> guardarMarca(@RequestBody Marca marca) {
         return new ResponseEntity<>(marcaService.crearMarca(marca), HttpStatus.CREATED);
     }
 
     @GetMapping()
-    public ResponseEntity<List<MarcaDTO>> getMarcas() {
+    public ResponseEntity<List<Marca>> getMarcas() {
         return new ResponseEntity<>(marcaService.getMarcas(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MarcaDTO> getMarca(@PathVariable Long id) {
+    public ResponseEntity<Marca> getMarca(@PathVariable Long id) {
         return new ResponseEntity<>(marcaService.getMarca(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MarcaDTO> actualizarMarca(@PathVariable Long id, @RequestBody MarcaDTO marca) {
+    public ResponseEntity<Marca> actualizarMarca(@PathVariable Long id, @RequestBody Marca marca) {
         return new ResponseEntity<>(marcaService.actualizarMarca(id, marca), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MarcaDTO> borrarMarca(@PathVariable Long id) {
+    public ResponseEntity<Marca> borrarMarca(@PathVariable Long id) {
         return new ResponseEntity<>(marcaService.borrarMarca(id), HttpStatus.OK);
     }
 
