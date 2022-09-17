@@ -3,19 +3,19 @@ package com.autos.concesionaria.service;
 import com.autos.concesionaria.dto.MarcaDTO;
 import com.autos.concesionaria.entity.Marca;
 import com.autos.concesionaria.repository.MarcaRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MarcaService {
 
-    @Autowired
     private MarcaRepository marcaRepository;
-
-    @Autowired
     private ModelMapper mapper;
 
     public MarcaDTO crearMarca(MarcaDTO marcaDTO){
