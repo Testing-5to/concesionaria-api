@@ -5,7 +5,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "pais")
-@Setter @Getter @AllArgsConstructor @NoArgsConstructor
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pais {
 
     @Id

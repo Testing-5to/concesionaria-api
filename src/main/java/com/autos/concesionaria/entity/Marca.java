@@ -5,7 +5,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "marca")
-@Setter @Getter @AllArgsConstructor @NoArgsConstructor
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Marca {
 
     @Id
