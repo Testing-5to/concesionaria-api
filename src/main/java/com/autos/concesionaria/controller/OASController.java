@@ -19,7 +19,7 @@ public class OASController {
      */
     @RequestMapping("/")
     public String index() {
-        return "redirect:v3/api-docs";
+        return "redirect:swagger-ui/index.html";
     }
 
 }
