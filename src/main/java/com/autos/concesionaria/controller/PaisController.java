@@ -1,5 +1,6 @@
 package com.autos.concesionaria.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,14 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autos.concesionaria.entity.Pais;
 import com.autos.concesionaria.service.PaisService;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/pais")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class PaisController {
 
+    @Autowired
     private PaisService paisService;
 
     // GET

@@ -2,17 +2,21 @@ package com.autos.concesionaria.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.autos.concesionaria.entity.Pais;
 import com.autos.concesionaria.repository.PaisRepository;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class PaisService {
 
+    @Autowired
     private PaisRepository paisRepository;
 
     public List<Pais> buscarPaises() {
