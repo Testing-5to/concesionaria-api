@@ -3,6 +3,8 @@ package com.autos.concesionaria.service;
 import com.autos.concesionaria.entity.Marca;
 import com.autos.concesionaria.repository.MarcaRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MarcaService {
 
+    @Autowired
     private MarcaRepository marcaRepository;
 
     public Marca crearMarca(Marca marca) {
@@ -30,14 +33,8 @@ public class MarcaService {
         return marcaRepository.save(marca);
     }
 
-    public Marca borrarMarca(Long id) {
-        try {
-            Marca marca = marcaRepository.findById(id).get();
-            marcaRepository.deleteById(id);
-            return marca;
-        } catch (Exception e) {
-            return null;
-        }
+    public void borrarMarca(Long id) {
+        marcaRepository.deleteById(id);
     }
 
 }

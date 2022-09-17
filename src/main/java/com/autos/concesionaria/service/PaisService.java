@@ -36,10 +36,8 @@ public class PaisService {
         return paisRepository.save(pais);
     }
 
-    public Pais borrarPaisPorId(Long id) {
-        Pais pais = paisRepository.findById(id).get();
-        paisRepository.delete(pais);
-        return pais;
+    public void borrarPaisPorId(Long id) {
+        paisRepository.deleteById(id);
     }
 
 }

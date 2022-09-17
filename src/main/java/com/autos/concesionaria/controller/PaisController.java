@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autos.concesionaria.entity.Pais;
 import com.autos.concesionaria.service.PaisService;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -31,12 +32,12 @@ public class PaisController {
 
     // GET
     @GetMapping
-    public ResponseEntity<?> getPaises() {
+    public ResponseEntity<List<Pais>> getPaises() {
         return new ResponseEntity<>(paisService.buscarPaises(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPaisPorId(@PathVariable Long id) {
+    public ResponseEntity<Pais> getPaisPorId(@PathVariable Long id) {
         return new ResponseEntity<>(paisService.buscarPaisPorId(id), HttpStatus.OK);
     }
 
@@ -54,8 +55,9 @@ public class PaisController {
 
     // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrarPais(@PathVariable Long id) {
-        return new ResponseEntity<>(paisService.borrarPaisPorId(id), HttpStatus.OK);
+    public ResponseEntity<String> borrarPais(@PathVariable Long id) {
+        paisService.borrarPaisPorId(id);
+        return new ResponseEntity<>("Pais borrado: " + id, HttpStatus.OK);
     }
 
 }
