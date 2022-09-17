@@ -1,10 +1,11 @@
 package com.autos.concesionaria.repository;
 
-import com.autos.concesionaria.entity.Marca;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.autos.concesionaria.entity.Rol;
+
 @Repository
-public interface MarcaRepository extends JpaRepository <Marca, Long> {
+public interface RolRepository extends JpaRepository<Rol, Long> {
 
 }

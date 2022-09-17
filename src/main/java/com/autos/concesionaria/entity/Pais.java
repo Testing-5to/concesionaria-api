@@ -4,21 +4,20 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "marca")
+@Table(name = "pais")
 @Setter @Getter @AllArgsConstructor @NoArgsConstructor
-public class Marca {
+public class Pais {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // El ID de la marca
+    // El ID del pais
     private Long id;
 
-    // El nombre de la marca
+    // El Nombre del pais
     private String nombre;
 
-    @ManyToOne
-    @JoinColumn(name = "pais_id")
-    // El pais de origen de la marca
-    private Pais pais;
+    @Column(length = 2)
+    // La abreviatura del pais, dos letras que lo identifican
+    private String abreviatura;
 
 }
