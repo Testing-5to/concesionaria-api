@@ -54,6 +54,7 @@ public class ProvinciaService {
     public Provincia actualizarProvinciaPorId(Long id, Provincia provincia) {
         Provincia provinciaActual = provinciaRepository.findById(id).get();
         provinciaActual.setNombre(provincia.getNombre());
+        provinciaActual.setPais(provincia.getPais());
         return provinciaRepository.saveAndFlush(provinciaActual);
     }
 
