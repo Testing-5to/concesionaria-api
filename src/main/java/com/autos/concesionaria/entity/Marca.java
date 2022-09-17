@@ -1,7 +1,6 @@
 package com.autos.concesionaria.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,9 +16,9 @@ public class Marca {
     // El nombre de la marca
     private String nombre;
 
-    // El pais de origen de la marca
     @ManyToOne
     @JoinColumn(name = "pais_id")
+    // El pais de origen de la marca
     private Pais pais;
 
 }
