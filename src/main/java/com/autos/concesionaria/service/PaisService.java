@@ -50,6 +50,7 @@ public class PaisService {
     public Pais actualizarPaisPorId(Long id, Pais pais) {
         Pais paisActual = paisRepository.findById(id).get();
         paisActual.setNombre(pais.getNombre());
+        paisActual.setAbreviatura(pais.getAbreviatura());
         return paisRepository.saveAndFlush(paisActual);
     }
 
