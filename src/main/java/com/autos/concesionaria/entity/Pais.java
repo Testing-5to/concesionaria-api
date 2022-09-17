@@ -18,6 +18,7 @@ public class Pais {
     private String nombre;
 
     // La abreviatura del pais, dos letras que lo identifican
+    @Column(length = 2)
     private String abreviatura;
 
 }

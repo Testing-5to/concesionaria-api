@@ -1,11 +1,11 @@
 package com.autos.concesionaria.controller;
 
-
-import com.autos.concesionaria.dto.MarcaDTO;
+import com.autos.concesionaria.entity.Marca;
 import com.autos.concesionaria.service.MarcaService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,31 +18,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MarcaController {
 
+    @Autowired
     private MarcaService marcaService;
 
-    @PostMapping()
-    public ResponseEntity<MarcaDTO> guardarMarca(@RequestBody MarcaDTO marca) {
-        return new ResponseEntity<>(marcaService.crearMarca(marca), HttpStatus.CREATED);
-    }
-
-    @GetMapping()
-    public ResponseEntity<List<MarcaDTO>> getMarcas() {
+    // GET
+    @GetMapping
+    public ResponseEntity<List<Marca>> getMarcas() {
         return new ResponseEntity<>(marcaService.getMarcas(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MarcaDTO> getMarca(@PathVariable Long id) {
+    public ResponseEntity<Marca> getMarcaPorId(@PathVariable Long id) {
         return new ResponseEntity<>(marcaService.getMarca(id), HttpStatus.OK);
     }
 
+    // POST
+    @PostMapping
+    public ResponseEntity<Marca> guardarMarca(@RequestBody Marca marca) {
+        return new ResponseEntity<>(marcaService.crearMarca(marca), HttpStatus.CREATED);
+    }
+
+    // PUT
     @PutMapping("/{id}")
-    public ResponseEntity<MarcaDTO> actualizarMarca(@PathVariable Long id, @RequestBody MarcaDTO marca) {
+    public ResponseEntity<Marca> actualizarMarca(@PathVariable Long id, @RequestBody Marca marca) {
         return new ResponseEntity<>(marcaService.actualizarMarca(id, marca), HttpStatus.OK);
     }
 
+    // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<MarcaDTO> borrarMarca(@PathVariable Long id) {
-        return new ResponseEntity<>(marcaService.borrarMarca(id), HttpStatus.OK);
+    public ResponseEntity<String> borrarMarca(@PathVariable Long id) {
+        marcaService.borrarMarca(id);
+        return new ResponseEntity<>("Marca borrada: " + id, HttpStatus.NO_CONTENT);
     }
 
 }

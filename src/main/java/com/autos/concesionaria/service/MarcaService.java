@@ -1,63 +1,42 @@
 package com.autos.concesionaria.service;
 
-import com.autos.concesionaria.dto.MarcaDTO;
 import com.autos.concesionaria.entity.Marca;
 import com.autos.concesionaria.repository.MarcaRepository;
-
 import lombok.RequiredArgsConstructor;
 
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MarcaService {
 
+    @Autowired
     private MarcaRepository marcaRepository;
-    private ModelMapper mapper;
 
-    public MarcaDTO crearMarca(MarcaDTO marcaDTO) {
-
-        // Mapeamos del DTO a entidad para poder guardar en base de datos
-        Marca marca = mapper.map(marcaDTO, Marca.class);
-
-        // Guardamos en base de datos el objeto marca
+    public Marca crearMarca(Marca marca) {
         Marca nuevaMarca = marcaRepository.save(marca);
-
-        // Pasamos el objeto marca de entidad a JSON para poder mostrarlo
-        MarcaDTO marcaRespuesta = mapper.map(nuevaMarca, MarcaDTO.class);
-
-        return marcaRespuesta;
+        return nuevaMarca;
     }
 
-    public List<MarcaDTO> getMarcas() {
-        List<Marca> marcas = marcaRepository.findAll();
-
-        List<MarcaDTO> marcasDTO = mapper.map(marcas, List.class);
-        return marcasDTO;
+    public List<Marca> getMarcas() {
+        return marcaRepository.findAll();
     }
 
-    public MarcaDTO getMarca(Long id) {
-        Marca marca = marcaRepository.findById(id).get();
-        MarcaDTO marcaDTO = mapper.map(marca, MarcaDTO.class);
-        return marcaDTO;
+    public Marca getMarca(Long id) {
+        return marcaRepository.findById(id).get();
     }
 
-    public MarcaDTO actualizarMarca(Long id, MarcaDTO marcaDTO) {
-        Marca marca = mapper.map(marcaDTO, Marca.class);
-        marca.setId(id);
-        marcaRepository.save(marca);
-        MarcaDTO marcaRespuesta = mapper.map(marca, MarcaDTO.class);
-        return marcaRespuesta;
+    public Marca actualizarMarca(Long id, Marca marca) {
+        Marca marcaActual = marcaRepository.findById(id).get();
+        marcaActual.setNombre(marca.getNombre());
+        marcaActual.setPais(marca.getPais());
+        return marcaRepository.save(marcaActual);
     }
 
-    public MarcaDTO borrarMarca(Long id) {
-        Marca marca = marcaRepository.findById(id).get();
-        marcaRepository.delete(marca);
-        MarcaDTO marcaRespuesta = mapper.map(marca, MarcaDTO.class);
-        return marcaRespuesta;
+    public void borrarMarca(Long id) {
+        marcaRepository.deleteById(id);
     }
 
 }
