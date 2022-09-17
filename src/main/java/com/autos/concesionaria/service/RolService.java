@@ -20,36 +20,40 @@ public class RolService {
 
     /**
      * Create a rol
+     *
      * @param rol
      * @return Rol created
-    */
+     */
     public Rol crearRol(Rol rol) {
         return rolRepository.save(rol);
     }
 
     /**
      * Get all the roles
+     *
      * @return List<Rol> List of roles
-    */
+     */
     public List<Rol> buscarRoles() {
         return rolRepository.findAll();
     }
 
     /**
      * Get a rol by id
+     *
      * @param id
      * @return Rol found or null
-    */
+     */
     public Rol buscarRolPorId(Long id) {
         return rolRepository.findById(id).get();
     }
 
     /**
      * Update a rol
-     * @param id Rol id
+     *
+     * @param id  Rol id
      * @param rol Rol data to update
      * @return Rol updated
-    */
+     */
     public Rol actualizarRolPorId(Long id, Rol rol) {
         Rol rolActual = rolRepository.findById(id).get();
         rolActual.setNombre(rol.getNombre());
@@ -58,8 +62,9 @@ public class RolService {
 
     /**
      * Delete a rol
+     *
      * @param id Rol id
-    */
+     */
     public void eliminarRolPorId(Long id) {
         rolRepository.deleteById(id);
     }

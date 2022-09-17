@@ -18,9 +18,10 @@ public class MarcaService {
 
     /**
      * Create a marca
+     *
      * @param marca
      * @return Marca created
-    */
+     */
     public Marca crearMarca(Marca marca) {
         Marca nuevaMarca = marcaRepository.save(marca);
         return nuevaMarca;
@@ -28,27 +29,30 @@ public class MarcaService {
 
     /**
      * Get all the marcas
+     *
      * @return List<Marca> List of marcas
-    */
+     */
     public List<Marca> getMarcas() {
         return marcaRepository.findAll();
     }
 
     /**
      * Get a marca by id
+     *
      * @param id
      * @return Marca found or null
-    */
+     */
     public Marca getMarca(Long id) {
         return marcaRepository.findById(id).get();
     }
 
     /**
      * Update a marca
-     * @param id Marca id
+     *
+     * @param id    Marca id
      * @param marca Marca data to update
      * @return Marca updated
-    */
+     */
     public Marca actualizarMarca(Long id, Marca marca) {
         Marca marcaActual = marcaRepository.findById(id).get();
         marcaActual.setNombre(marca.getNombre());
@@ -58,8 +62,9 @@ public class MarcaService {
 
     /**
      * Delete a marca
+     *
      * @param id Marca id to delete
-    */
+     */
     public void borrarMarca(Long id) {
         marcaRepository.deleteById(id);
     }
