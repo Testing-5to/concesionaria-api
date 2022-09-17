@@ -1,7 +1,6 @@
 package com.autos.concesionaria.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,8 +16,8 @@ public class Pais {
     // El Nombre del pais
     private String nombre;
 
-    // La abreviatura del pais, dos letras que lo identifican
     @Column(length = 2)
+    // La abreviatura del pais, dos letras que lo identifican
     private String abreviatura;
 
 }
