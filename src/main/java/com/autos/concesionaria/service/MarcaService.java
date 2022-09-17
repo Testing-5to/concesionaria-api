@@ -29,8 +29,10 @@ public class MarcaService {
     }
 
     public Marca actualizarMarca(Long id, Marca marca) {
-        marca.setId(id);
-        return marcaRepository.save(marca);
+        Marca marcaActual = marcaRepository.findById(id).get();
+        marcaActual.setNombre(marca.getNombre());
+        marcaActual.setPais(marca.getPais());
+        return marcaRepository.save(marcaActual);
     }
 
     public void borrarMarca(Long id) {
