@@ -31,22 +31,14 @@ public class MarcaService {
     }
 
     public List<MarcaDTO> getMarcas(){
-
         List<Marca> marcas = marcaRepository.findAll();
-
-
         List<MarcaDTO> marcasDTO = mapper.map(marcas, List.class);
-
         return marcasDTO;
-
-
     }
 
     public MarcaDTO getMarca(Long id){
         Marca marca = marcaRepository.findById(id).get();
-
         MarcaDTO marcaDTO = mapper.map(marca, MarcaDTO.class);
-
         return marcaDTO;
     }
 
@@ -54,21 +46,15 @@ public class MarcaService {
         Marca marca = mapper.map(marcaDTO, Marca.class);
         marca.setId(id);
         marcaRepository.save(marca);
-
         MarcaDTO marcaRespuesta = mapper.map(marca, MarcaDTO.class);
-
         return marcaRespuesta;
     }
 
     public MarcaDTO borrarMarca(Long id){
         Marca marca = marcaRepository.findById(id).get();
         marcaRepository.delete(marca);
-
         MarcaDTO marcaRespuesta = mapper.map(marca, MarcaDTO.class);
-
         return marcaRespuesta;
     }
-
-
 
 }
