@@ -21,9 +21,7 @@ public class Direccion {
     private Long id;
 
     // La calle
-    @ManyToOne
-    @JoinColumn(name = "calle_id")
-    private Calle calle;
+    private String calle;
 
     // El numero de la direccion
     @Min(value = 0, message = "El numero de la direccion debe ser mayor a 0")
