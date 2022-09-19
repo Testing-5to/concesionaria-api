@@ -61,9 +61,9 @@ public class CalleController {
     // DELETE
     // Delete mapping to delete a calle
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCalle(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarCalle(@PathVariable Long id) {
         calleService.eliminarCallePorId(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<String>("Calle eliminada", HttpStatus.NO_CONTENT);
     }
 
 }
