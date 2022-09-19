@@ -21,7 +21,7 @@ import com.autos.concesionaria.service.CalleService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/localidad")
+@RequestMapping("/api/v1/calle")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequiredArgsConstructor
 public class CalleController {
