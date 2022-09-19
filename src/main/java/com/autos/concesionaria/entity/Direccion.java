@@ -4,6 +4,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
+import org.springframework.lang.Nullable;
+
 @Entity
 @Table(name = "direccion")
 @Setter
@@ -28,9 +30,11 @@ public class Direccion {
     private int numero;
 
     // El piso de la direccion
+    @Nullable
     private String piso;
 
     // El departamento de la direccion
+    @Nullable
     private String departamento;
 
 }
