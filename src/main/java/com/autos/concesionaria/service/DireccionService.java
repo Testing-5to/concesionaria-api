@@ -33,7 +33,7 @@ public class DireccionService {
      *
      * @return List<Direccion> List of direccions
      */
-    public List<Direccion> buscarDireccions() {
+    public List<Direccion> buscarDirecciones() {
         return direccionRepository.findAll();
     }
 
