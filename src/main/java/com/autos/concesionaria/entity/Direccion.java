@@ -35,4 +35,9 @@ public class Direccion {
     @Nullable
     private String departamento;
 
+    // La localidad de la direccion
+    @ManyToOne
+    @JoinColumn(name = "localidad_id")
+    private Localidad localidad;
+
 }
