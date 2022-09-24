@@ -50,21 +50,9 @@ public class EmpleadoController {
         // if the direccion doesn't exist, create it
         if (empleado.getDireccion() != null && empleado.getDireccion().getId() == null) {
             // check if the direccion exists in the database
-            if (direccionService.existeDireccion(
-                    empleado.getDireccion().getCalle(),
-                    empleado.getDireccion().getNumero(),
-                    empleado.getDireccion().getPiso(),
-                    empleado.getDireccion().getDepartamento(),
-                    empleado.getDireccion().getLocalidad().getId()
-            )) {
+            if (direccionService.existeDireccion(empleado.getDireccion())) {
                 // if the direccion exists, get it from the database and set it to the empleado
-                Direccion direccion = direccionService.buscarDireccionPorCalleNumeroPisoDepartamentoLocalidad(
-                        empleado.getDireccion().getCalle(),
-                        empleado.getDireccion().getNumero(),
-                        empleado.getDireccion().getPiso(),
-                        empleado.getDireccion().getDepartamento(),
-                        empleado.getDireccion().getLocalidad().getId()
-                );
+                Direccion direccion = direccionService.buscarDireccion(empleado.getDireccion());
                 empleado.setDireccion(direccion);
             } else {
                 // if the direccion doesn't exist, create it
@@ -78,7 +66,37 @@ public class EmpleadoController {
     // Put mapping to update an employee
     @PutMapping("/{id}")
     public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable Long id, @RequestBody Empleado empleado) {
-        return new ResponseEntity<>(empleadoService.actualizarEmpleadoPorId(id, empleado), HttpStatus.OK);
+        Empleado empleadoActual = empleadoService.buscarEmpleadoPorId(id);
+        Boolean direccionCambio = false;
+        Long direccionId = null;
+        if (empleadoActual == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            // if the direccion changed, check if the new direccion exists in the database and create it if it doesn't
+            if (empleadoActual.getDireccion() != empleado.getDireccion()) {
+                // if the direccion doesn't exist, create it
+                if (empleado.getDireccion() != null && empleado.getDireccion().getId() == null) {
+                    // check if the direccion exists in the database
+                    if (direccionService.existeDireccion(empleado.getDireccion())) {
+                        // if the direccion exists, get it from the database and set it to the empleado
+                        Direccion direccion = direccionService.buscarDireccion(empleado.getDireccion());
+                        empleado.setDireccion(direccion);
+                    } else {
+                        // if the direccion doesn't exist, create it
+                        empleado.setDireccion(direccionService.crearDireccion(empleado.getDireccion()));
+                    }
+                }
+                direccionCambio = true;
+                direccionId = empleadoActual.getDireccion().getId();
+            }
+            // update the employee
+            Empleado empleadoActualizado = empleadoService.actualizarEmpleadoPorId(id, empleado);
+            // if the direccion changed delete the old direccion and the previous direccion is not used by any other employee, delete it
+            if (direccionCambio && empleadoService.contarEmpleadosPorDireccion(direccionId) == 0)
+                direccionService.eliminarDireccionPorId(direccionId);
+            // return the updated employee
+            return new ResponseEntity<>(empleadoActualizado, HttpStatus.OK);
+        }
     }
 
     // DELETE

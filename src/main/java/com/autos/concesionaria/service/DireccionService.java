@@ -91,8 +91,14 @@ public class DireccionService {
      * @param departamento
      * @return boolean true if exists, false if not
      */
-    public boolean existeDireccion(String calle, int numero, String piso, String departamento, Long localidad) {
-        return direccionRepository.existsByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(calle, numero, piso, departamento, localidad);
+
+    public boolean existeDireccion(Direccion direccion) {
+        return direccionRepository.existsByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(
+                direccion.getCalle(),
+                direccion.getNumero(),
+                direccion.getPiso(),
+                direccion.getDepartamento(),
+                direccion.getLocalidad().getId());
     }
 
     /**
@@ -105,8 +111,14 @@ public class DireccionService {
      * @param localidad
      * @return Long id
      */
-    public Direccion buscarDireccionPorCalleNumeroPisoDepartamentoLocalidad(String calle, int numero, String piso, String departamento, Long localidad) {
-        return direccionRepository.findByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(calle, numero, piso, departamento, localidad);
+
+    public Direccion buscarDireccion(Direccion direccion) {
+        return direccionRepository.findByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(
+                direccion.getCalle(),
+                direccion.getNumero(),
+                direccion.getPiso(),
+                direccion.getDepartamento(),
+                direccion.getLocalidad().getId());
     }
 
 }
