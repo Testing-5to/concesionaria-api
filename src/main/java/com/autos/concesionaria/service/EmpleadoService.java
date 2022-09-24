@@ -36,6 +36,15 @@ public class EmpleadoService {
     }
 
     /**
+     * Get all the employees by rol
+     *
+     * @return List<Empleado> List of employees
+     */
+    public List<Empleado> buscarEmpleadosByRol(String rol) {
+        return empleadoRepository.findAllByRol_Nombre(rol);
+    }
+
+    /**
      * Get an employee by id
      *
      * @param id

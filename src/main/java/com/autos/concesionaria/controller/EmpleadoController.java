@@ -23,8 +23,12 @@ public class EmpleadoController {
     // GET
     // Get mapping to get all the employees
     @GetMapping
-    public ResponseEntity<List<Empleado>> getEmpleados() {
-        return new ResponseEntity<>(empleadoService.buscarEmpleados(), HttpStatus.OK);
+    public ResponseEntity<List<Empleado>> getEmpleados(@RequestParam(required = false) String rol) {
+        if (rol == null) {
+            return new ResponseEntity<>(empleadoService.buscarEmpleados(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(empleadoService.buscarEmpleadosByRol(rol), HttpStatus.OK);
+        }
     }
 
     // GET by ID
