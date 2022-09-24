@@ -37,6 +37,15 @@ public class MarcaService {
     }
 
     /**
+     * Get all the marcas by pais
+     *
+     * @return List<Marca> List of marcas
+     */
+    public List<Marca> getMarcasByPais(String nombre) {
+        return marcaRepository.findAllByPais_Nombre(nombre);
+    }
+
+    /**
      * Get a marca by id
      *
      * @param id

@@ -23,8 +23,12 @@ public class MarcaController {
     // GET
     // Get mapping to get all the marcas
     @GetMapping
-    public ResponseEntity<List<Marca>> getMarcas() {
-        return new ResponseEntity<>(marcaService.getMarcas(), HttpStatus.OK);
+    public ResponseEntity<List<Marca>> getMarcas(@RequestParam(required = false) String pais) {
+        if (pais == null) {
+            return new ResponseEntity<>(marcaService.getMarcas(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(marcaService.getMarcasByPais(pais), HttpStatus.OK);
+        }
     }
 
     // GET by ID
