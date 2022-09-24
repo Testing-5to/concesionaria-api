@@ -37,6 +37,16 @@ public class LocalidadService {
     }
 
     /**
+     * Get all the localidades by provincia
+     *
+     * @param provincia
+     * @return List<Localidad> List of localidades
+     */
+    public List<Localidad> buscarLocalidadesPorProvincia(String provincia) {
+        return localidadRepository.findAllByProvincia_Nombre(provincia);
+    }
+
+    /**
      * Get a localidad by id
      *
      * @param id

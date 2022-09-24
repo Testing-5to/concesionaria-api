@@ -5,7 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.autos.concesionaria.entity.Localidad;
 
+import java.util.List;
+
 @Repository
 public interface LocalidadRepository extends JpaRepository<Localidad, Long> {
+
+    public List<Localidad> findAllByProvincia_Nombre(String provincia);
 
 }
