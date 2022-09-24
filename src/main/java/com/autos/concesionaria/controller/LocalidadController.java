@@ -60,9 +60,9 @@ public class LocalidadController {
     // DELETE
     // Delete mapping to delete a localidad
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarLocalidad(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarLocalidad(@PathVariable Long id) {
         localidadService.eliminarLocalidadPorId(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<String>("Localidad eliminada: " + id, HttpStatus.NO_CONTENT);
     }
 
 }
