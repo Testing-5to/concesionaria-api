@@ -35,6 +35,15 @@ public class ProvinciaService {
     }
 
     /**
+     * Get all the provincias by pais
+     *
+     * @return List<Provincia> List of provincias by pais
+     */
+    public List<Provincia> buscarProvinciasByPais(String pais) {
+        return provinciaRepository.findAllByPais_Nombre(pais);
+    }
+
+    /**
      * Get a provincia by id
      *
      * @param id

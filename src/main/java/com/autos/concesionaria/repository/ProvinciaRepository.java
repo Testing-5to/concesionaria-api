@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.autos.concesionaria.entity.Provincia;
 
+import java.util.List;
+
 @Repository
 public interface ProvinciaRepository extends JpaRepository<Provincia, Long> {
-
+    public List<Provincia> findAllByPais_Nombre(String pais);
 }
