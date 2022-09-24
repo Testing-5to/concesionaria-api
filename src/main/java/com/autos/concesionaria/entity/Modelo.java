@@ -28,5 +28,9 @@ public class Modelo {
     // La marca del modelo
     private Marca marca;
 
+    @ManyToOne
+    @JoinColumn(name = "tipo_vehiculo_id")
+    // El tipo de vehiculo del modelo
+    private TipoVehiculo tipoVehiculo;
 
 }

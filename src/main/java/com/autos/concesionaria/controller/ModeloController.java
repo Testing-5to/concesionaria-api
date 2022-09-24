@@ -23,11 +23,15 @@ public class ModeloController {
     // GET
     // Get mapping to get all the modelos
     @GetMapping
-    public ResponseEntity<List<Modelo>> getModelos(@RequestParam(required = false) String marca) {
-        if (marca == null) {
-            return new ResponseEntity<>(modeloService.getModelos(), HttpStatus.OK);
-        } else {
+    public ResponseEntity<List<Modelo>> getModelos(@RequestParam(required = false) String marca, @RequestParam(required = false) String tipoVehiculo) {
+        if (marca != null && tipoVehiculo != null) {
+            return new ResponseEntity<>(modeloService.getModelosByMarcaAndTipoVehiculo(marca, tipoVehiculo), HttpStatus.OK);
+        } else if (marca != null) {
             return new ResponseEntity<>(modeloService.getModelosByMarca(marca), HttpStatus.OK);
+        } else if (tipoVehiculo != null) {
+            return new ResponseEntity<>(modeloService.getModelosByTipoVehiculo(tipoVehiculo), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(modeloService.getModelos(), HttpStatus.OK);
         }
     }
 

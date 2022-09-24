@@ -46,6 +46,24 @@ public class ModeloService {
     }
 
     /**
+     * Get all the modelos by tipoVehiculo
+     *
+     * @return List<Modelo> List of modelos
+     */
+    public List<Modelo> getModelosByTipoVehiculo(String tipoVehiculo) {
+        return modeloRepository.findAllByTipoVehiculo_Nombre(tipoVehiculo);
+    }
+
+    /**
+     * Get all the modelos by marca and tipoVehiculo
+     *
+     * @return List<Modelo> List of modelos
+     */
+    public List<Modelo> getModelosByMarcaAndTipoVehiculo(String marca, String tipoVehiculo) {
+        return modeloRepository.findAllByMarca_NombreAndTipoVehiculo_Nombre(marca, tipoVehiculo);
+    }
+
+    /**
      * Get a modelo by id
      *
      * @param id
@@ -66,6 +84,7 @@ public class ModeloService {
         Modelo modeloActual = modeloRepository.findById(id).get();
         modeloActual.setNombre(modelo.getNombre());
         modeloActual.setMarca(modelo.getMarca());
+        modeloActual.setTipoVehiculo(modelo.getTipoVehiculo());
         return modeloRepository.save(modeloActual);
     }
 
