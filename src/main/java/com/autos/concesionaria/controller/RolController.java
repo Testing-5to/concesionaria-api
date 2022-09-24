@@ -2,6 +2,7 @@ package com.autos.concesionaria.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class RolController {
 
     // Service injected by constructor
+    @Autowired
     private final RolService rolService;
 
     // GET
