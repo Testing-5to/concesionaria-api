@@ -3,15 +3,7 @@ package com.autos.concesionaria.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.autos.concesionaria.entity.Direccion;
 import com.autos.concesionaria.service.DireccionService;
@@ -32,8 +24,12 @@ public class DireccionController {
     // GET
     // Get mapping to get all the direcciones
     @GetMapping
-    public ResponseEntity<List<Direccion>> getDirecciones() {
-        return new ResponseEntity<List<Direccion>>(direccionService.buscarDirecciones(), HttpStatus.OK);
+    public ResponseEntity<List<Direccion>> getDirecciones(@RequestParam(required = false) String localidad) {
+        if (localidad == null) {
+            return new ResponseEntity<List<Direccion>>(direccionService.buscarDirecciones(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<List<Direccion>>(direccionService.buscarDireccionesPorLocalidad(localidad), HttpStatus.OK);
+        }
     }
 
     // GET by ID

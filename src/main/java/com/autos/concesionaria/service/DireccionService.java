@@ -38,6 +38,16 @@ public class DireccionService {
     }
 
     /**
+     * Get all the direccions by localidad
+     *
+     * @param localidad
+     * @return List<Direccion> List of direccions
+     */
+    public List<Direccion> buscarDireccionesPorLocalidad(String localidad) {
+        return direccionRepository.findAllByLocalidad_Nombre(localidad);
+    }
+
+    /**
      * Get a direccion by id
      *
      * @param id
