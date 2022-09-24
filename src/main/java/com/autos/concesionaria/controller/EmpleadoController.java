@@ -1,6 +1,8 @@
 package com.autos.concesionaria.controller;
 
+import com.autos.concesionaria.entity.Direccion;
 import com.autos.concesionaria.entity.Empleado;
+import com.autos.concesionaria.service.DireccionService;
 import com.autos.concesionaria.service.EmpleadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class EmpleadoController {
     // Service injected by constructor
     @Autowired
     private final EmpleadoService empleadoService;
+
+    @Autowired
+    private final DireccionService direccionService;
 
     // GET
     // Get mapping to get all the employees
@@ -42,6 +47,30 @@ public class EmpleadoController {
     // Post mapping to create an employee
     @PostMapping
     public ResponseEntity<Empleado> guardarEmpleado(@RequestBody Empleado empleado) {
+        // if the direccion doesn't exist, create it
+        if (empleado.getDireccion() != null && empleado.getDireccion().getId() == null) {
+            // check if the direccion exists in the database
+            if (direccionService.existeDireccion(
+                    empleado.getDireccion().getCalle(),
+                    empleado.getDireccion().getNumero(),
+                    empleado.getDireccion().getPiso(),
+                    empleado.getDireccion().getDepartamento(),
+                    empleado.getDireccion().getLocalidad().getId()
+            )) {
+                // if the direccion exists, get it from the database and set it to the empleado
+                Direccion direccion = direccionService.buscarDireccionPorCalleNumeroPisoDepartamentoLocalidad(
+                        empleado.getDireccion().getCalle(),
+                        empleado.getDireccion().getNumero(),
+                        empleado.getDireccion().getPiso(),
+                        empleado.getDireccion().getDepartamento(),
+                        empleado.getDireccion().getLocalidad().getId()
+                );
+                empleado.setDireccion(direccion);
+            } else {
+                // if the direccion doesn't exist, create it
+                empleado.setDireccion(direccionService.crearDireccion(empleado.getDireccion()));
+            }
+        }
         return new ResponseEntity<>(empleadoService.crearEmpleado(empleado), HttpStatus.CREATED);
     }
 
