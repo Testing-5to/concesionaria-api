@@ -85,4 +85,14 @@ public class EmpleadoService {
         empleadoRepository.deleteById(id);
     }
 
+    /**
+     * Contar empleados por id de direccion
+     *
+     * @param id
+     * @return Long cantidad de empleados
+     */
+    public int contarEmpleadosPorDireccion(Long idDireccion) {
+        return empleadoRepository.countByDireccion_Id(idDireccion);
+    }
+
 }

@@ -82,4 +82,42 @@ public class DireccionService {
         direccionRepository.deleteById(id);
     }
 
+    /**
+     * Buscar si existe una direccion
+     *
+     * @param calle
+     * @param numero
+     * @param piso
+     * @param departamento
+     * @return boolean true if exists, false if not
+     */
+    public boolean existeDireccion(Direccion direccion) {
+        return direccionRepository.existsByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(
+                direccion.getCalle(),
+                direccion.getNumero(),
+                direccion.getPiso(),
+                direccion.getDepartamento(),
+                direccion.getLocalidad().getId());
+    }
+
+    /**
+     * Buscar direccion por calle, numero, piso, departamento y localidad
+     *
+     * @param calle
+     * @param numero
+     * @param piso
+     * @param departamento
+     * @param localidad
+     * @return Long id
+     */
+    public Direccion buscarDireccion(Direccion direccion) {
+        return direccionRepository.findByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(
+                direccion.getCalle(),
+                direccion.getNumero(),
+                direccion.getPiso(),
+                direccion.getDepartamento(),
+                direccion.getLocalidad().getId());
+    }
+
+
 }
