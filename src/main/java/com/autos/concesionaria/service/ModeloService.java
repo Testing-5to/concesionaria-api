@@ -37,6 +37,15 @@ public class ModeloService {
     }
 
     /**
+     * Get all the modelos by marca
+     *
+     * @return List<Modelo> List of modelos
+     */
+    public List<Modelo> getModelosByMarca(String marca) {
+        return modeloRepository.findAllByMarca_Nombre(marca);
+    }
+
+    /**
      * Get a modelo by id
      *
      * @param id

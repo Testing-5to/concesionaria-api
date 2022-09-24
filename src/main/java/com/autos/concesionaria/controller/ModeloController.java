@@ -23,8 +23,12 @@ public class ModeloController {
     // GET
     // Get mapping to get all the modelos
     @GetMapping
-    public ResponseEntity<List<Modelo>> getModelos() {
-        return new ResponseEntity<>(modeloService.getModelos(), HttpStatus.OK);
+    public ResponseEntity<List<Modelo>> getModelos(@RequestParam(required = false) String marca) {
+        if (marca == null) {
+            return new ResponseEntity<>(modeloService.getModelos(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(modeloService.getModelosByMarca(marca), HttpStatus.OK);
+        }
     }
 
     // GET by ID
