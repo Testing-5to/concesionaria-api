@@ -39,6 +39,16 @@ public class VehiculoService {
     }
 
     /**
+     * Get all the vehiculos by modelo
+     *
+     * @param modelo
+     * @return List<vehiculo> List of vehiculos
+     */
+    public List<Vehiculo> getVehiculosByModelo(String modelo) {
+        return vehiculoRepository.findAllByModelo_Nombre(modelo);
+    }
+
+    /**
      * Get a vehiculo by id
      *
      * @param id

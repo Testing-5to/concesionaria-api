@@ -24,8 +24,12 @@ public class VehiculoController {
     // GET
     // Get mapping to get all the vehiculo
     @GetMapping
-    public ResponseEntity<List<Vehiculo>> getVehiculos() {
-        return new ResponseEntity<>(vehiculoService.getVehiculos(), HttpStatus.OK);
+    public ResponseEntity<List<Vehiculo>> getVehiculos(@RequestParam(required = false) String modelo) {
+        if (modelo == null) {
+            return new ResponseEntity<>(vehiculoService.getVehiculos(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(vehiculoService.getVehiculosByModelo(modelo), HttpStatus.OK);
+        }
     }
 
     // GET by ID
