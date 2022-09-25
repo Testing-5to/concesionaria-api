@@ -64,7 +64,7 @@ public class VehiculoService {
         vehiculoActual.setImagen(vehiculo.getImagen());
         vehiculoActual.setPrecioCompra(vehiculo.getPrecioCompra());
         vehiculoActual.setPrecioVenta(vehiculo.getPrecioVenta());
-        
+        vehiculoActual.setModelo(vehiculo.getModelo());
         return vehiculoRepository.save(vehiculoActual);
     }
 

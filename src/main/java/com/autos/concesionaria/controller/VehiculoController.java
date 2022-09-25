@@ -54,7 +54,7 @@ public class VehiculoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarVehiculo(@PathVariable Long id) {
         vehiculoService.borrarVehiculo(id);
-        return new ResponseEntity<>("Vehiculo borrado: " + id, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Vehiculo borrado: " + id, HttpStatus.OK);
     }
 
 }
