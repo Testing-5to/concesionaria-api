@@ -1,6 +1,8 @@
 package com.autos.concesionaria.service;
 
 import com.autos.concesionaria.entity.Cliente;
+import com.autos.concesionaria.entity.Direccion;
+import com.autos.concesionaria.entity.Empleado;
 import com.autos.concesionaria.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,7 @@ public class ClienteService {
         clienteActual.setNombre(cliente.getNombre());
         clienteActual.setApellido(cliente.getApellido());
         clienteActual.setTelefono(cliente.getTelefono());
-        clienteActual.setDocumento(cliente.getDocumento());
+        clienteActual.setDni(cliente.getDni());
         clienteActual.setEmail(cliente.getEmail());
         clienteActual.setEsCliente(cliente.getEsCliente());
         clienteActual.setDireccion(cliente.getDireccion());
@@ -73,4 +75,12 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
+    /**
+     * Contrar clientes por id de direccion
+     * @param direccionId
+     * @return
+     */
+    public int contarClientesPorDireccion(Long direccionId) {
+        return clienteRepository.countAllByDireccion_Id(direccionId);
+    }
 }

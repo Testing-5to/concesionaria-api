@@ -24,25 +24,31 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Cliente {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Id of the cliente
     private Long id;
-    
+
+    // Nombre of the cliente
     private String nombre;
 
+    // Apellido of the cliente
     private String apellido;
 
+    // Teléfono of the cliente
     private String telefono;
 
-    private Integer documento;
+    // DNI of the cliente
+    private Integer dni;
 
+    // Email of the cliente
     private String email;
 
+    // Fecha de nacimiento of the cliente
     @Column(name = "es_cliente")
     private Boolean esCliente;
 
-    //relationship with direccion
+    // dirección of the cliente
     @ManyToOne
     @JoinColumn(name = "direccion_id")
     private Direccion direccion;
