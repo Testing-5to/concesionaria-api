@@ -19,33 +19,30 @@ public class Vehiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Id of the vehiculo
+    // Id del vehiculo
     private Long id;
 
-    // VIN of the vehiculo
-    private String nombre;
-
-    // Anio of the vehiculo
+    // Año del vehiculo
     private Integer anio;
 
-    // Kilometraje of the vehiculo
-    private Integer kilometros;
+    // Cantidad en stock del vehiculo
+    private Integer cantidad;
 
-    // If the vehiculo is imported or not
+    // Si el vehiculo es importado o no
     private Boolean importado;
 
-    // Path to the image of the vehiculo
+    // Path de la imagen del vehiculo
     private String imagen;
 
-    // Precio de venta of the vehiculo
+    // Precio de venta del vehiculo
     @Column(name = "precio_venta")
     private Double precioVenta;
 
-    // Precio de compra of the vehiculo
+    // Precio de compra del vehiculo
     @Column(name = "precio_compra")
     private Double precioCompra;
 
-    // Modelo of the vehiculo
+    // Modelo del vehiculo
     @ManyToOne
     @JoinColumn(name = "modelo_id")
     private Modelo modelo;

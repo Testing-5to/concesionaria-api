@@ -67,9 +67,8 @@ public class VehiculoService {
      */
     public Vehiculo actualizarVehiculo(Long id, Vehiculo vehiculo) {
         Vehiculo vehiculoActual = vehiculoRepository.findById(id).get();
-        vehiculoActual.setNombre(vehiculo.getNombre());
         vehiculoActual.setAnio(vehiculo.getAnio());
-        vehiculoActual.setKilometros(vehiculo.getKilometros());
+        vehiculoActual.setCantidad(vehiculo.getCantidad());
         vehiculoActual.setImportado(vehiculo.getImportado());
         vehiculoActual.setImagen(vehiculo.getImagen());
         vehiculoActual.setPrecioCompra(vehiculo.getPrecioCompra());
