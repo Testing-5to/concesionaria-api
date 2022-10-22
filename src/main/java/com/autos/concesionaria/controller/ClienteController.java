@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteController {
 
-    // Service injected by constructor
+    // Inyectamos el servicio de cliente
     @Autowired
     private final ClienteService clienteService;
 
@@ -26,21 +26,21 @@ public class ClienteController {
     private final DireccionService direccionService;
 
     // GET
-    // Get mapping to get all the clients
+    // Obtenemos todos los clientes
     @GetMapping
     public ResponseEntity<List<Cliente>> getClientes() {
         return new ResponseEntity<>(clienteService.buscarClientes(), HttpStatus.OK);
     }
 
     // GET by ID
-    // Get mapping to get a client by id
+    // Obtenemos un cliente por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClientePorId(@PathVariable Long id) {
         return new ResponseEntity<>(clienteService.buscarClientePorId(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create an client
+    // Creamos un cliente
     @PostMapping
     public ResponseEntity<Cliente> guardarCliente(@RequestBody Cliente cliente) {
         // if the direccion doesn't exist, create it
@@ -59,7 +59,7 @@ public class ClienteController {
     }
 
     // PUT
-    // Put mapping to update a client
+    // Actualizamos un cliente
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         Cliente clienteActual = clienteService.buscarClientePorId(id);
@@ -96,7 +96,7 @@ public class ClienteController {
     }
 
     // DELETE
-    // Delete mapping to delete a cliente
+    // Eliminamos un cliente
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarCliente(@PathVariable Long id) {
         clienteService.eliminarClientePorId(id);

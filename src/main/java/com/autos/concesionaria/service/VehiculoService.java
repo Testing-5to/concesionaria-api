@@ -14,12 +14,12 @@ import java.util.List;
 public class VehiculoService {
 
     @Autowired
-    // Repository injected by constructor
+    // Inyectamos el repositorio
     private VehiculoRepository vehiculoRepository;
 
 
     /**
-     * Create a vehiculo
+     * Crear un vehiculo
      *
      * @param vehiculo
      * @return vehiculo created
@@ -30,16 +30,16 @@ public class VehiculoService {
     }
 
     /**
-     * Get all the vehiculos
+     * Obtener todos los vehiculos
      *
-     * @return List<vehiculo> List of vehiculos
+     * @return List<vehiculo> Lista de todos los vehiculos
      */
     public List<Vehiculo> getVehiculos() {
         return vehiculoRepository.findAll();
     }
 
     /**
-     * Get all the vehiculos by modelo
+     * Obtener una lista de vehiculos por modelo
      *
      * @param modelo
      * @return List<vehiculo> List of vehiculos
@@ -49,7 +49,7 @@ public class VehiculoService {
     }
 
     /**
-     * Get a vehiculo by id
+     * Obtener un vehiculo por id
      *
      * @param id
      * @return vehiculo found or null
@@ -59,7 +59,7 @@ public class VehiculoService {
     }
 
     /**
-     * Update a vehiculo
+     * Actualizar un vehiculo
      *
      * @param id    vehiculo id
      * @param vehiculo vehiculo data to update
@@ -78,7 +78,7 @@ public class VehiculoService {
     }
 
     /**
-     * Delete a vehiculo
+     * Eliminar un vehiculo
      *
      * @param id vehiculo id to delete
      */
