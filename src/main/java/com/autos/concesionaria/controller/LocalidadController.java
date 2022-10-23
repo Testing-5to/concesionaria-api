@@ -1,5 +1,6 @@
 package com.autos.concesionaria.controller;
 
+import com.autos.concesionaria.service.DireccionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class LocalidadController {
     // Service injected by constructor
     @Autowired
     private final LocalidadService localidadService;
+    @Autowired
+    private final DireccionService direccionService;
 
     // GET
     // Get mapping to get all the localidades
@@ -67,9 +70,15 @@ public class LocalidadController {
     // Delete mapping to delete a localidad
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarLocalidad(@PathVariable Long id) {
-        localidadService.eliminarLocalidadPorId(id);
-        logger.info("Eliminando la localidad con id " + id);
-        return new ResponseEntity<String>("Localidad eliminada: " + id, HttpStatus.NO_CONTENT);
+        // Verifico que no haya direcciones asociadas a la localidad
+        if (direccionService.contarDireccionesPorLocalidad(id) == 0) {
+            localidadService.eliminarLocalidadPorId(id);
+            logger.info("Eliminando la localidad con id " + id);
+            return new ResponseEntity<String>("Localidad eliminada: " + id, HttpStatus.NO_CONTENT);
+        } else {
+            logger.info("No se puede eliminar la localidad con id " + id + " porque tiene direcciones asociadas");
+            return new ResponseEntity<>("No se puede eliminar la localidad con id " + id + " porque tiene direcciones asociadas", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

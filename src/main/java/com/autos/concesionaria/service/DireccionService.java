@@ -121,4 +121,7 @@ public class DireccionService {
                 direccion.getLocalidad().getId());
     }
 
+    public int contarDireccionesPorLocalidad(Long id) {
+        return direccionRepository.countByLocalidad_Id(id);
+    }
 }

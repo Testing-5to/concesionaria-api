@@ -12,4 +12,5 @@ public interface DireccionRepository extends JpaRepository<Direccion, Long> {
     public List<Direccion> findAllByLocalidad_Nombre(String localidad);
     public boolean existsByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(String calle, int numero, String piso, String departamento, Long localidad);
     public Direccion findByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(String calle, int numero, String piso, String departamento, Long localidad);
+    public int countByLocalidad_Id(Long id);
 }
