@@ -5,6 +5,8 @@ import com.autos.concesionaria.entity.Empleado;
 import com.autos.concesionaria.service.DireccionService;
 import com.autos.concesionaria.service.EmpleadoService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmpleadoController {
 
+    // Logger
+    private static final Logger logger = LoggerFactory.getLogger(EmpleadoController.class);
+
     // Service injected by constructor
     @Autowired
     private final EmpleadoService empleadoService;
@@ -30,8 +35,10 @@ public class EmpleadoController {
     @GetMapping
     public ResponseEntity<List<Empleado>> getEmpleados(@RequestParam(required = false) String rol) {
         if (rol == null) {
+            logger.info("Obteniendo todos los empleados");
             return new ResponseEntity<>(empleadoService.buscarEmpleados(), HttpStatus.OK);
         } else {
+            logger.info("Obteniendo todos los empleados con rol: " + rol);
             return new ResponseEntity<>(empleadoService.buscarEmpleadosByRol(rol), HttpStatus.OK);
         }
     }
@@ -40,6 +47,7 @@ public class EmpleadoController {
     // Get mapping to get an employee by id
     @GetMapping("/{id}")
     public ResponseEntity<Empleado> getEmpleadoPorId(@PathVariable Long id) {
+        logger.info("Obteniendo empleado con id: " + id);
         return new ResponseEntity<>(empleadoService.buscarEmpleadoPorId(id), HttpStatus.OK);
     }
 
@@ -59,6 +67,7 @@ public class EmpleadoController {
                 empleado.setDireccion(direccionService.crearDireccion(empleado.getDireccion()));
             }
         }
+        logger.info("Guardando empleado: " + empleado);
         return new ResponseEntity<>(empleadoService.crearEmpleado(empleado), HttpStatus.CREATED);
     }
 
@@ -70,6 +79,7 @@ public class EmpleadoController {
         Boolean direccionCambio = false;
         Long direccionId = null;
         if (empleadoActual == null) {
+            logger.error("No se puede actualizar. El empleado con id: " + id + " no existe");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             // if the direccion changed, check if the new direccion exists in the database and create it if it doesn't
@@ -95,6 +105,7 @@ public class EmpleadoController {
             if (direccionCambio && empleadoService.contarEmpleadosPorDireccion(direccionId) == 0)
                 direccionService.eliminarDireccionPorId(direccionId);
             // return the updated employee
+            logger.info("Actualizando empleado con id: " + id + " a: " + empleadoActualizado);
             return new ResponseEntity<>(empleadoActualizado, HttpStatus.OK);
         }
     }
@@ -104,6 +115,7 @@ public class EmpleadoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarEmpleado(@PathVariable Long id) {
         empleadoService.eliminarEmpleadoPorId(id);
+        logger.info("Eliminando empleado con id: " + id);
         return new ResponseEntity<String>("Empleado eliminado", HttpStatus.OK);
     }
 

@@ -5,6 +5,8 @@ import com.autos.concesionaria.entity.Direccion;
 import com.autos.concesionaria.service.ClienteService;
 import com.autos.concesionaria.service.DireccionService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteController {
 
+    // Logger
+    private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
+
     // Inyectamos el servicio de cliente
     @Autowired
     private final ClienteService clienteService;
@@ -29,6 +34,7 @@ public class ClienteController {
     // Obtenemos todos los clientes
     @GetMapping
     public ResponseEntity<List<Cliente>> getClientes() {
+        logger.info("Obteniendo todos los clientes");
         return new ResponseEntity<>(clienteService.buscarClientes(), HttpStatus.OK);
     }
 
@@ -36,6 +42,7 @@ public class ClienteController {
     // Obtenemos un cliente por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClientePorId(@PathVariable Long id) {
+        logger.info("Obteniendo cliente por ID: " + id);
         return new ResponseEntity<>(clienteService.buscarClientePorId(id), HttpStatus.OK);
     }
 
@@ -55,6 +62,7 @@ public class ClienteController {
                 cliente.setDireccion(direccionService.crearDireccion(cliente.getDireccion()));
             }
         }
+        logger.info("Guardando cliente: " + cliente);
         return new ResponseEntity<>(clienteService.crearCliente(cliente), HttpStatus.CREATED);
     }
 
@@ -66,6 +74,7 @@ public class ClienteController {
         Boolean direccionCambio = false;
         Long direccionId = null;
         if (clienteActual == null) {
+            logger.error("No se puede actualizar. El cliente con ID: " + id + " no existe");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             // if the direccion changed, check if the new direccion exists in the database and create it if it doesn't
@@ -91,6 +100,7 @@ public class ClienteController {
             if (direccionCambio && clienteService.contarClientesPorDireccion(direccionId) == 0)
                 direccionService.eliminarDireccionPorId(direccionId);
             // return the updated cliente
+            logger.info("Actualizando cliente con ID: " + id);
             return new ResponseEntity<>(clienteActualizado, HttpStatus.OK);
         }
     }
@@ -100,6 +110,7 @@ public class ClienteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarCliente(@PathVariable Long id) {
         clienteService.eliminarClientePorId(id);
+        logger.info("Eliminando cliente con ID: " + id);
         return new ResponseEntity<String>("Cliente eliminado: " + id, HttpStatus.OK);
     }
 

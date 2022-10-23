@@ -5,9 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Root context redirection to OpenAPI API Specification (OAS) documentation.
- *
- * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.0.0
  */
 @Controller
 public class OASController {
