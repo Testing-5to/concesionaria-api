@@ -84,6 +84,10 @@ public class VentaService {
     }
 
     public int contarVentasPorEmpleado(Long id) {
-        return ventaRepository.countAllByEmpleado_Id(id);
+        return ventaRepository.countAllByVendedor_Id(id);
+    }
+
+    public int contarVentasPorCliente(Long id) {
+        return ventaRepository.countAllByCliente_Id(id);
     }
 }

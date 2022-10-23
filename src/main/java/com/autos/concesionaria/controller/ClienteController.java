@@ -4,6 +4,7 @@ import com.autos.concesionaria.entity.Cliente;
 import com.autos.concesionaria.entity.Direccion;
 import com.autos.concesionaria.service.ClienteService;
 import com.autos.concesionaria.service.DireccionService;
+import com.autos.concesionaria.service.VentaService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,10 @@ public class ClienteController {
     // Inyectamos el servicio de cliente
     @Autowired
     private final ClienteService clienteService;
-
     @Autowired
     private final DireccionService direccionService;
+    @Autowired
+    private final VentaService ventaService;
 
     // GET
     // Obtenemos todos los clientes
@@ -109,9 +111,15 @@ public class ClienteController {
     // Eliminamos un cliente
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarCliente(@PathVariable Long id) {
-        clienteService.eliminarClientePorId(id);
-        logger.info("Eliminando cliente con ID: " + id);
-        return new ResponseEntity<String>("Cliente eliminado: " + id, HttpStatus.OK);
+        // Buscamos si no existen ventas asociadas al cliente
+        if (ventaService.contarVentasPorCliente(id) > 0) {
+            logger.error("No se puede eliminar. El cliente con ID: " + id + " tiene ventas asociadas");
+            return new ResponseEntity<>("No se puede eliminar. El cliente con ID: " + id + " tiene ventas asociadas", HttpStatus.BAD_REQUEST);
+        } else {
+            clienteService.eliminarClientePorId(id);
+            logger.info("Eliminando cliente con ID: " + id);
+            return new ResponseEntity<String>("Cliente eliminado: " + id, HttpStatus.OK);
+        }
     }
 
 }
