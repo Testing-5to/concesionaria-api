@@ -26,7 +26,6 @@ public class ImpuestoController {
     // Obtene todos los impuestos
     @GetMapping
     public List<Impuesto> getAllImpuestos() {
-        logger.info("Obteniendo todos los impuestos");
         return impuestoService.buscarImpuestos();
     }
 
@@ -36,7 +35,6 @@ public class ImpuestoController {
     public ResponseEntity<Impuesto> buscarImpuestoPorPaisYPrecioDeVenta(@RequestParam String pais, @RequestParam Double precioDeVenta) {
         Impuesto impuesto = impuestoService.buscarImpuestoPorPaisYPrecioVenta(pais, precioDeVenta);
         if (impuesto != null) {
-            logger.info("Obteniendo impuesto por pais y precio de venta");
             return ResponseEntity.ok(impuesto);
         } else {
             logger.info("No se encontró impuesto por pais y precio de venta");

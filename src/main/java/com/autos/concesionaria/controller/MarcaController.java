@@ -33,10 +33,8 @@ public class MarcaController {
     @GetMapping
     public ResponseEntity<List<Marca>> getMarcas(@RequestParam(required = false) String pais) {
         if (pais == null) {
-            logger.info("Obteniendo todas las marcas");
             return new ResponseEntity<>(marcaService.getMarcas(), HttpStatus.OK);
         } else {
-            logger.info("Obteniendo todas las marcas para el pais: " + pais);
             return new ResponseEntity<>(marcaService.getMarcasByPais(pais), HttpStatus.OK);
         }
     }
@@ -45,7 +43,6 @@ public class MarcaController {
     // Get mapping to get a marca by id
     @GetMapping("/{id}")
     public ResponseEntity<Marca> getMarcaPorId(@PathVariable Long id) {
-        logger.info("Obteniendo la marca con id: " + id);
         return new ResponseEntity<>(marcaService.getMarca(id), HttpStatus.OK);
     }
 

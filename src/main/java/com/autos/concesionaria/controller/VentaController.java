@@ -29,7 +29,6 @@ public class VentaController {
     // Obtene todas las ventas
     @GetMapping
     public ResponseEntity<List<Venta>> buscarVentas() {
-        logger.info("Buscando todas las ventas");
         return ResponseEntity.ok(ventaService.buscarVentas());
     }
 
@@ -37,7 +36,6 @@ public class VentaController {
     // Obtener una venta por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Venta> buscarVentaPorId(@PathVariable Long id) {
-        logger.info("Buscando venta por ID: " + id);
         return ResponseEntity.ok(ventaService.buscarVentaPorId(id));
     }
 

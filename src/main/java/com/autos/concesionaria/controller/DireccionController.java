@@ -38,10 +38,8 @@ public class DireccionController {
     @GetMapping
     public ResponseEntity<List<Direccion>> getDirecciones(@RequestParam(required = false) String localidad) {
         if (localidad == null) {
-            logger.info("Obteniendo todas las direcciones");
             return new ResponseEntity<List<Direccion>>(direccionService.buscarDirecciones(), HttpStatus.OK);
         } else {
-            logger.info("Obteniendo todas las direcciones de la localidad: " + localidad);
             return new ResponseEntity<List<Direccion>>(direccionService.buscarDireccionesPorLocalidad(localidad), HttpStatus.OK);
         }
     }
@@ -50,7 +48,6 @@ public class DireccionController {
     // Get mapping to get a direccion by id
     @GetMapping("/{id}")
     public ResponseEntity<Direccion> getDireccionPorId(@PathVariable Long id) {
-        logger.info("Obteniendo la direccion con id: " + id);
         return new ResponseEntity<Direccion>(direccionService.buscarDireccionPorId(id), HttpStatus.OK);
     }
 

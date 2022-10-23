@@ -34,10 +34,8 @@ public class LocalidadController {
     @GetMapping
     public ResponseEntity<List<Localidad>> getLocalidades(@RequestParam(required = false) String provincia) {
         if (provincia == null) {
-            logger.info("Obteniendo todas las localidades");
             return new ResponseEntity<List<Localidad>>(localidadService.buscarLocalidades(), HttpStatus.OK);
         } else {
-            logger.info("Obteniendo todas las localidades de la provincia " + provincia);
             return new ResponseEntity<List<Localidad>>(localidadService.buscarLocalidadesPorProvincia(provincia), HttpStatus.OK);
         }
     }
@@ -46,7 +44,6 @@ public class LocalidadController {
     // Get mapping to get a localidad by id
     @GetMapping("/{id}")
     public ResponseEntity<Localidad> getLocalidadPorId(@PathVariable Long id) {
-        logger.info("Obteniendo la localidad con id " + id);
         return new ResponseEntity<>(localidadService.buscarLocalidadPorId(id), HttpStatus.OK);
     }
 

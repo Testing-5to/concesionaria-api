@@ -33,16 +33,12 @@ public class ModeloController {
     @GetMapping
     public ResponseEntity<List<Modelo>> getModelos(@RequestParam(required = false) String marca, @RequestParam(required = false) String tipoVehiculo) {
         if (marca != null && tipoVehiculo != null) {
-            logger.info("Obteniendo modelos por marca y tipo de vehiculo");
             return new ResponseEntity<>(modeloService.getModelosByMarcaAndTipoVehiculo(marca, tipoVehiculo), HttpStatus.OK);
         } else if (marca != null) {
-            logger.info("Obteniendo modelos por marca");
             return new ResponseEntity<>(modeloService.getModelosByMarca(marca), HttpStatus.OK);
         } else if (tipoVehiculo != null) {
-            logger.info("Obteniendo modelos por tipo de vehiculo");
             return new ResponseEntity<>(modeloService.getModelosByTipoVehiculo(tipoVehiculo), HttpStatus.OK);
         } else {
-            logger.info("Obteniendo todos los modelos");
             return new ResponseEntity<>(modeloService.getModelos(), HttpStatus.OK);
         }
     }
@@ -51,7 +47,6 @@ public class ModeloController {
     // Get mapping to get a modelo by id
     @GetMapping("/{id}")
     public ResponseEntity<Modelo> getModeloPorId(@PathVariable Long id) {
-        logger.info("Obteniendo modelo con id: " + id);
         return new ResponseEntity<>(modeloService.getModelo(id), HttpStatus.OK);
     }
 

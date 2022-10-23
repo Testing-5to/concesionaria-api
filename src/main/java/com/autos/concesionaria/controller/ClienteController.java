@@ -36,7 +36,6 @@ public class ClienteController {
     // Obtenemos todos los clientes
     @GetMapping
     public ResponseEntity<List<Cliente>> getClientes() {
-        logger.info("Obteniendo todos los clientes");
         return new ResponseEntity<>(clienteService.buscarClientes(), HttpStatus.OK);
     }
 
@@ -44,7 +43,6 @@ public class ClienteController {
     // Obtenemos un cliente por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClientePorId(@PathVariable Long id) {
-        logger.info("Obteniendo cliente por ID: " + id);
         return new ResponseEntity<>(clienteService.buscarClientePorId(id), HttpStatus.OK);
     }
 

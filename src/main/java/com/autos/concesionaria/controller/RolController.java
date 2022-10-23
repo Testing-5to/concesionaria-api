@@ -42,7 +42,6 @@ public class RolController {
     // Get mapping to get all the roles
     @GetMapping
     public ResponseEntity<List<Rol>> getRoles() {
-        logger.info("Obteniendo todos los roles");
         return new ResponseEntity<>(rolService.buscarRoles(), HttpStatus.OK);
     }
 
@@ -50,7 +49,6 @@ public class RolController {
     // Get mapping to get a rol by id
     @GetMapping("/{id}")
     public ResponseEntity<Rol> getRolPorId(@PathVariable Long id) {
-        logger.info("Obteniendo rol por id: " + id);
         return new ResponseEntity<>(rolService.buscarRolPorId(id), HttpStatus.OK);
     }
 

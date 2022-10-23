@@ -43,7 +43,6 @@ public class TipoVehiculoController {
     // Get mapping to get all the tipoVehiculos
     @GetMapping
     public ResponseEntity<List<TipoVehiculo>> getRoles() {
-        logger.info("Obteniendo todos los tipos de vehiculos");
         return new ResponseEntity<>(tipoVehiculoService.buscarTipoVehiculos(), HttpStatus.OK);
     }
 
@@ -51,7 +50,6 @@ public class TipoVehiculoController {
     // Get mapping to get a tipoVehiculo by id
     @GetMapping("/{id}")
     public ResponseEntity<TipoVehiculo> getTipoVehiculoPorId(@PathVariable Long id) {
-        logger.info("Obteniendo tipo de vehiculo por id: " + id);
         return new ResponseEntity<>(tipoVehiculoService.buscarTipoVehiculoPorId(id), HttpStatus.OK);
     }
 

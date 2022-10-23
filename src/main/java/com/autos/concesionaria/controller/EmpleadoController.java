@@ -37,10 +37,8 @@ public class EmpleadoController {
     @GetMapping
     public ResponseEntity<List<Empleado>> getEmpleados(@RequestParam(required = false) String rol) {
         if (rol == null) {
-            logger.info("Obteniendo todos los empleados");
             return new ResponseEntity<>(empleadoService.buscarEmpleados(), HttpStatus.OK);
         } else {
-            logger.info("Obteniendo todos los empleados con rol: " + rol);
             return new ResponseEntity<>(empleadoService.buscarEmpleadosByRol(rol), HttpStatus.OK);
         }
     }
@@ -49,7 +47,6 @@ public class EmpleadoController {
     // Get mapping to get an employee by id
     @GetMapping("/{id}")
     public ResponseEntity<Empleado> getEmpleadoPorId(@PathVariable Long id) {
-        logger.info("Obteniendo empleado con id: " + id);
         return new ResponseEntity<>(empleadoService.buscarEmpleadoPorId(id), HttpStatus.OK);
     }
 

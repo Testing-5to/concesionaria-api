@@ -34,10 +34,8 @@ public class ProvinciaController {
     @GetMapping
     public ResponseEntity<List<Provincia>> getProvincias(@RequestParam(required = false) String pais) {
         if (pais == null) {
-            logger.info("Obteniendo todas las provincias");
             return new ResponseEntity<>(provinciaService.buscarProvincias(), HttpStatus.OK);
         } else {
-            logger.info("Obteniendo todas las provincias para el pais: " + pais);
             return new ResponseEntity<>(provinciaService.buscarProvinciasByPais(pais), HttpStatus.OK);
         }
     }
@@ -46,7 +44,6 @@ public class ProvinciaController {
     // Get mapping to get a provincia by id
     @GetMapping("/{id}")
     public ResponseEntity<Provincia> getProvinciaPorId(@PathVariable Long id) {
-        logger.info("Obteniendo la provincia con id: " + id);
         return new ResponseEntity<>(provinciaService.buscarProvinciaPorId(id), HttpStatus.OK);
     }
 

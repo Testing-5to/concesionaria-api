@@ -44,7 +44,6 @@ public class PaisController {
     // Get mapping to get all the paises
     @GetMapping
     public ResponseEntity<List<Pais>> getPaises() {
-        logger.info("Obteniendo todos los paises");
         return new ResponseEntity<>(paisService.buscarPaises(), HttpStatus.OK);
     }
 
@@ -52,7 +51,6 @@ public class PaisController {
     // Get mapping to get a pais by id
     @GetMapping("/{id}")
     public ResponseEntity<Pais> getPaisPorId(@PathVariable Long id) {
-        logger.info("Obteniendo pais con id: " + id);
         return new ResponseEntity<>(paisService.buscarPaisPorId(id), HttpStatus.OK);
     }
 
