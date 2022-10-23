@@ -82,4 +82,8 @@ public class VentaService {
     public List<Venta> getVentasByVehiculo(Long id) {
         return ventaRepository.findAllByVehiculo_Id(id);
     }
+
+    public int contarVentasPorEmpleado(Long id) {
+        return ventaRepository.countAllByEmpleado_Id(id);
+    }
 }

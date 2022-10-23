@@ -4,6 +4,7 @@ import com.autos.concesionaria.entity.Direccion;
 import com.autos.concesionaria.entity.Empleado;
 import com.autos.concesionaria.service.DireccionService;
 import com.autos.concesionaria.service.EmpleadoService;
+import com.autos.concesionaria.service.VentaService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,10 @@ public class EmpleadoController {
     // Service injected by constructor
     @Autowired
     private final EmpleadoService empleadoService;
-
     @Autowired
     private final DireccionService direccionService;
+    @Autowired
+    private final VentaService ventaService;
 
     // GET
     // Get mapping to get all the employees
@@ -114,9 +116,15 @@ public class EmpleadoController {
     // Delete mapping to delete an employee
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarEmpleado(@PathVariable Long id) {
-        empleadoService.eliminarEmpleadoPorId(id);
-        logger.info("Eliminando empleado con id: " + id);
-        return new ResponseEntity<String>("Empleado eliminado", HttpStatus.OK);
+        // Buscamos si no existen ventas asociadas al empleado
+        if (ventaService.contarVentasPorEmpleado(id) > 0) {
+            logger.error("No se puede eliminar. El empleado con id: " + id + " tiene ventas asociadas");
+            return new ResponseEntity<>("No se puede eliminar. El empleado con id: " + id + " tiene ventas asociadas", HttpStatus.BAD_REQUEST);
+        } else {
+            empleadoService.eliminarEmpleadoPorId(id);
+            logger.info("Eliminando empleado con id: " + id);
+            return new ResponseEntity<String>("Empleado eliminado", HttpStatus.OK);
+        }
     }
 
 }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface VentaRepository extends JpaRepository<Venta, Long> {
     public List<Venta> findAllByVehiculo_Id(Long id);
+
+    public int countAllByEmpleado_Id(Long id);
 }
