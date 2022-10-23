@@ -80,4 +80,7 @@ public class LocalidadService {
         localidadRepository.deleteById(id);
     }
 
+    public int contarLocalidadesPorProvincia(Long id) {
+        return localidadRepository.countByProvincia_Id(id);
+    }
 }

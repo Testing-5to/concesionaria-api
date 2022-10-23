@@ -1,5 +1,6 @@
 package com.autos.concesionaria.controller;
 
+import com.autos.concesionaria.service.LocalidadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,11 @@ public class ProvinciaController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(ProvinciaController.class);
 
-    @Autowired
     // Service injected by constructor
+    @Autowired
     private final ProvinciaService provinciaService;
+    @Autowired
+    private final LocalidadService localidadService;
 
     // GET
     // Get mapping to get all the provincias
@@ -67,9 +70,15 @@ public class ProvinciaController {
     // Delete mapping to delete a provincia
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarProvincia(@PathVariable Long id) {
-        provinciaService.eliminarProvinciaPorId(id);
-        logger.info("Eliminando la provincia con id: " + id);
-        return new ResponseEntity<>("Provincia eliminada", HttpStatus.OK);
+        // Verifico que no haya localidades asociadas a la provincia
+        if (localidadService.contarLocalidadesPorProvincia(id) == 0) {
+            provinciaService.eliminarProvinciaPorId(id);
+            logger.info("Eliminando la provincia con id: " + id);
+            return new ResponseEntity<>("Provincia eliminada", HttpStatus.OK);
+        } else {
+            logger.info("No se puede eliminar la provincia con id: " + id + " porque tiene localidades asociadas");
+            return new ResponseEntity<>("No se puede eliminar la provincia porque tiene localidades asociadas", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
