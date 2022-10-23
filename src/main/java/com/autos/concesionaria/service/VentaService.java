@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,6 +43,25 @@ public class VentaService {
      * @return Venta La venta guardada
      */
     public Venta guardarVenta(Venta venta) {
+
+        // Si la fecha es null, se le asigna la fecha actual
+        if (venta.getFecha() == null) venta.setFecha(LocalDateTime.now());
+
+        // Restamos la cantidad de vehiculos vendidos al stock si no queda en negativo
+        if (venta.getVehiculo().getCantidad() - venta.getCantidadVehiculos() >= 0) {
+            venta.getVehiculo().setCantidad(venta.getVehiculo().getCantidad() - venta.getCantidadVehiculos());
+        } else {
+            // Raise exception
+            throw new RuntimeException("No hay suficientes vehiculos en stock");
+        }
+
+
+        // Guardamos el impuesto en la venta
+        venta.setImpuestoPesos(venta.calcularImpuestos());
+
+        // Guardamos el porcentaje del impuesto en la venta
+        venta.setImpuestoPorcentaje(venta.getImpuesto().getPorcentaje());
+
         return ventaRepository.save(venta);
     }
 
