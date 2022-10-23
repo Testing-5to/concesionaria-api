@@ -3,6 +3,7 @@ package com.autos.concesionaria.controller;
 import com.autos.concesionaria.entity.Vehiculo;
 import com.autos.concesionaria.service.VehiculoService;
 
+import com.autos.concesionaria.service.VentaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VehiculoController {
 
-    @Autowired
     // Service injected by constructor
+    @Autowired
     private final VehiculoService vehiculoService;
+    @Autowired
+    private final VentaService ventaService;
 
     // GET
     // Get mapping to get all the vehiculo
@@ -57,8 +60,15 @@ public class VehiculoController {
     // Delete mapping to delete a vehiculo
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarVehiculo(@PathVariable Long id) {
-        vehiculoService.borrarVehiculo(id);
-        return new ResponseEntity<>("Vehiculo borrado: " + id, HttpStatus.OK);
+        // Buscamos si no existen ventas asociadas al vehiculo
+        if (ventaService.getVentasByVehiculo(id).isEmpty()) {
+            // Si no existen ventas asociadas al vehiculo, lo borramos
+            vehiculoService.borrarVehiculo(id);
+            return new ResponseEntity<>("Vehiculo borrado", HttpStatus.OK);
+        } else {
+            // Si existen ventas asociadas al vehiculo, no lo borramos
+            return new ResponseEntity<>("No se puede borrar el vehiculo porque tiene ventas asociadas", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

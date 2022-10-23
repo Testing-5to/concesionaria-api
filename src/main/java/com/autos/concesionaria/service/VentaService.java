@@ -73,4 +73,13 @@ public class VentaService {
         return ventaRepository.save(venta);
     }
 
+    /**
+     * Busca las ventas para un vehiculo
+     *
+     * @param id El ID del vehiculo
+     * @return List<Venta> Lista de ventas para el vehiculo
+     */
+    public List<Venta> getVentasByVehiculo(Long id) {
+        return ventaRepository.findAllByVehiculo_Id(id);
+    }
 }
