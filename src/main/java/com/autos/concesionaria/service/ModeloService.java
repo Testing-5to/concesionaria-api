@@ -100,4 +100,8 @@ public class ModeloService {
     public int contarModelosPorTipoVehiculo(Long id) {
         return modeloRepository.countByTipoVehiculo_Id(id);
     }
+
+    public int contarModelosPorMarca(Long id) {
+        return modeloRepository.countByMarca_Id(id);
+    }
 }

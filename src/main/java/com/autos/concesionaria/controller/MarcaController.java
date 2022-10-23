@@ -2,6 +2,7 @@ package com.autos.concesionaria.controller;
 
 import com.autos.concesionaria.entity.Marca;
 import com.autos.concesionaria.service.MarcaService;
+import com.autos.concesionaria.service.ModeloService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,11 @@ public class MarcaController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(MarcaController.class);
 
-    @Autowired
     // Service injected by constructor
+    @Autowired
     private final MarcaService marcaService;
+    @Autowired
+    private final ModeloService modeloService;
 
     // GET
     // Get mapping to get all the marcas
@@ -66,9 +69,15 @@ public class MarcaController {
     // Delete mapping to delete a marca
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarMarca(@PathVariable Long id) {
-        marcaService.borrarMarca(id);
-        logger.info("Borrando la marca con id: " + id);
-        return new ResponseEntity<>("Marca borrada: " + id, HttpStatus.NO_CONTENT);
+        // Verificamos que no existan modelos asociados a la marca
+        if (modeloService.contarModelosPorMarca(id) == 0) {
+            marcaService.borrarMarca(id);
+            logger.info("Borrando la marca con id: " + id);
+            return new ResponseEntity<>("Marca borrada: " + id, HttpStatus.NO_CONTENT);
+        } else {
+            logger.info("No se puede borrar la marca con id: " + id + " porque tiene modelos asociados");
+            return new ResponseEntity<>("No se puede borrar la marca con id: " + id + " porque tiene modelos asociados", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

@@ -12,4 +12,5 @@ public interface ModeloRepository extends JpaRepository<Modelo, Long> {
     public List<Modelo> findAllByTipoVehiculo_Nombre(String tipoVehiculo);
     public List<Modelo> findAllByMarca_NombreAndTipoVehiculo_Nombre(String marca, String tipoVehiculo);
     public int countByTipoVehiculo_Id(Long id);
+    public int countByMarca_Id(Long id);
 }
