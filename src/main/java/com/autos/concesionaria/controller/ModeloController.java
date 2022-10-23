@@ -2,6 +2,7 @@ package com.autos.concesionaria.controller;
 
 import com.autos.concesionaria.entity.Modelo;
 import com.autos.concesionaria.service.ModeloService;
+import com.autos.concesionaria.service.VehiculoService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,11 @@ public class ModeloController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(ModeloController.class);
 
-    @Autowired
     // Service injected by constructor
+    @Autowired
     private final ModeloService modeloService;
+    @Autowired
+    private final VehiculoService vehiculoService;
 
     // GET
     // Get mapping to get all the modelos
@@ -72,9 +75,15 @@ public class ModeloController {
     // Delete mapping to delete a modelo
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarModelo(@PathVariable Long id) {
-        modeloService.borrarModelo(id);
-        logger.info("Borrando modelo con id: " + id);
-        return new ResponseEntity<String>("Modelo borrado: " + id, HttpStatus.NO_CONTENT);
+        // Buscamos si el modelo no tiene vehiculos asociados
+        if (vehiculoService.countVehiculosByModelo(id) == 0) {
+            modeloService.borrarModelo(id);
+            logger.info("Borrando modelo con id: " + id);
+            return new ResponseEntity<String>("Modelo borrado: " + id, HttpStatus.NO_CONTENT);
+        } else {
+            logger.info("No se puede borrar el modelo con id: " + id + " porque tiene vehiculos asociados");
+            return new ResponseEntity<>("No se puede borrar el modelo porque tiene vehiculos asociados", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

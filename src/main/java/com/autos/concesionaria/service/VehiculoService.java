@@ -85,4 +85,7 @@ public class VehiculoService {
         vehiculoRepository.deleteById(id);
     }
 
+    public int countVehiculosByModelo(Long id) {
+        return vehiculoRepository.countVehiculosByModelo_Id(id);
+    }
 }
