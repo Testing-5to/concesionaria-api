@@ -1,19 +1,8 @@
 package com.autos.concesionaria.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "cliente")
@@ -26,29 +15,29 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Id of the cliente
+    // Id del cliente
     private Long id;
 
-    // Nombre of the cliente
+    // Nombre del cliente
     private String nombre;
 
-    // Apellido of the cliente
+    // Apellido del cliente
     private String apellido;
 
-    // Teléfono of the cliente
+    // Teléfono del cliente
     private String telefono;
 
-    // DNI of the cliente
+    // DNI del cliente
     private Integer dni;
 
-    // Email of the cliente
+    // Email del cliente
     private String email;
 
-    // Fecha de nacimiento of the cliente
+    // Si el cliente es cliente
     @Column(name = "es_cliente")
     private Boolean esCliente;
 
-    // dirección of the cliente
+    // Dirección del cliente
     @ManyToOne
     @JoinColumn(name = "direccion_id")
     private Direccion direccion;

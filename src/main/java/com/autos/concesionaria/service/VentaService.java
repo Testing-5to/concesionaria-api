@@ -1,6 +1,5 @@
 package com.autos.concesionaria.service;
 
-import com.autos.concesionaria.entity.Vehiculo;
 import com.autos.concesionaria.entity.Venta;
 import com.autos.concesionaria.repository.VentaRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +13,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VentaService {
 
+    // Repositorio de ventas
     @Autowired
-    // Inyección de dependencia por constructor
     private final VentaRepository ventaRepository;
+
+    // Servicio de vehiculos
     @Autowired
     private final VehiculoService vehiculoService;
+
+    // Servicio de clientes
     @Autowired
     private final ImpuestoService impuestoService;
 
@@ -83,11 +86,24 @@ public class VentaService {
         return ventaRepository.findAllByVehiculo_Id(id);
     }
 
+    /**
+     * Cuenta las ventas para un empleado
+     *
+     * @param Long id El ID del empleado
+     * @return int La cantidad de ventas para el empleado
+     */
     public int contarVentasPorEmpleado(Long id) {
         return ventaRepository.countAllByVendedor_Id(id);
     }
 
+    /**
+     * Cuenta las ventas para un cliente
+     *
+     * @param Long id El ID del cliente
+     * @return int La cantidad de ventas para el cliente
+     */
     public int contarVentasPorCliente(Long id) {
         return ventaRepository.countAllByCliente_Id(id);
     }
+
 }

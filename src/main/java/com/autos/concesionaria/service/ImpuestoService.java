@@ -13,9 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImpuestoService {
 
-    // Inyección de dependencia por constructor
+    // Repositorio de Impuesto
     @Autowired
     private final ImpuestoRepository impuestoRepository;
+
+    // Repositorio de Pais
     @Autowired
     private final PaisRepository paisRepository;
 

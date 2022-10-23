@@ -1,27 +1,17 @@
 package com.autos.concesionaria.controller;
 
-import java.util.List;
-
+import com.autos.concesionaria.entity.Rol;
 import com.autos.concesionaria.service.EmpleadoService;
+import com.autos.concesionaria.service.RolService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.autos.concesionaria.entity.Rol;
-import com.autos.concesionaria.service.RolService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rol")
@@ -32,28 +22,28 @@ public class RolController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(RolController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias
     @Autowired
     private final RolService rolService;
     @Autowired
     private final EmpleadoService empleadoService;
 
     // GET
-    // Get mapping to get all the roles
+    // Obtener todos los roles
     @GetMapping
     public ResponseEntity<List<Rol>> getRoles() {
         return new ResponseEntity<>(rolService.buscarRoles(), HttpStatus.OK);
     }
 
     // GET by ID
-    // Get mapping to get a rol by id
+    // Obtener un rol por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Rol> getRolPorId(@PathVariable Long id) {
         return new ResponseEntity<>(rolService.buscarRolPorId(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a rol
+    // Crear un nuevo rol
     @PostMapping
     public ResponseEntity<Rol> guardarRol(@RequestBody Rol rol) {
         logger.info("Guardando rol: " + rol);
@@ -61,7 +51,7 @@ public class RolController {
     }
 
     // PUT
-    // Put mapping to update a rol
+    // Actualizar un rol
     @PutMapping("/{id}")
     public ResponseEntity<Rol> actualizarRol(@PathVariable Long id, @RequestBody Rol rol) {
         logger.info("Actualizando rol: " + rol);
@@ -69,7 +59,7 @@ public class RolController {
     }
 
     // DELETE
-    // Delete mapping to delete a rol
+    // Eliminar un rol
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
         // Verifico que el rol no este asignado a un empleado

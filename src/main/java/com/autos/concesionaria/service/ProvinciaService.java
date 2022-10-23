@@ -1,64 +1,66 @@
 package com.autos.concesionaria.service;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.autos.concesionaria.entity.Provincia;
 import com.autos.concesionaria.repository.ProvinciaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProvinciaService {
 
+    // Repositorio de Provincia
     @Autowired
-    // Repository injected by constructor
     private ProvinciaRepository provinciaRepository;
 
     /**
-     * Create a provincia
+     * Método que devuelve todas las provincias
      *
-     * @param pais
-     * @return Pais created
-     */
-    public Provincia crearProvincia(Provincia provincia) {
-        return provinciaRepository.save(provincia);
-    }
-
-    /**
-     * Get all the provincias
-     *
-     * @return List<Provincia> List of provincias
+     * @return List<Provincia> Lista de provincias
      */
     public List<Provincia> buscarProvincias() {
         return provinciaRepository.findAll();
     }
 
     /**
-     * Get all the provincias by pais
+     * Método que devuelve las provincias por país
      *
-     * @return List<Provincia> List of provincias by pais
+     * @param String pais Nombre del país
+     * @return List<Provincia> Lista de provincias por país
      */
     public List<Provincia> buscarProvinciasByPais(String pais) {
         return provinciaRepository.findAllByPais_Nombre(pais);
     }
 
     /**
-     * Get a provincia by id
+     * Método que devuelve una provincia por id
      *
-     * @param id
-     * @return Provincia found or null
+     * @param Long id Id de la provincia
+     * @return Provincia Provincia
      */
     public Provincia buscarProvinciaPorId(Long id) {
         return provinciaRepository.findById(id).get();
     }
 
     /**
-     * Update a provincia
+     * Método que crea una provincia
      *
-     * @param id   Provincia id
-     * @param pais Provincia data to update
-     * @return Provincia updated
+     * @param Provincia provincia Provincia
+     * @return Provincia creada
+     */
+    public Provincia crearProvincia(Provincia provincia) {
+        return provinciaRepository.save(provincia);
+    }
+
+    /**
+     * Método que actualiza una provincia
+     *
+     * @param Long      id Id de la provincia
+     * @param Provincia provincia Provincia
+     * @return Provincia actualizada
      */
     public Provincia actualizarProvinciaPorId(Long id, Provincia provincia) {
         Provincia provinciaActual = provinciaRepository.findById(id).get();
@@ -68,14 +70,21 @@ public class ProvinciaService {
     }
 
     /**
-     * Delete a provincia
+     * Método que elimina una provincia
      *
-     * @param id Provincia id
+     * @param Long id Id de la provincia
+     * @return Provincia eliminada
      */
     public void eliminarProvinciaPorId(Long id) {
         provinciaRepository.deleteById(id);
     }
 
+    /**
+     * Método que cuenta las provincias para un país
+     *
+     * @param Long id Id del país
+     * @return int Cantidad de provincias para el país
+     */
     public int contarProvinciasPorPais(Long id) {
         return provinciaRepository.countByPais_Id(id);
     }

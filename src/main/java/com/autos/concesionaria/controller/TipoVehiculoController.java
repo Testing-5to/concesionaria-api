@@ -1,28 +1,17 @@
 package com.autos.concesionaria.controller;
 
-import java.util.List;
-
-import com.autos.concesionaria.service.MarcaService;
+import com.autos.concesionaria.entity.TipoVehiculo;
 import com.autos.concesionaria.service.ModeloService;
+import com.autos.concesionaria.service.TipoVehiculoService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.autos.concesionaria.entity.TipoVehiculo;
-import com.autos.concesionaria.service.TipoVehiculoService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tipoVehiculo")
@@ -33,28 +22,28 @@ public class TipoVehiculoController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(TipoVehiculoController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias
     @Autowired
     private final TipoVehiculoService tipoVehiculoService;
     @Autowired
     private final ModeloService modeloService;
 
     // GET
-    // Get mapping to get all the tipoVehiculos
+    // Obtener todos los tipos de vehiculos
     @GetMapping
     public ResponseEntity<List<TipoVehiculo>> getRoles() {
         return new ResponseEntity<>(tipoVehiculoService.buscarTipoVehiculos(), HttpStatus.OK);
     }
 
     // GET by ID
-    // Get mapping to get a tipoVehiculo by id
+    // Obtener un tipo de vehiculo por ID
     @GetMapping("/{id}")
     public ResponseEntity<TipoVehiculo> getTipoVehiculoPorId(@PathVariable Long id) {
         return new ResponseEntity<>(tipoVehiculoService.buscarTipoVehiculoPorId(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a tipoVehiculo
+    // Crear un tipo de vehiculo
     @PostMapping
     public ResponseEntity<TipoVehiculo> guardarTipoVehiculo(@RequestBody TipoVehiculo tipoVehiculo) {
         logger.info("Guardando tipo de vehiculo: " + tipoVehiculo.getNombre());
@@ -62,7 +51,7 @@ public class TipoVehiculoController {
     }
 
     // PUT
-    // Put mapping to update a tipoVehiculo
+    // Actualizar un tipo de vehiculo
     @PutMapping("/{id}")
     public ResponseEntity<TipoVehiculo> actualizarTipoVehiculo(@PathVariable Long id, @RequestBody TipoVehiculo tipoVehiculo) {
 logger.info("Actualizando tipo de vehiculo: " + tipoVehiculo.getNombre());
@@ -70,7 +59,7 @@ logger.info("Actualizando tipo de vehiculo: " + tipoVehiculo.getNombre());
     }
 
     // DELETE
-    // Delete mapping to delete a tipoVehiculo
+    // Eliminar un tipo de vehiculo
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarTipoVehiculo(@PathVariable Long id) {
         // Buscamos si existen modelos asociados al tipo de vehiculo

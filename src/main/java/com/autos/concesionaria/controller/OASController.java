@@ -4,15 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Root context redirection to OpenAPI API Specification (OAS) documentation.
+ * Redirecciona la página principal a la documentación de la API REST
  */
 @Controller
 public class OASController {
 
     /**
-     * Sets the index page mapping to point to the Swagger UI.
+     * Setea el mapping de la raiz del proyecto a la documentacion de la API.
      *
-     * @return A redirect to the Swagger UI.
+     * @return String con la direccion de la documentacion de la API.
      */
     @RequestMapping("/")
     public String index() {

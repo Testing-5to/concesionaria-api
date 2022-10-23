@@ -12,54 +12,55 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmpleadoService {
 
+    // Repositorio de Empleado
     @Autowired
-    // Repository injected by constructor
     private final EmpleadoRepository empleadoRepository;
 
     /**
-     * Create an employee
+     * Método que obtiene todos los empleados
      *
-     * @param empleado
-     * @return Empleado created
-     */
-    public Empleado crearEmpleado(Empleado empleado) {
-        return empleadoRepository.save(empleado);
-    }
-
-    /**
-     * Get all the employees
-     *
-     * @return List<Empleado> List of employees
+     * @return List<Empleado> Lista de empleados
      */
     public List<Empleado> buscarEmpleados() {
         return empleadoRepository.findAll();
     }
 
     /**
-     * Get all the employees by rol
+     * Método que obtiene los empleados para un rol
      *
-     * @return List<Empleado> List of employees
+     * @param rol Rol del empleado
+     * @return List<Empleado> Lista de empleados para el rol
      */
-    public List<Empleado> buscarEmpleadosByRol(String rol) {
+    public List<Empleado> buscarEmpleados(String rol) {
         return empleadoRepository.findAllByRol_Nombre(rol);
     }
 
     /**
-     * Get an employee by id
+     * Método que obtiene un empleado por su id
      *
-     * @param id
-     * @return Empleado found or null
+     * @param id Id del empleado
+     * @return Empleado con el id indicado
      */
     public Empleado buscarEmpleadoPorId(Long id) {
         return empleadoRepository.findById(id).get();
     }
 
     /**
-     * Update an employee
+     * Método que crea un empleado
      *
-     * @param id       Empleado id
-     * @param empleado Empleado data to update
-     * @return Empleado updated
+     * @param empleado a crear
+     * @return Empleado creado
+     */
+    public Empleado crearEmpleado(Empleado empleado) {
+        return empleadoRepository.save(empleado);
+    }
+
+    /**
+     * Método que actualiza un empleado
+     *
+     * @param Long     id del empleado a actualizar
+     * @param Empleado empleado a actualizar
+     * @return Empleado actualizado
      */
     public Empleado actualizarEmpleadoPorId(Long id, Empleado empleado) {
         Empleado empleadoActual = empleadoRepository.findById(id).get();
@@ -77,25 +78,33 @@ public class EmpleadoService {
     }
 
     /**
-     * Delete an employee
+     * Método que elimina un empleado por su id
      *
-     * @param id Empleado id
+     * @param id Id del empleado a eliminar
+     * @return void
      */
     public void eliminarEmpleadoPorId(Long id) {
         empleadoRepository.deleteById(id);
     }
 
     /**
-     * Contar empleados por id de direccion
+     * Contar empleados para una dirección
      *
-     * @param id
-     * @return Long cantidad de empleados
+     * @param Long idDireccion Id de la dirección
+     * @return int Cantidad de empleados para la dirección
      */
     public int contarEmpleadosPorDireccion(Long idDireccion) {
         return empleadoRepository.countByDireccion_Id(idDireccion);
     }
 
+    /**
+     * Contar empleados para un rol
+     *
+     * @param id Id del rol
+     * @return int Cantidad de empleados para el rol
+     */
     public int contarEmpleadosPorRol(Long id) {
         return empleadoRepository.countByRol_Id(id);
     }
+
 }

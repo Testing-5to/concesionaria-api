@@ -22,14 +22,14 @@ public class MarcaController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(MarcaController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias
     @Autowired
     private final MarcaService marcaService;
     @Autowired
     private final ModeloService modeloService;
 
     // GET
-    // Get mapping to get all the marcas
+    // Obtener todas las marcas
     @GetMapping
     public ResponseEntity<List<Marca>> getMarcas(@RequestParam(required = false) String pais) {
         if (pais == null) {
@@ -40,14 +40,14 @@ public class MarcaController {
     }
 
     // GET by ID
-    // Get mapping to get a marca by id
+    // Obtener una marca por ID
     @GetMapping("/{id}")
     public ResponseEntity<Marca> getMarcaPorId(@PathVariable Long id) {
         return new ResponseEntity<>(marcaService.getMarca(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a marca
+    // Crear una marca
     @PostMapping
     public ResponseEntity<Marca> guardarMarca(@RequestBody Marca marca) {
         logger.info("Guardando la marca: " + marca.getNombre());
@@ -55,7 +55,7 @@ public class MarcaController {
     }
 
     // PUT
-    // Put mapping to update a marca
+    // Actualizar una marca
     @PutMapping("/{id}")
     public ResponseEntity<Marca> actualizarMarca(@PathVariable Long id, @RequestBody Marca marca) {
         logger.info("Actualizando la marca con id: " + id);
@@ -63,7 +63,7 @@ public class MarcaController {
     }
 
     // DELETE
-    // Delete mapping to delete a marca
+    // Eliminar una marca
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarMarca(@PathVariable Long id) {
         // Verificamos que no existan modelos asociados a la marca

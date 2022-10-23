@@ -1,58 +1,56 @@
 package com.autos.concesionaria.service;
 
-import java.util.List;
-
+import com.autos.concesionaria.entity.TipoVehiculo;
+import com.autos.concesionaria.repository.TipoVehiculoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.autos.concesionaria.entity.TipoVehiculo;
-import com.autos.concesionaria.repository.TipoVehiculoRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TipoVehiculoService {
 
-    // Repository injected by constructor
+    // Repositorio de tipo de vehiculo
     @Autowired
     private final TipoVehiculoRepository tipoVehiculoRepository;
 
     /**
-     * Create a tipoVehiculo
+     * Obtiene todos los tipos de vehiculos
      *
-     * @param tipoVehiculo
-     * @return TipoVehiculo created
-     */
-    public TipoVehiculo crearTipoVehiculo(TipoVehiculo tipoVehiculo) {
-        return tipoVehiculoRepository.save(tipoVehiculo);
-    }
-
-    /**
-     * Get all the tipoVehiculos
-     *
-     * @return List<TipoVehiculo> List of tipoVehiculos
+     * @return List<TipoVehiculo> Lista de tipos de vehiculos
      */
     public List<TipoVehiculo> buscarTipoVehiculos() {
         return tipoVehiculoRepository.findAll();
     }
 
     /**
-     * Get a tipoVehiculo by id
+     * Obtiene un tipo de vehiculo por su id
      *
-     * @param id
-     * @return TipoVehiculo found or null
+     * @param Long id del tipo de vehiculo
+     * @return TipoVehiculo Tipo de vehiculo encontrado
      */
     public TipoVehiculo buscarTipoVehiculoPorId(Long id) {
         return tipoVehiculoRepository.findById(id).get();
     }
 
     /**
-     * Update a tipoVehiculo
+     * Metodo para crear un tipo de vehiculo
      *
-     * @param id           TipoVehiculo id
-     * @param tipoVehiculo TipoVehiculo data to update
-     * @return TipoVehiculo updated
+     * @param TipoVehiculo tipoVehiculo a crear
+     * @return TipoVehiculo creado
+     */
+    public TipoVehiculo crearTipoVehiculo(TipoVehiculo tipoVehiculo) {
+        return tipoVehiculoRepository.save(tipoVehiculo);
+    }
+
+    /**
+     * Metodo para actualizar un tipo de vehiculo
+     *
+     * @param Long         id del tipo de vehiculo a actualizar
+     * @param TipoVehiculo tipoVehiculo a actualizar
+     * @return TipoVehiculo actualizado
      */
     public TipoVehiculo actualizarTipoVehiculoPorId(Long id, TipoVehiculo tipoVehiculo) {
         TipoVehiculo tipoVehiculoActual = tipoVehiculoRepository.findById(id).get();
@@ -61,9 +59,10 @@ public class TipoVehiculoService {
     }
 
     /**
-     * Delete a tipoVehiculo
+     * Metodo para eliminar un tipo de vehiculo
      *
-     * @param id TipoVehiculo id
+     * @param Long id del tipo de vehiculo a eliminar
+     * @return void
      */
     public void eliminarTipoVehiculoPorId(Long id) {
         tipoVehiculoRepository.deleteById(id);

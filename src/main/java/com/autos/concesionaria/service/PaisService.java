@@ -1,55 +1,56 @@
 package com.autos.concesionaria.service;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.autos.concesionaria.entity.Pais;
 import com.autos.concesionaria.repository.PaisRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PaisService {
 
+    // Repositorio de Pais
     @Autowired
-    // Repository injected by constructor
     private PaisRepository paisRepository;
 
     /**
-     * Create a pais
+     * Método que devuelve todos los paises
      *
-     * @param pais
-     * @return Pais created
-     */
-    public Pais crearPais(Pais pais) {
-        return paisRepository.save(pais);
-    }
-
-    /**
-     * Get all the paises
-     *
-     * @return List<Pais> List of paises
+     * @return List<Pais> Lista de paises
      */
     public List<Pais> buscarPaises() {
         return paisRepository.findAll();
     }
 
     /**
-     * Get a pais by id
+     * Método que devuelve un pais por su id
      *
-     * @param id
-     * @return Pais found or null
+     * @param Long id del pais
+     * @return Pais encontrado
      */
     public Pais buscarPaisPorId(Long id) {
         return paisRepository.findById(id).get();
     }
 
     /**
-     * Update a pais
+     * Método que crea un pais
      *
-     * @param id   Pais id
-     * @param pais Pais data to update
-     * @return Pais updated
+     * @param Pais pais a crear
+     * @return Pais creado
+     */
+    public Pais crearPais(Pais pais) {
+        return paisRepository.save(pais);
+    }
+
+    /**
+     * Método que actualiza un pais
+     *
+     * @param Long id del pais a actualizar
+     * @param Pais pais a actualizar
+     * @return Pais actualizado
      */
     public Pais actualizarPaisPorId(Long id, Pais pais) {
         Pais paisActual = paisRepository.findById(id).get();
@@ -59,9 +60,10 @@ public class PaisService {
     }
 
     /**
-     * Delete a pais
+     * Método que elimina un pais
      *
-     * @param id Pais id
+     * @param Long id del pais a eliminar
+     * @return void
      */
     public void borrarPaisPorId(Long id) {
         paisRepository.deleteById(id);

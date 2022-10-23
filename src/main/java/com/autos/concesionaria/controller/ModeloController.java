@@ -22,14 +22,14 @@ public class ModeloController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(ModeloController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias
     @Autowired
     private final ModeloService modeloService;
     @Autowired
     private final VehiculoService vehiculoService;
 
     // GET
-    // Get mapping to get all the modelos
+    // Obtener todos los modelos
     @GetMapping
     public ResponseEntity<List<Modelo>> getModelos(@RequestParam(required = false) String marca, @RequestParam(required = false) String tipoVehiculo) {
         if (marca != null && tipoVehiculo != null) {
@@ -44,14 +44,14 @@ public class ModeloController {
     }
 
     // GET by ID
-    // Get mapping to get a modelo by id
+    // Obtener un modelo por ID
     @GetMapping("/{id}")
     public ResponseEntity<Modelo> getModeloPorId(@PathVariable Long id) {
         return new ResponseEntity<>(modeloService.getModelo(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a modelo
+    // Crear un modelo
     @PostMapping
     public ResponseEntity<Modelo> guardarModelo(@RequestBody Modelo modelo) {
         logger.info("Guardando modelo con nombre: " + modelo.getNombre());
@@ -59,7 +59,7 @@ public class ModeloController {
     }
 
     // PUT
-    // Put mapping to update a modelo
+    // Actualizar un modelo
     @PutMapping("/{id}")
     public ResponseEntity<Modelo> actualizarModelo(@PathVariable Long id, @RequestBody Modelo modelo) {
         logger.info("Actualizando modelo con id: " + id);
@@ -67,7 +67,7 @@ public class ModeloController {
     }
 
     // DELETE
-    // Delete mapping to delete a modelo
+    // Eliminar un modelo
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarModelo(@PathVariable Long id) {
         // Buscamos si el modelo no tiene vehiculos asociados

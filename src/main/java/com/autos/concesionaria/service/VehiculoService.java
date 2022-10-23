@@ -2,31 +2,19 @@ package com.autos.concesionaria.service;
 
 import com.autos.concesionaria.entity.Vehiculo;
 import com.autos.concesionaria.repository.VehiculoRepository;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class VehiculoService {
 
-    @Autowired
     // Inyectamos el repositorio
+    @Autowired
     private VehiculoRepository vehiculoRepository;
-
-    /**
-     * Crear un vehiculo
-     *
-     * @param vehiculo
-     * @return vehiculo created
-     */
-    public Vehiculo crearVehiculo(Vehiculo vehiculo) {
-        Vehiculo nuevoVehiculo = vehiculoRepository.save(vehiculo);
-        return nuevoVehiculo;
-    }
 
     /**
      * Obtener todos los vehiculos
@@ -40,8 +28,8 @@ public class VehiculoService {
     /**
      * Obtener una lista de vehiculos por modelo
      *
-     * @param modelo
-     * @return List<vehiculo> List of vehiculos
+     * @param String modelo Modelo del vehiculo
+     * @return List<vehiculo> Lista de vehiculos por modelo
      */
     public List<Vehiculo> getVehiculosByModelo(String modelo) {
         return vehiculoRepository.findAllByModelo_Nombre(modelo);
@@ -50,19 +38,30 @@ public class VehiculoService {
     /**
      * Obtener un vehiculo por id
      *
-     * @param id
-     * @return vehiculo found or null
+     * @param Long id Id del vehiculo
+     * @return Vehiculo encontrado
      */
     public Vehiculo getVehiculo(Long id) {
         return vehiculoRepository.findById(id).get();
     }
 
     /**
+     * Crear un vehiculo
+     *
+     * @param Vehiculo vehiculo a crear
+     * @return Vehiculo creado
+     */
+    public Vehiculo crearVehiculo(Vehiculo vehiculo) {
+        Vehiculo nuevoVehiculo = vehiculoRepository.save(vehiculo);
+        return nuevoVehiculo;
+    }
+
+    /**
      * Actualizar un vehiculo
      *
-     * @param id    vehiculo id
-     * @param vehiculo vehiculo data to update
-     * @return vehiculo updated
+     * @param Long     id del vehiculo
+     * @param Vehiculo vehiculo a actualizar
+     * @return Vehiculo actualizado
      */
     public Vehiculo actualizarVehiculo(Long id, Vehiculo vehiculo) {
         Vehiculo vehiculoActual = vehiculoRepository.findById(id).get();
@@ -79,13 +78,21 @@ public class VehiculoService {
     /**
      * Eliminar un vehiculo
      *
-     * @param id vehiculo id to delete
+     * @param Long id del vehiculo a eliminar
+     * @return void
      */
     public void borrarVehiculo(Long id) {
         vehiculoRepository.deleteById(id);
     }
 
+    /**
+     * Contar la cantidad de vehiculos para un modelo
+     *
+     * @param Long id del modelo
+     * @return int Cantidad de vehiculos
+     */
     public int countVehiculosByModelo(Long id) {
         return vehiculoRepository.countVehiculosByModelo_Id(id);
     }
+
 }

@@ -17,7 +17,6 @@ public class AppConfig {
 
     @Bean
     public String logProfileToUse() {
-
         LOGGER.info("Application profile active -> " + profile);
         return profile;
     }

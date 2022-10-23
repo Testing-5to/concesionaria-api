@@ -24,7 +24,7 @@ public class EmpleadoController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(EmpleadoController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias de los servicios
     @Autowired
     private final EmpleadoService empleadoService;
     @Autowired
@@ -33,45 +33,46 @@ public class EmpleadoController {
     private final VentaService ventaService;
 
     // GET
-    // Get mapping to get all the employees
+    // Obtener todos los empleados
     @GetMapping
     public ResponseEntity<List<Empleado>> getEmpleados(@RequestParam(required = false) String rol) {
         if (rol == null) {
             return new ResponseEntity<>(empleadoService.buscarEmpleados(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(empleadoService.buscarEmpleadosByRol(rol), HttpStatus.OK);
+            return new ResponseEntity<>(empleadoService.buscarEmpleados(rol), HttpStatus.OK);
         }
     }
 
     // GET by ID
-    // Get mapping to get an employee by id
+    // Obtener un empleado por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Empleado> getEmpleadoPorId(@PathVariable Long id) {
         return new ResponseEntity<>(empleadoService.buscarEmpleadoPorId(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create an employee
+    // Crear un empleado
     @PostMapping
     public ResponseEntity<Empleado> guardarEmpleado(@RequestBody Empleado empleado) {
-        // if the direccion doesn't exist, create it
+        // Si la dirección no existe, se crea una nueva
         if (empleado.getDireccion() != null && empleado.getDireccion().getId() == null) {
-            // check if the direccion exists in the database
+            // Comprobamos si la dirección ya existe en la base de datos
             if (direccionService.existeDireccion(empleado.getDireccion())) {
-                // if the direccion exists, get it from the database and set it to the empleado
+                // Si existe, se obtiene la dirección de la base de datos y se asigna al empleado
                 Direccion direccion = direccionService.buscarDireccion(empleado.getDireccion());
                 empleado.setDireccion(direccion);
             } else {
-                // if the direccion doesn't exist, create it
+                // Si no existe, se crea una nueva dirección y se asigna al empleado
                 empleado.setDireccion(direccionService.crearDireccion(empleado.getDireccion()));
             }
         }
+        // Se crea el empleado
         logger.info("Guardando empleado: " + empleado);
         return new ResponseEntity<>(empleadoService.crearEmpleado(empleado), HttpStatus.CREATED);
     }
 
     // PUT
-    // Put mapping to update an employee
+    // Actualizar un empleado
     @PutMapping("/{id}")
     public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable Long id, @RequestBody Empleado empleado) {
         Empleado empleadoActual = empleadoService.buscarEmpleadoPorId(id);
@@ -81,36 +82,36 @@ public class EmpleadoController {
             logger.error("No se puede actualizar. El empleado con id: " + id + " no existe");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            // if the direccion changed, check if the new direccion exists in the database and create it if it doesn't
+            // Si la dirección cambió, se comprueba si la nueva dirección ya existe en la base de datos y se crea si no existe
             if (empleadoActual.getDireccion() != empleado.getDireccion()) {
-                // if the direccion doesn't exist, create it
+                // Si la dirección no existe, se crea una nueva
                 if (empleado.getDireccion() != null && empleado.getDireccion().getId() == null) {
-                    // check if the direccion exists in the database
+                    // Compobamos si la dirección ya existe en la base de datos
                     if (direccionService.existeDireccion(empleado.getDireccion())) {
-                        // if the direccion exists, get it from the database and set it to the empleado
+                        // Si la dirección ya existe, se obtiene la dirección de la base de datos y se asigna al empleado
                         Direccion direccion = direccionService.buscarDireccion(empleado.getDireccion());
                         empleado.setDireccion(direccion);
                     } else {
-                        // if the direccion doesn't exist, create it
+                        // Si la dirección no existe, se crea una nueva dirección y se asigna al empleado
                         empleado.setDireccion(direccionService.crearDireccion(empleado.getDireccion()));
                     }
                 }
                 direccionCambio = true;
                 direccionId = empleadoActual.getDireccion().getId();
             }
-            // update the employee
+            // Actualizamos el empleado
             Empleado empleadoActualizado = empleadoService.actualizarEmpleadoPorId(id, empleado);
-            // if the direccion changed delete the old direccion and the previous direccion is not used by any other employee, delete it
+            // Si la dirección cambió, se elimina la dirección anterior si no está asociada a ningún otro empleado
             if (direccionCambio && empleadoService.contarEmpleadosPorDireccion(direccionId) == 0)
                 direccionService.eliminarDireccionPorId(direccionId);
-            // return the updated employee
+            // Se devuelve el empleado actualizado
             logger.info("Actualizando empleado con id: " + id + " a: " + empleadoActualizado);
             return new ResponseEntity<>(empleadoActualizado, HttpStatus.OK);
         }
     }
 
     // DELETE
-    // Delete mapping to delete an employee
+    // Eliminar un empleado
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarEmpleado(@PathVariable Long id) {
         // Buscamos si no existen ventas asociadas al empleado

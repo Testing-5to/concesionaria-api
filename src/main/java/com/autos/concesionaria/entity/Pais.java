@@ -1,6 +1,10 @@
 package com.autos.concesionaria.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +20,7 @@ public class Pais {
     // El ID del pais
     private Long id;
 
-    // El Nombre del pais
+    // El nombre del pais
     private String nombre;
 
     @Column(length = 2)

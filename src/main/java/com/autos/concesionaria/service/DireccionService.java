@@ -1,68 +1,66 @@
 package com.autos.concesionaria.service;
 
-import java.util.List;
-
+import com.autos.concesionaria.entity.Direccion;
+import com.autos.concesionaria.repository.DireccionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.autos.concesionaria.entity.Direccion;
-import com.autos.concesionaria.repository.DireccionRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DireccionService {
 
-    // Repository injected by constructor
+    // Repositorio de Direccion
     @Autowired
     private final DireccionRepository direccionRepository;
 
     /**
-     * Create a new direccion
+     * Método que obtiene todas las direcciones
      *
-     * @param direccion
-     * @return Direccion created
-     */
-    public Direccion crearDireccion(Direccion direccion) {
-        return direccionRepository.save(direccion);
-    }
-
-    /**
-     * Get all the direccions
-     *
-     * @return List<Direccion> List of direccions
+     * @return List<Direccion> Lista de direcciones
      */
     public List<Direccion> buscarDirecciones() {
         return direccionRepository.findAll();
     }
 
     /**
-     * Get all the direccions by localidad
+     * Método que obtiene las direcciones para una localidad
      *
-     * @param localidad
-     * @return List<Direccion> List of direccions
+     * @param localidad Localidad a buscar
+     * @return List<Direccion> Lista de direcciones para la localidad
      */
     public List<Direccion> buscarDireccionesPorLocalidad(String localidad) {
         return direccionRepository.findAllByLocalidad_Nombre(localidad);
     }
 
     /**
-     * Get a direccion by id
+     * Método que obtiene las direcciones para un id
      *
-     * @param id
-     * @return Direccion found or null
+     * @param id Id de la dirección
+     * @return Direccion Dirección encontrada
      */
     public Direccion buscarDireccionPorId(Long id) {
         return direccionRepository.findById(id).get();
     }
 
     /**
-     * Update a direccion
+     * Método que crea una nueva dirección
      *
-     * @param id       Direccion id
-     * @param direccion Direccion data to update
-     * @return Direccion updated
+     * @param direccion Direccion a crear
+     * @return Direccion creada
+     */
+    public Direccion crearDireccion(Direccion direccion) {
+        return direccionRepository.save(direccion);
+    }
+
+    /**
+     * Método que actualiza una dirección
+     *
+     * @param id        Id de la dirección
+     * @param direccion Direccion a actualizar
+     * @return Direccion actualizada
      */
     public Direccion actualizarDireccionPorId(Long id, Direccion direccion) {
         Direccion direccionActual = direccionRepository.findById(id).get();
@@ -74,9 +72,10 @@ public class DireccionService {
     }
 
     /**
-     * Delete a direccion
+     * Método que elimina una dirección por id
      *
-     * @param id Direccion id
+     * @param id Id de la dirección
+     * @return void
      */
     public void eliminarDireccionPorId(Long id) {
         direccionRepository.deleteById(id);
@@ -85,13 +84,9 @@ public class DireccionService {
     /**
      * Buscar si existe una direccion
      *
-     * @param calle
-     * @param numero
-     * @param piso
-     * @param departamento
-     * @return boolean true if exists, false if not
+     * @param Direccion direccion a buscar
+     * @return boolean true si existe, false si no existe
      */
-
     public boolean existeDireccion(Direccion direccion) {
         return direccionRepository.existsByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(
                 direccion.getCalle(),
@@ -102,16 +97,11 @@ public class DireccionService {
     }
 
     /**
-     * Buscar direccion por calle, numero, piso, departamento y localidad
+     * Buscar si existe una direccion y retornarla
      *
-     * @param calle
-     * @param numero
-     * @param piso
-     * @param departamento
-     * @param localidad
-     * @return Long id
+     * @param Direccion direccion a buscar
+     * @return Direccion direccion encontrada
      */
-
     public Direccion buscarDireccion(Direccion direccion) {
         return direccionRepository.findByCalleAndNumeroAndPisoAndDepartamentoAndLocalidad_Id(
                 direccion.getCalle(),
@@ -121,6 +111,12 @@ public class DireccionService {
                 direccion.getLocalidad().getId());
     }
 
+    /**
+     * Contar la cantidad de direcciones para una localidad
+     *
+     * @param id Id de la dirección
+     * @return int Cantidad de direcciones para la localidad
+     */
     public int contarDireccionesPorLocalidad(Long id) {
         return direccionRepository.countByLocalidad_Id(id);
     }

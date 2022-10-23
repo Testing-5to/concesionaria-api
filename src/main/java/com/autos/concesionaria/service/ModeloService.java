@@ -12,15 +12,65 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ModeloService {
 
+    // Repositorio de Modelo
     @Autowired
-    // Repository injected by constructor
     private ModeloRepository modeloRepository;
 
     /**
-     * Create a modelo
+     * Método que devuelve todos los modelos
      *
-     * @param modelo
-     * @return Modelo created
+     * @return List<Modelo> Lista de modelos
+     */
+    public List<Modelo> getModelos() {
+        return modeloRepository.findAll();
+    }
+
+    /**
+     * Método que devuelve los modelos de una marca
+     *
+     * @param String marca nombre de la marca
+     * @return List<Modelo> Lista de modelos de la marca
+     */
+    public List<Modelo> getModelosByMarca(String marca) {
+        return modeloRepository.findAllByMarca_Nombre(marca);
+    }
+
+    /**
+     * Método que devuelve los modelos de un tipo de vehículo
+     *
+     * @param String tipoVehiculo nombre del tipo de vehículo
+     * @return List<Modelo> Lista de modelos del tipo de vehículo
+     */
+    public List<Modelo> getModelosByTipoVehiculo(String tipoVehiculo) {
+        return modeloRepository.findAllByTipoVehiculo_Nombre(tipoVehiculo);
+    }
+
+    /**
+     * Método que devuelve los modelos de una marca y un tipo de vehículo
+     *
+     * @param String marca nombre de la marca
+     * @param String tipoVehiculo nombre del tipo de vehículo
+     * @return List<Modelo> Lista de modelos de la marca y del tipo de vehículo
+     */
+    public List<Modelo> getModelosByMarcaAndTipoVehiculo(String marca, String tipoVehiculo) {
+        return modeloRepository.findAllByMarca_NombreAndTipoVehiculo_Nombre(marca, tipoVehiculo);
+    }
+
+    /**
+     * Método que devuelve un modelo por su id
+     *
+     * @param Long id del modelo
+     * @return Modelo encontrado
+     */
+    public Modelo getModelo(Long id) {
+        return modeloRepository.findById(id).get();
+    }
+
+    /**
+     * Método que crea un modelo
+     *
+     * @param Modelo modelo a crear
+     * @return Modelo creado
      */
     public Modelo crearModelo(Modelo modelo) {
         Modelo nuevoModelo = modeloRepository.save(modelo);
@@ -28,57 +78,11 @@ public class ModeloService {
     }
 
     /**
-     * Get all the modelos
+     * Método que actualiza un modelo
      *
-     * @return List<Modelo> List of modelos
-     */
-    public List<Modelo> getModelos() {
-        return modeloRepository.findAll();
-    }
-
-    /**
-     * Get all the modelos by marca
-     *
-     * @return List<Modelo> List of modelos
-     */
-    public List<Modelo> getModelosByMarca(String marca) {
-        return modeloRepository.findAllByMarca_Nombre(marca);
-    }
-
-    /**
-     * Get all the modelos by tipoVehiculo
-     *
-     * @return List<Modelo> List of modelos
-     */
-    public List<Modelo> getModelosByTipoVehiculo(String tipoVehiculo) {
-        return modeloRepository.findAllByTipoVehiculo_Nombre(tipoVehiculo);
-    }
-
-    /**
-     * Get all the modelos by marca and tipoVehiculo
-     *
-     * @return List<Modelo> List of modelos
-     */
-    public List<Modelo> getModelosByMarcaAndTipoVehiculo(String marca, String tipoVehiculo) {
-        return modeloRepository.findAllByMarca_NombreAndTipoVehiculo_Nombre(marca, tipoVehiculo);
-    }
-
-    /**
-     * Get a modelo by id
-     *
-     * @param id
-     * @return Modelo found or null
-     */
-    public Modelo getModelo(Long id) {
-        return modeloRepository.findById(id).get();
-    }
-
-    /**
-     * Update a modelo
-     *
-     * @param id     Modelo id
-     * @param modelo Modelo data to update
-     * @return Modelo updated
+     * @param Long   id del modelo a actualizar
+     * @param Modelo modelo a actualizar
+     * @return Modelo actualizado
      */
     public Modelo actualizarModelo(Long id, Modelo modelo) {
         Modelo modeloActual = modeloRepository.findById(id).get();
@@ -89,19 +93,33 @@ public class ModeloService {
     }
 
     /**
-     * Delete a modelo
+     * Método que elimina un modelo
      *
-     * @param id Modelo id
+     * @param Long id del modelo a eliminar
+     * @return void
      */
     public void borrarModelo(Long id) {
         modeloRepository.deleteById(id);
     }
 
+    /**
+     * Método que cuenta la cantidad de modelos para un tipo de vehículo
+     *
+     * @param Long id del tipo de vehículo
+     * @return int cantidad de modelos para el tipo de vehículo
+     */
     public int contarModelosPorTipoVehiculo(Long id) {
         return modeloRepository.countByTipoVehiculo_Id(id);
     }
 
+    /**
+     * Método que cuenta la cantidad de modelos para una marca
+     *
+     * @param Long id de la marca
+     * @return int cantidad de modelos para la marca
+     */
     public int contarModelosPorMarca(Long id) {
         return modeloRepository.countByMarca_Id(id);
     }
+
 }

@@ -1,6 +1,9 @@
 package com.autos.concesionaria.controller;
 
+import com.autos.concesionaria.entity.Localidad;
 import com.autos.concesionaria.service.DireccionService;
+import com.autos.concesionaria.service.LocalidadService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.autos.concesionaria.entity.Localidad;
-import com.autos.concesionaria.service.LocalidadService;
-
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/localidad")
@@ -23,14 +22,14 @@ public class LocalidadController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(LocalidadController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias
     @Autowired
     private final LocalidadService localidadService;
     @Autowired
     private final DireccionService direccionService;
 
     // GET
-    // Get mapping to get all the localidades
+    // Obtener todas las localidades
     @GetMapping
     public ResponseEntity<List<Localidad>> getLocalidades(@RequestParam(required = false) String provincia) {
         if (provincia == null) {
@@ -41,14 +40,14 @@ public class LocalidadController {
     }
 
     // GET by ID
-    // Get mapping to get a localidad by id
+    // Obtener una localidad por ID
     @GetMapping("/{id}")
     public ResponseEntity<Localidad> getLocalidadPorId(@PathVariable Long id) {
         return new ResponseEntity<>(localidadService.buscarLocalidadPorId(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a localidad
+    // Crear una localidad
     @PostMapping
     public ResponseEntity<Localidad> guardarLocalidad(@RequestBody Localidad localidad) {
         logger.info("Guardando la localidad " + localidad.getNombre());
@@ -56,7 +55,7 @@ public class LocalidadController {
     }
 
     // PUT
-    // Put mapping to update a localidad
+    // Actualizar una localidad
     @PutMapping("/{id}")
     public ResponseEntity<Localidad> actualizarLocalidad(@PathVariable Long id, @RequestBody Localidad localidad) {
         logger.info("Actualizando la localidad con id " + id);
@@ -64,7 +63,7 @@ public class LocalidadController {
     }
 
     // DELETE
-    // Delete mapping to delete a localidad
+    // Eliminar una localidad
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarLocalidad(@PathVariable Long id) {
         // Verifico que no haya direcciones asociadas a la localidad

@@ -50,15 +50,15 @@ public class ClienteController {
     // Creamos un cliente
     @PostMapping
     public ResponseEntity<Cliente> guardarCliente(@RequestBody Cliente cliente) {
-        // if the direccion doesn't exist, create it
+        // Si la dirección no existe, la creamos
         if (cliente.getDireccion() != null && cliente.getDireccion().getId() == null) {
-            // check if the direccion exists in the database
+            // Comprobamos si la dirección ya existe en la base de datos
             if (direccionService.existeDireccion(cliente.getDireccion())) {
-                // if the direccion exists, get it from the database and set it to the cliente
+                // Si existe, la obtenemos de la base de datos y la asignamos al cliente
                 Direccion direccion = direccionService.buscarDireccion(cliente.getDireccion());
                 cliente.setDireccion(direccion);
             } else {
-                // if the direccion doesn't exist, create it
+                // Si no existe, la creamos y la asignamos al cliente
                 cliente.setDireccion(direccionService.crearDireccion(cliente.getDireccion()));
             }
         }
@@ -77,29 +77,29 @@ public class ClienteController {
             logger.error("No se puede actualizar. El cliente con ID: " + id + " no existe");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            // if the direccion changed, check if the new direccion exists in the database and create it if it doesn't
+            // Si la dirección cambio, comprobamos si la nueva dirección ya existe en la base de datos y la creamos si no existe
             if (clienteActual.getDireccion() != cliente.getDireccion()) {
-                // if the direccion doesn't exist, create it
+                // Si la dirección no existe, la creamos
                 if (cliente.getDireccion() != null && cliente.getDireccion().getId() == null) {
-                    // check if the direccion exists in the database
+                    // Comprobamos que la dirección no exista en la base de datos
                     if (direccionService.existeDireccion(cliente.getDireccion())) {
-                        // if the direccion exists, get it from the database and set it to the cliente
+                        // Si existe, la obtenemos de la base de datos y la asignamos al cliente
                         Direccion direccion = direccionService.buscarDireccion(cliente.getDireccion());
                         cliente.setDireccion(direccion);
                     } else {
-                        // if the direccion doesn't exist, create it
+                        // Si no existe, la creamos y la asignamos al cliente
                         cliente.setDireccion(direccionService.crearDireccion(cliente.getDireccion()));
                     }
                 }
                 direccionCambio = true;
                 direccionId = clienteActual.getDireccion().getId();
             }
-            // update the cliente
+            // Actualizamos el cliente
             Cliente clienteActualizado = clienteService.actualizarClientePorId(id, cliente);
-            // if the direccion changed delete the old direccion and the previous direccion is not used by any other cliente, delete it
+            // Si la dirección cambio, eliminamos la dirección anterior si no está asociada a ningún cliente
             if (direccionCambio && clienteService.contarClientesPorDireccion(direccionId) == 0)
                 direccionService.eliminarDireccionPorId(direccionId);
-            // return the updated cliente
+            // Retornamos el cliente actualizado
             logger.info("Actualizando cliente con ID: " + id);
             return new ResponseEntity<>(clienteActualizado, HttpStatus.OK);
         }
@@ -114,6 +114,7 @@ public class ClienteController {
             logger.error("No se puede eliminar. El cliente con ID: " + id + " tiene ventas asociadas");
             return new ResponseEntity<>("No se puede eliminar. El cliente con ID: " + id + " tiene ventas asociadas", HttpStatus.BAD_REQUEST);
         } else {
+            // Si no existen ventas asociadas al cliente, eliminamos el cliente
             clienteService.eliminarClientePorId(id);
             logger.info("Eliminando cliente con ID: " + id);
             return new ResponseEntity<String>("Cliente eliminado: " + id, HttpStatus.OK);

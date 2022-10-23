@@ -1,58 +1,56 @@
 package com.autos.concesionaria.service;
 
-import java.util.List;
-
+import com.autos.concesionaria.entity.Rol;
+import com.autos.concesionaria.repository.RolRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.autos.concesionaria.entity.Rol;
-import com.autos.concesionaria.repository.RolRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class RolService {
 
+    // Repositorio de Rol
     @Autowired
-    // Repository injected by constructor
     private final RolRepository rolRepository;
 
     /**
-     * Create a rol
+     * Método que devuelve todos los roles
      *
-     * @param rol
-     * @return Rol created
-     */
-    public Rol crearRol(Rol rol) {
-        return rolRepository.save(rol);
-    }
-
-    /**
-     * Get all the roles
-     *
-     * @return List<Rol> List of roles
+     * @return List<Rol> Lista de roles
      */
     public List<Rol> buscarRoles() {
         return rolRepository.findAll();
     }
 
     /**
-     * Get a rol by id
+     * Método que devuelve un rol por su id
      *
-     * @param id
-     * @return Rol found or null
+     * @param Long id del rol
+     * @return Rol encontrado
      */
     public Rol buscarRolPorId(Long id) {
         return rolRepository.findById(id).get();
     }
 
     /**
-     * Update a rol
+     * Método que crea un rol
      *
-     * @param id  Rol id
-     * @param rol Rol data to update
-     * @return Rol updated
+     * @param Rol rol a crear
+     * @return Rol creado
+     */
+    public Rol crearRol(Rol rol) {
+        return rolRepository.save(rol);
+    }
+
+    /**
+     * Método que actualiza un rol
+     *
+     * @param Long id del rol a actualizar
+     * @param Rol  rol a actualizar
+     * @return Rol actualizado
      */
     public Rol actualizarRolPorId(Long id, Rol rol) {
         Rol rolActual = rolRepository.findById(id).get();
@@ -61,9 +59,10 @@ public class RolService {
     }
 
     /**
-     * Delete a rol
+     * Método que elimina un rol
      *
-     * @param id Rol id
+     * @param Long id del rol a eliminar
+     * @return void
      */
     public void eliminarRolPorId(Long id) {
         rolRepository.deleteById(id);

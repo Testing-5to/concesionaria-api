@@ -2,7 +2,6 @@ package com.autos.concesionaria.controller;
 
 import com.autos.concesionaria.entity.Vehiculo;
 import com.autos.concesionaria.service.VehiculoService;
-
 import com.autos.concesionaria.service.VentaService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -23,14 +22,14 @@ public class VehiculoController {
     // Logger
     private static final Logger logger = LogManager.getLogger(VehiculoController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias
     @Autowired
     private final VehiculoService vehiculoService;
     @Autowired
     private final VentaService ventaService;
 
     // GET
-    // Get mapping to get all the vehiculo
+    // Obtener todos los vehículos
     @GetMapping
     public ResponseEntity<List<Vehiculo>> getVehiculos(@RequestParam(required = false) String modelo) {
         if (modelo == null) {
@@ -41,14 +40,14 @@ public class VehiculoController {
     }
 
     // GET by ID
-    // Get mapping to get a vehiculo by id
+    // Obtener un vehículo por ID
     @GetMapping("/{id}")
     public ResponseEntity<Vehiculo> getVehiculoPorId(@PathVariable Long id) {
         return new ResponseEntity<>(vehiculoService.getVehiculo(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a vehiculo
+    // Crear un vehículo
     @PostMapping
     public ResponseEntity<Vehiculo> guardarVehiculo(@RequestBody Vehiculo vehiculo) {
         logger.info("Guardando vehiculo: " + vehiculo);
@@ -56,7 +55,7 @@ public class VehiculoController {
     }
 
     // PUT
-    // Put mapping to update a vehiculo
+    // Actualizar un vehículo
     @PutMapping("/{id}")
     public ResponseEntity<Vehiculo> actualizarVehiculo(@PathVariable Long id, @RequestBody Vehiculo vehiculo) {
         logger.info("Actualizando vehiculo: " + vehiculo);
@@ -64,7 +63,7 @@ public class VehiculoController {
     }
 
     // DELETE
-    // Delete mapping to delete a vehiculo
+    // Eliminar un vehículo
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarVehiculo(@PathVariable Long id) {
         // Buscamos si no existen ventas asociadas al vehiculo

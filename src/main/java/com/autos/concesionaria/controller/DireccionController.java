@@ -1,8 +1,10 @@
 package com.autos.concesionaria.controller;
 
-import com.autos.concesionaria.repository.EmpleadoRepository;
+import com.autos.concesionaria.entity.Direccion;
 import com.autos.concesionaria.service.ClienteService;
+import com.autos.concesionaria.service.DireccionService;
 import com.autos.concesionaria.service.EmpleadoService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.autos.concesionaria.entity.Direccion;
-import com.autos.concesionaria.service.DireccionService;
-
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/direccion")
@@ -25,7 +23,7 @@ public class DireccionController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(DireccionController.class);
 
-    // Service injected by constructor
+    // Inyección de dependencias de servicio
     @Autowired
     private final DireccionService direccionService;
     @Autowired
@@ -34,7 +32,7 @@ public class DireccionController {
     private final ClienteService clienteService;
 
     // GET
-    // Get mapping to get all the direcciones
+    // Obtener todas las direcciones
     @GetMapping
     public ResponseEntity<List<Direccion>> getDirecciones(@RequestParam(required = false) String localidad) {
         if (localidad == null) {
@@ -45,14 +43,14 @@ public class DireccionController {
     }
 
     // GET by ID
-    // Get mapping to get a direccion by id
+    // Obtener una dirección por ID
     @GetMapping("/{id}")
     public ResponseEntity<Direccion> getDireccionPorId(@PathVariable Long id) {
         return new ResponseEntity<Direccion>(direccionService.buscarDireccionPorId(id), HttpStatus.OK);
     }
 
     // POST
-    // Post mapping to create a direccion
+    // Crear una dirección
     @PostMapping
     public ResponseEntity<Direccion> guardarDireccion(@RequestBody Direccion direccion) {
         logger.info("Guardando la direccion: " + direccion);
@@ -60,7 +58,7 @@ public class DireccionController {
     }
 
     // PUT
-    // Put mapping to update a direccion
+    // Actualizar una dirección
     @PutMapping("/{id}")
     public ResponseEntity<Direccion> actualizarDireccion(@PathVariable Long id, @RequestBody Direccion direccion) {
         logger.info("Actualizando la direccion con id: " + id);
@@ -68,7 +66,7 @@ public class DireccionController {
     }
 
     // DELETE
-    // Delete mapping to delete a direccion
+    // Eliminar una dirección
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarDireccion(@PathVariable Long id) {
         // Verifico si la direccion esta asociada a un empleado o cliente
