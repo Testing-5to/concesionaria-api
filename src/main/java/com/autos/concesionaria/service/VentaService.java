@@ -1,5 +1,6 @@
 package com.autos.concesionaria.service;
 
+import com.autos.concesionaria.entity.Vehiculo;
 import com.autos.concesionaria.entity.Venta;
 import com.autos.concesionaria.repository.VentaRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,10 @@ public class VentaService {
     @Autowired
     // Inyección de dependencia por constructor
     private final VentaRepository ventaRepository;
+    @Autowired
+    private final VehiculoService vehiculoService;
+    @Autowired
+    private final ImpuestoService impuestoService;
 
     /**
      * Obtener todas las ventas
@@ -46,6 +51,10 @@ public class VentaService {
 
         // Si la fecha es null, se le asigna la fecha actual
         if (venta.getFecha() == null) venta.setFecha(LocalDateTime.now());
+
+        // Obtenemos el vehiculo y el impuesto de la venta desde la base de datos
+        venta.setVehiculo(vehiculoService.getVehiculo(venta.getVehiculo().getId()));
+        venta.setImpuesto(impuestoService.getImpuesto(venta.getImpuesto().getId()));
 
         // Restamos la cantidad de vehiculos vendidos al stock si no queda en negativo
         if (venta.getVehiculo().getCantidad() - venta.getCantidadVehiculos() >= 0) {

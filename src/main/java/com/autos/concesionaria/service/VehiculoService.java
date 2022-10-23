@@ -17,7 +17,6 @@ public class VehiculoService {
     // Inyectamos el repositorio
     private VehiculoRepository vehiculoRepository;
 
-
     /**
      * Crear un vehiculo
      *

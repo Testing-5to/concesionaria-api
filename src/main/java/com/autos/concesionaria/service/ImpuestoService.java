@@ -32,6 +32,16 @@ public class ImpuestoService {
     }
 
     /**
+     * Obtener un impuesto por su ID
+     *
+     * @param id El ID del impuesto
+     * @return Impuesto El impuesto
+     */
+    public Impuesto getImpuesto(Long id) {
+        return impuestoRepository.findById(id).orElse(null);
+    }
+
+    /**
      * En base a un país y un precio de venta, devuelve el impuesto correspondiente
      *
      * @param pais El país
