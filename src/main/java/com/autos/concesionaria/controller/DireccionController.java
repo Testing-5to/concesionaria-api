@@ -1,5 +1,8 @@
 package com.autos.concesionaria.controller;
 
+import com.autos.concesionaria.repository.EmpleadoRepository;
+import com.autos.concesionaria.service.ClienteService;
+import com.autos.concesionaria.service.EmpleadoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,10 @@ public class DireccionController {
     // Service injected by constructor
     @Autowired
     private final DireccionService direccionService;
+    @Autowired
+    private final EmpleadoService empleadoService;
+    @Autowired
+    private final ClienteService clienteService;
 
     // GET
     // Get mapping to get all the direcciones
@@ -67,9 +74,15 @@ public class DireccionController {
     // Delete mapping to delete a direccion
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarDireccion(@PathVariable Long id) {
-        logger.info("Eliminando la direccion con id: " + id);
-        direccionService.eliminarDireccionPorId(id);
-        return new ResponseEntity<String>("Direccion eliminada", HttpStatus.NO_CONTENT);
+        // Verifico si la direccion esta asociada a un empleado o cliente
+        if (empleadoService.contarEmpleadosPorDireccion(id) > 0 || clienteService.contarClientesPorDireccion(id) > 0) {
+            logger.info("No se puede eliminar la direccion con id: " + id + " porque esta asociada a un empleado o cliente");
+            return new ResponseEntity<String>("No se puede eliminar la direccion con id: " + id + " porque esta asociada a un empleado o cliente", HttpStatus.BAD_REQUEST);
+        } else {
+            logger.info("Eliminando la direccion con id: " + id);
+            direccionService.eliminarDireccionPorId(id);
+            return new ResponseEntity<String>("Direccion eliminada", HttpStatus.NO_CONTENT);
+        }
     }
 
 }
