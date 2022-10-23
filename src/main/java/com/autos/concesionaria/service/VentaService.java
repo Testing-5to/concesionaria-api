@@ -64,12 +64,11 @@ public class VentaService {
             throw new RuntimeException("No hay suficientes vehiculos en stock");
         }
 
+        // Guardamos el porcentaje del impuesto en la venta
+        venta.setImpuestoPorcentaje(venta.getImpuesto().getPorcentaje());
 
         // Guardamos el impuesto en la venta
         venta.setImpuestoPesos(venta.calcularImpuestos());
-
-        // Guardamos el porcentaje del impuesto en la venta
-        venta.setImpuestoPorcentaje(venta.getImpuesto().getPorcentaje());
 
         return ventaRepository.save(venta);
     }
