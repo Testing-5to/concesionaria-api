@@ -75,7 +75,7 @@ public class Venta {
      * @return Los impuestos de la venta
      */
     public double calcularImpuestos() {
-        return this.calcularSubtotal() * this.impuestoPorcentaje;
+        return (this.calcularSubtotal() * this.impuestoPorcentaje) / 100;
     }
 
     /**
