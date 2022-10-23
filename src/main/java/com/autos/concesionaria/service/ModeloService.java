@@ -97,4 +97,7 @@ public class ModeloService {
         modeloRepository.deleteById(id);
     }
 
+    public int contarModelosPorTipoVehiculo(Long id) {
+        return modeloRepository.countByTipoVehiculo_Id(id);
+    }
 }

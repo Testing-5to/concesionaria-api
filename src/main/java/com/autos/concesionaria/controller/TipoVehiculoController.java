@@ -2,6 +2,8 @@ package com.autos.concesionaria.controller;
 
 import java.util.List;
 
+import com.autos.concesionaria.service.MarcaService;
+import com.autos.concesionaria.service.ModeloService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class TipoVehiculoController {
     // Service injected by constructor
     @Autowired
     private final TipoVehiculoService tipoVehiculoService;
+    @Autowired
+    private final ModeloService modeloService;
 
     // GET
     // Get mapping to get all the tipoVehiculos
@@ -71,9 +75,15 @@ logger.info("Actualizando tipo de vehiculo: " + tipoVehiculo.getNombre());
     // Delete mapping to delete a tipoVehiculo
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarTipoVehiculo(@PathVariable Long id) {
-        tipoVehiculoService.eliminarTipoVehiculoPorId(id);
-        logger.info("Eliminando tipo de vehiculo por id: " + id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        // Buscamos si existen modelos asociados al tipo de vehiculo
+        if (modeloService.contarModelosPorTipoVehiculo(id) > 0) {
+            tipoVehiculoService.eliminarTipoVehiculoPorId(id);
+            logger.info("Eliminando tipo de vehiculo por id: " + id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            logger.info("No se puede eliminar el tipo de vehiculo por id: " + id + " porque tiene modelos asociados");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
