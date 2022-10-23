@@ -78,4 +78,7 @@ public class MarcaService {
         marcaRepository.deleteById(id);
     }
 
+    public int contarMarcasPorPais(Long id) {
+        return marcaRepository.countByPais_Id(id);
+    }
 }

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ProvinciaRepository extends JpaRepository<Provincia, Long> {
     public List<Provincia> findAllByPais_Nombre(String pais);
+    public int countByPais_Id(Long id);
 }

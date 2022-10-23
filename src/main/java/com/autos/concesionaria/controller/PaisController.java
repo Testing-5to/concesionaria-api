@@ -1,5 +1,7 @@
 package com.autos.concesionaria.controller;
 
+import com.autos.concesionaria.service.MarcaService;
+import com.autos.concesionaria.service.ProvinciaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,13 @@ public class PaisController {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(PaisController.class);
 
-    @Autowired
     // Service injected by constructor
+    @Autowired
     private final PaisService paisService;
+    @Autowired
+    private final ProvinciaService provinciaService;
+    @Autowired
+    private final MarcaService marcaService;
 
     // GET
     // Get mapping to get all the paises
@@ -70,9 +76,25 @@ public class PaisController {
     // Delete mapping to delete a pais
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarPais(@PathVariable Long id) {
-        paisService.borrarPaisPorId(id);
-        logger.info("Borrando pais con id: " + id);
-        return new ResponseEntity<>("Pais borrado: " + id, HttpStatus.OK);
+        // Verifico que no haya provincias o marcas asociadas al pais
+        if (provinciaService.contarProvinciasPorPais(id) == 0 && marcaService.contarMarcasPorPais(id) == 0) {
+            paisService.borrarPaisPorId(id);
+            logger.info("Borrando pais con id: " + id);
+            return new ResponseEntity<>("Pais borrado: " + id, HttpStatus.OK);
+        } else {
+            if (provinciaService.contarProvinciasPorPais(id) > 0 && marcaService.contarMarcasPorPais(id) > 0) {
+                logger.info("No se puede borrar el pais con id: " + id + " porque tiene provincias y marcas asociadas");
+                return new ResponseEntity<>("No se puede borrar el pais con id: " + id + " porque tiene provincias y marcas asociadas", HttpStatus.BAD_REQUEST);
+            } else {
+                if (provinciaService.contarProvinciasPorPais(id) > 0) {
+                    logger.info("No se puede borrar el pais con id: " + id + " porque tiene provincias asociadas");
+                    return new ResponseEntity<>("No se puede borrar el pais con id: " + id + " porque tiene provincias asociadas", HttpStatus.BAD_REQUEST);
+                } else {
+                    logger.info("No se puede borrar el pais con id: " + id + " porque tiene marcas asociadas");
+                    return new ResponseEntity<>("No se puede borrar el pais con id: " + id + " porque tiene marcas asociadas", HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
     }
 
 }

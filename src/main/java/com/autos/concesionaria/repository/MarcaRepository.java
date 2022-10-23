@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface MarcaRepository extends JpaRepository<Marca, Long> {
     public List<Marca> findAllByPais_Nombre(String nombre);
+    public int countByPais_Id(Long id);
 }

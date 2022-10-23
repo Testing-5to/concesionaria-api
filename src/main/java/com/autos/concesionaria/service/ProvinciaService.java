@@ -76,4 +76,7 @@ public class ProvinciaService {
         provinciaRepository.deleteById(id);
     }
 
+    public int contarProvinciasPorPais(Long id) {
+        return provinciaRepository.countByPais_Id(id);
+    }
 }
