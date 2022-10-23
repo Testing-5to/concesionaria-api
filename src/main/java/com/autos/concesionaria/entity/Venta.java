@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +24,7 @@ public class Venta {
 
     // Fecha de la venta
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Null
     private LocalDateTime fecha;
 
     // Cantidad de vehiculos vendidos
