@@ -2,6 +2,7 @@ package com.autos.concesionaria.controller;
 
 import java.util.List;
 
+import com.autos.concesionaria.service.EmpleadoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class RolController {
     // Service injected by constructor
     @Autowired
     private final RolService rolService;
+    @Autowired
+    private final EmpleadoService empleadoService;
 
     // GET
     // Get mapping to get all the roles
@@ -71,9 +74,14 @@ public class RolController {
     // Delete mapping to delete a rol
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
-        rolService.eliminarRolPorId(id);
-        logger.info("Eliminando rol por id: " + id);
-        return new ResponseEntity<String>("Rol borrado: " + id, HttpStatus.NO_CONTENT);
+        // Verifico que el rol no este asignado a un empleado
+        if (empleadoService.contarEmpleadosPorRol(id) > 0) {
+            rolService.eliminarRolPorId(id);
+            logger.info("Eliminando rol por id: " + id);
+            return new ResponseEntity<String>("Rol borrado: " + id, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>("El rol no puede ser eliminado porque esta asignado a un empleado", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

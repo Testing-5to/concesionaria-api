@@ -10,4 +10,5 @@ import java.util.List;
 public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
     public List<Empleado> findAllByRol_Nombre(String rol);
     public int countByDireccion_Id(Long direccion);
+    public int countByRol_Id(Long id);
 }

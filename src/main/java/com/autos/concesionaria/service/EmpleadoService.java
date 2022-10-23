@@ -95,4 +95,7 @@ public class EmpleadoService {
         return empleadoRepository.countByDireccion_Id(idDireccion);
     }
 
+    public int contarEmpleadosPorRol(Long id) {
+        return empleadoRepository.countByRol_Id(id);
+    }
 }
