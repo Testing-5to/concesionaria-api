@@ -28,6 +28,7 @@ public class Cliente {
     private String telefono;
 
     // DNI del cliente
+    @Column(unique = true)
     private Integer dni;
 
     // Email del cliente

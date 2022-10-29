@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Null;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "empleado")
@@ -32,7 +31,8 @@ public class Empleado {
     private String telefono;
 
     // El DNI del empleado
-    private int dni;
+    @Column(unique = true)
+    private Integer dni;
 
     // El email del empleado
     private String email;
