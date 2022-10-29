@@ -21,9 +21,14 @@ public class VentaService {
     @Autowired
     private final VehiculoService vehiculoService;
 
-    // Servicio de clientes
+    // Servicio de impuestos
     @Autowired
     private final ImpuestoService impuestoService;
+
+    // Servicio de clientes
+    @Autowired
+    private final ClienteService clienteService;
+
 
     /**
      * Obtener todas las ventas
@@ -58,6 +63,7 @@ public class VentaService {
         // Obtenemos el vehiculo y el impuesto de la venta desde la base de datos
         venta.setVehiculo(vehiculoService.getVehiculo(venta.getVehiculo().getId()));
         venta.setImpuesto(impuestoService.getImpuesto(venta.getImpuesto().getId()));
+        venta.setCliente(clienteService.buscarClientePorId(venta.getCliente().getId()));
 
         // Restamos la cantidad de vehiculos vendidos al stock si no queda en negativo
         if (venta.getVehiculo().getCantidad() - venta.getCantidadVehiculos() >= 0) {
@@ -65,6 +71,12 @@ public class VentaService {
         } else {
             // Raise exception
             throw new RuntimeException("No hay suficientes vehiculos en stock");
+        }
+
+        // Si el cliente nunca compro un vehiculo, se cambia su atributo esCliente a true y lo actualizamos en la base de datos
+        if (!venta.getCliente().getEsCliente()) {
+            venta.getCliente().setEsCliente(true);
+            clienteService.actualizarClientePorId(venta.getCliente().getId(), venta.getCliente());
         }
 
         // Guardamos el porcentaje del impuesto en la venta
