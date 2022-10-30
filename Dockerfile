@@ -38,9 +38,14 @@ RUN mvn dependency:go-offline
 COPY src ./src
 # Compilamos el código
 CMD ["mvn", "spring-boot:run"]
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+# Creamos el jar
+RUN mvn package
+
+# Creamos la imagen final
+FROM openjdk:8-jdk-alpine
+# Copiamos el jar
+COPY --from=0 target/*.jar app.jar
 # Exponemos el puerto 8080
 EXPOSE 8080
-# Ejecutamos la aplicación
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Ejecutamos el jar
+ENTRYPOINT ["java","-Dspring.profiles.active=test","-jar","/app.jar"]
