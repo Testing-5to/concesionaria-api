@@ -42,7 +42,7 @@ public class ProvinciaService {
      * @return Provincia Provincia
      */
     public Provincia buscarProvinciaPorId(Long id) {
-        return provinciaRepository.findById(id).get();
+        return provinciaRepository.findById(id).orElse(null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class ProvinciaService {
      * @return Provincia actualizada
      */
     public Provincia actualizarProvinciaPorId(Long id, Provincia provincia) {
-        Provincia provinciaActual = provinciaRepository.findById(id).get();
+        Provincia provinciaActual = provinciaRepository.findById(id).orElse(null);
         provinciaActual.setNombre(provincia.getNombre());
         provinciaActual.setPais(provincia.getPais());
         return provinciaRepository.saveAndFlush(provinciaActual);

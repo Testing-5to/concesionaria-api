@@ -43,7 +43,7 @@ public class MarcaService {
      * @return Marca marca con el id
      */
     public Marca getMarca(Long id) {
-        return marcaRepository.findById(id).get();
+        return marcaRepository.findById(id).orElse(null);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MarcaService {
      * @return Marca marca actualizada
      */
     public Marca actualizarMarca(Long id, Marca marca) {
-        Marca marcaActual = marcaRepository.findById(id).get();
+        Marca marcaActual = marcaRepository.findById(id).orElse(null);
         marcaActual.setNombre(marca.getNombre());
         marcaActual.setPais(marca.getPais());
         return marcaRepository.save(marcaActual);

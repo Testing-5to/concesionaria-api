@@ -32,7 +32,7 @@ public class RolService {
      * @return Rol encontrado
      */
     public Rol buscarRolPorId(Long id) {
-        return rolRepository.findById(id).get();
+        return rolRepository.findById(id).orElse(null);
     }
 
     /**
@@ -53,7 +53,7 @@ public class RolService {
      * @return Rol actualizado
      */
     public Rol actualizarRolPorId(Long id, Rol rol) {
-        Rol rolActual = rolRepository.findById(id).get();
+        Rol rolActual = rolRepository.findById(id).orElse(null);
         rolActual.setNombre(rol.getNombre());
         return rolRepository.saveAndFlush(rolActual);
     }

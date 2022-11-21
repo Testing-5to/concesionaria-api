@@ -32,7 +32,7 @@ public class PaisService {
      * @return Pais encontrado
      */
     public Pais buscarPaisPorId(Long id) {
-        return paisRepository.findById(id).get();
+        return paisRepository.findById(id).orElse(null);
     }
 
     /**
@@ -53,7 +53,7 @@ public class PaisService {
      * @return Pais actualizado
      */
     public Pais actualizarPaisPorId(Long id, Pais pais) {
-        Pais paisActual = paisRepository.findById(id).get();
+        Pais paisActual = paisRepository.findById(id).orElse(null);
         paisActual.setNombre(pais.getNombre());
         paisActual.setAbreviatura(pais.getAbreviatura());
         return paisRepository.saveAndFlush(paisActual);

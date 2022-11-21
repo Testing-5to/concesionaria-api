@@ -42,7 +42,7 @@ public class EmpleadoService {
      * @return Empleado con el id indicado
      */
     public Empleado buscarEmpleadoPorId(Long id) {
-        return empleadoRepository.findById(id).get();
+        return empleadoRepository.findById(id).orElse(null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class EmpleadoService {
      * @return Empleado actualizado
      */
     public Empleado actualizarEmpleadoPorId(Long id, Empleado empleado) {
-        Empleado empleadoActual = empleadoRepository.findById(id).get();
+        Empleado empleadoActual = empleadoRepository.findById(id).orElse(null);
         empleadoActual.setNombre(empleado.getNombre());
         empleadoActual.setApellido(empleado.getApellido());
         empleadoActual.setTelefono(empleado.getTelefono());
