@@ -64,7 +64,7 @@ public class ImpuestoService {
             return null;
         } else if (estaEnAmerica(pais)) {
             // Si el país es de América, aplica impuesto de América
-            return impuestoRepository.findByRegion("América");
+            return impuestoRepository.findByRegion("America");
         } else {
             // Si el país no es de América, aplica impuesto Internacional
             // Buscamos si existe el país en la base de datos
