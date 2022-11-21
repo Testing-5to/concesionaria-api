@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Table(name = "marca")
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Marca {

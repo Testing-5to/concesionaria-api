@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 @Table(name = "localidad")
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Localidad {

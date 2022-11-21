@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 @Table(name = "direccion")
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 
