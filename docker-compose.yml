@@ -1,6 +1,7 @@
 version: "3.7"
 services:
   app:
+    container_name: api
     image: "leoozeballos/concesionaria:latest"
     ports:
       - "8080:8080"
@@ -12,6 +13,7 @@ services:
       - concesionaria
   db:
     image: "postgres:latest"
+    container_name: local_pgdb
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "docker"
@@ -23,6 +25,23 @@ services:
     networks:
       - concesionaria
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@concesionaria.com
+      PGADMIN_DEFAULT_PASSWORD: docker
+    networks:
+      - concesionaria
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
 networks:
   concesionaria:
     driver: bridge
+
+volumes:
+  pgadmin-data:
