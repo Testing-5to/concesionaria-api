@@ -14,7 +14,7 @@ public class MarcaService {
 
     // Repositorio de Marca
     @Autowired
-    private MarcaRepository marcaRepository;
+    private final MarcaRepository marcaRepository;
 
 
     /**

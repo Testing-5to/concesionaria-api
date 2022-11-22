@@ -14,7 +14,7 @@ public class ModeloService {
 
     // Repositorio de Modelo
     @Autowired
-    private ModeloRepository modeloRepository;
+    private final ModeloRepository modeloRepository;
 
     /**
      * Método que devuelve todos los modelos
