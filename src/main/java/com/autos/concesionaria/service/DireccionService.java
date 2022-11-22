@@ -42,7 +42,7 @@ public class DireccionService {
      * @return Direccion Dirección encontrada
      */
     public Direccion buscarDireccionPorId(Long id) {
-        return direccionRepository.findById(id).get();
+        return direccionRepository.findById(id).orElse(null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class DireccionService {
      * @return Direccion actualizada
      */
     public Direccion actualizarDireccionPorId(Long id, Direccion direccion) {
-        Direccion direccionActual = direccionRepository.findById(id).get();
+        Direccion direccionActual = direccionRepository.findById(id).orElse(null);
         direccionActual.setCalle(direccion.getCalle());
         direccionActual.setNumero(direccion.getNumero());
         direccionActual.setPiso(direccion.getPiso());

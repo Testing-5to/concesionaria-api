@@ -42,7 +42,7 @@ public class ClienteService {
      * @return Cliente encontrado o null si no existe
      */
     public Cliente buscarClientePorId(Long id) {
-        return clienteRepository.findById(id).get();
+        return clienteRepository.findById(id).orElse(null);
     }
 
     /**
@@ -53,7 +53,7 @@ public class ClienteService {
      * @return Cliente actualizado
      */
     public Cliente actualizarClientePorId(Long id, Cliente cliente) {
-        Cliente clienteActual = clienteRepository.findById(id).get();
+        Cliente clienteActual = clienteRepository.findById(id).orElse(null);
         clienteActual.setNombre(cliente.getNombre());
         clienteActual.setApellido(cliente.getApellido());
         clienteActual.setTelefono(cliente.getTelefono());

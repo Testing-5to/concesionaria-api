@@ -14,7 +14,7 @@ public class ModeloService {
 
     // Repositorio de Modelo
     @Autowired
-    private ModeloRepository modeloRepository;
+    private final ModeloRepository modeloRepository;
 
     /**
      * Método que devuelve todos los modelos
@@ -63,7 +63,7 @@ public class ModeloService {
      * @return Modelo encontrado
      */
     public Modelo getModelo(Long id) {
-        return modeloRepository.findById(id).get();
+        return modeloRepository.findById(id).orElse(null);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ModeloService {
      * @return Modelo actualizado
      */
     public Modelo actualizarModelo(Long id, Modelo modelo) {
-        Modelo modeloActual = modeloRepository.findById(id).get();
+        Modelo modeloActual = modeloRepository.findById(id).orElse(null);
         modeloActual.setNombre(modelo.getNombre());
         modeloActual.setMarca(modelo.getMarca());
         modeloActual.setTipoVehiculo(modelo.getTipoVehiculo());

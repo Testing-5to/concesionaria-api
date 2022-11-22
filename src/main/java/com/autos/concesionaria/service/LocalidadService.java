@@ -42,7 +42,7 @@ public class LocalidadService {
      * @return Localidad Localidad
      */
     public Localidad buscarLocalidadPorId(Long id) {
-        return localidadRepository.findById(id).get();
+        return localidadRepository.findById(id).orElse(null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class LocalidadService {
      * @return Localidad actualizada
      */
     public Localidad actualizarLocalidadPorId(Long id, Localidad localidad) {
-        Localidad localidadActual = localidadRepository.findById(id).get();
+        Localidad localidadActual = localidadRepository.findById(id).orElse(null);
         localidadActual.setNombre(localidad.getNombre());
         localidadActual.setCodigoPostal(localidad.getCodigoPostal());
         localidadActual.setProvincia(localidad.getProvincia());

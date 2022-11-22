@@ -32,7 +32,7 @@ public class TipoVehiculoService {
      * @return TipoVehiculo Tipo de vehiculo encontrado
      */
     public TipoVehiculo buscarTipoVehiculoPorId(Long id) {
-        return tipoVehiculoRepository.findById(id).get();
+        return tipoVehiculoRepository.findById(id).orElse(null);
     }
 
     /**
@@ -53,7 +53,7 @@ public class TipoVehiculoService {
      * @return TipoVehiculo actualizado
      */
     public TipoVehiculo actualizarTipoVehiculoPorId(Long id, TipoVehiculo tipoVehiculo) {
-        TipoVehiculo tipoVehiculoActual = tipoVehiculoRepository.findById(id).get();
+        TipoVehiculo tipoVehiculoActual = tipoVehiculoRepository.findById(id).orElse(null);
         tipoVehiculoActual.setNombre(tipoVehiculo.getNombre());
         return tipoVehiculoRepository.saveAndFlush(tipoVehiculoActual);
     }

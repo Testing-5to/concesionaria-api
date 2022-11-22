@@ -42,7 +42,7 @@ public class VehiculoService {
      * @return Vehiculo encontrado
      */
     public Vehiculo getVehiculo(Long id) {
-        return vehiculoRepository.findById(id).get();
+        return vehiculoRepository.findById(id).orElse(null);
     }
 
     /**
@@ -64,7 +64,7 @@ public class VehiculoService {
      * @return Vehiculo actualizado
      */
     public Vehiculo actualizarVehiculo(Long id, Vehiculo vehiculo) {
-        Vehiculo vehiculoActual = vehiculoRepository.findById(id).get();
+        Vehiculo vehiculoActual = vehiculoRepository.findById(id).orElse(null);
         vehiculoActual.setAnio(vehiculo.getAnio());
         vehiculoActual.setCantidad(vehiculo.getCantidad());
         vehiculoActual.setImportado(vehiculo.getImportado());
