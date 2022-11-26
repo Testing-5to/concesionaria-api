@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -116,6 +119,78 @@ public class VentaService {
      */
     public int contarVentasPorCliente(Long id) {
         return ventaRepository.countAllByCliente_Id(id);
+    }
+
+    /**
+     * Método que devuelve las utilidades de los vendedores
+     *
+     * @param String fechaInicio Fecha de inicio
+     * @param String fechaFin Fecha de fin
+     * @param String vendedores Ids de los vendedores
+     * @return List<Object> Lista de utilidades
+     */
+    public List<Object[]> getUtilidades(LocalDate fechaInicio, LocalDate fechaFin, String vendedores) {
+        ArrayList<Object[]> utilidades;
+        // Parseamos el string de vendedores a una lista de Long
+        if (!vendedores.isEmpty()) {
+            List<Long> vendedoresList = new ArrayList<>();
+            for (String vendedor : vendedores.split(",")) {
+                vendedoresList.add(Long.parseLong(vendedor));
+            }
+            utilidades = ventaRepository.getUtilidadesPorVendedor(fechaInicio, fechaFin, vendedoresList);
+        } else {
+            utilidades = ventaRepository.getUtilidades(fechaInicio, fechaFin);
+        }
+
+        // Cada elemento de la lista es un array de 5 elementos:
+        // 0: Utilidades
+        // 1: Promedio utilidad por auto
+        // 2: Porcentaje de utilidades
+        // 3: Cantidad de autos vendidos
+        // 4: Nombre del vendedor
+        ArrayList<Object[]> resultado = new ArrayList<>();
+
+        // Totales
+        Double totalUtilidades = 0.0;
+        Double premdioPromedioUtilidad = 0.0;
+        Integer totalAutosVendidos = 0;
+
+        // Para cada fila de la consulta
+        for (Object[] fila : utilidades) {
+            // Se crea un array de 5 elementos
+            Object[] utilidad = new Object[5];
+
+            // Se asignan los valores
+            utilidad[0] = fila[0];
+            utilidad[1] = fila[1];
+            utilidad[2] = 0.0;
+            utilidad[3] = fila[2];
+            utilidad[4] = fila[3];
+
+            // Cálculo de totales
+            totalUtilidades += (Double) fila[0];
+            premdioPromedioUtilidad += (Double) fila[1];
+            totalAutosVendidos += ((BigInteger) fila[2]).intValue();
+
+            // Se agrega el array a la lista
+            resultado.add(utilidad);
+        }
+
+        // Se calcula el porcentaje de utilidades
+        for (Object[] fila : resultado) {
+            fila[2] = (Double) fila[0] / totalUtilidades * 100;
+        }
+
+        // Fila de totales
+        Object[] utilidad = new Object[5];
+        utilidad[0] = totalUtilidades;
+        utilidad[1] = premdioPromedioUtilidad / resultado.size();
+        utilidad[2] = 100.0;
+        utilidad[3] = totalAutosVendidos;
+        utilidad[4] = "Total";
+        resultado.add(utilidad);
+
+        return resultado;
     }
 
 }
