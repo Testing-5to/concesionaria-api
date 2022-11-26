@@ -74,8 +74,8 @@ public class ReportController {
         if (fechaFin.equals("")) fechaFin = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
         // Parseo de fechas
-        LocalDate fechaInicioDate = LocalDate.parse(fechaInicio, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate fechaFinDate = LocalDate.parse(fechaFin, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate fechaInicioDate = LocalDate.parse(fechaInicio, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        LocalDate fechaFinDate = LocalDate.parse(fechaFin, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
         // Si la fecha de inicio es mayor a la fecha de fin, se intercambian
         if (fechaInicioDate.isAfter(fechaFinDate)) {
@@ -87,10 +87,10 @@ public class ReportController {
         // Si no se especifican vendedores, se devuelve el reporte de autos vendidos de todas las ventas
         if (vendedores.isEmpty()) {
             logger.info("Obteniendo autos vendidos de todas las ventas entre " + fechaInicioDate + " y " + fechaFinDate);
-            return ResponseEntity.ok().body("Reporte de autos vendidos de todas las ventas");
+            return ResponseEntity.ok(ventaService.getAutosVendidos(fechaInicioDate, fechaFinDate, vendedores));
         } else {
             logger.info("Obteniendo autos vendidos de las ventas de los vendedores " + vendedores + " entre " + fechaInicioDate + " y " + fechaFinDate);
-            return ResponseEntity.ok().body("Reporte de autos vendidos de las ventas de los vendedores: " + vendedores);
+            return ResponseEntity.ok(ventaService.getAutosVendidos(fechaInicioDate, fechaFinDate, vendedores));
         }
     }
 

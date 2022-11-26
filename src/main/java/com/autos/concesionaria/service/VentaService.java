@@ -137,7 +137,7 @@ public class VentaService {
             for (String vendedor : vendedores.split(",")) {
                 vendedoresList.add(Long.parseLong(vendedor));
             }
-            utilidades = ventaRepository.getUtilidadesPorVendedor(fechaInicio, fechaFin, vendedoresList);
+            utilidades = ventaRepository.getUtilidades(fechaInicio, fechaFin, vendedoresList);
         } else {
             utilidades = ventaRepository.getUtilidades(fechaInicio, fechaFin);
         }
@@ -163,9 +163,9 @@ public class VentaService {
             // Se asignan los valores
             utilidad[0] = fila[0];
             utilidad[1] = fila[1];
-            utilidad[2] = 0.0;
-            utilidad[3] = fila[2];
-            utilidad[4] = fila[3];
+            utilidad[2] = fila[2];
+            utilidad[3] = fila[3];
+            utilidad[4] = fila[4];
 
             // Cálculo de totales
             totalUtilidades += (Double) fila[0];
@@ -182,13 +182,60 @@ public class VentaService {
         }
 
         // Fila de totales
-        Object[] utilidad = new Object[5];
-        utilidad[0] = totalUtilidades;
-        utilidad[1] = premdioPromedioUtilidad / resultado.size();
-        utilidad[2] = 100.0;
-        utilidad[3] = totalAutosVendidos;
-        utilidad[4] = "Total";
-        resultado.add(utilidad);
+        Object[] utilidad = new Object[3];
+        utilidad[0] = "Total";
+        utilidad[1] = "Todos";
+        utilidad[2] = totalAutosVendidos;
+
+        return resultado;
+    }
+
+    /**
+     * Método que devuelve la cantidad de autos vendidos por marca y por vendedor
+     *
+     * @param String fechaInicio Fecha de inicio
+     * @param String fechaFin Fecha de fin
+     * @param String vendedores Ids de los vendedores
+     * @return List<Object> Lista de autos vendidos
+     */
+    public List<Object[]> getAutosVendidos(LocalDate fechaInicio, LocalDate fechaFin, String vendedores) {
+        ArrayList<Object[]> autosVendidos;
+        // Parseamos el string de vendedores a una lista de Long
+        if (!vendedores.isEmpty()) {
+            List<Long> vendedoresList = new ArrayList<>();
+            for (String vendedor : vendedores.split(",")) {
+                vendedoresList.add(Long.parseLong(vendedor));
+            }
+            autosVendidos = ventaRepository.getAutosVendidos(fechaInicio, fechaFin, vendedoresList);
+        } else {
+            autosVendidos = ventaRepository.getAutosVendidos(fechaInicio, fechaFin);
+        }
+
+        // Cada elemento de la lista es un array de 4 elementos:
+        // 0: Nombre de la marca
+        // 1: Nombre del vendedor
+        // 2: Cantidad de autos vendidos
+        ArrayList<Object[]> resultado = new ArrayList<>();
+
+        // Totales
+        Integer totalAutosVendidos = 0;
+
+        // Para cada fila de la consulta
+        for (Object[] fila : autosVendidos) {
+            // Se crea un array de 3 elementos
+            Object[] autoVendido = new Object[3];
+
+            // Se asignan los valores
+            autoVendido[0] = fila[0];
+            autoVendido[1] = fila[1];
+            autoVendido[2] = fila[2];
+
+            // Cálculo de totales
+            totalAutosVendidos += ((BigInteger) fila[2]).intValue();
+
+            // Se agrega el array a la lista
+            resultado.add(autoVendido);
+        }
 
         return resultado;
     }
