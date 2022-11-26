@@ -27,8 +27,8 @@ COPY mvnw pom.xml ./
 RUN mvn dependency:go-offline
 # Copiamos el resto del código
 COPY src ./src
-# Creamos el jar
-RUN mvn package
+# Compilamos el código y generamos el jar sin tests
+RUN mvn package -DskipTests
 
 # Creamos la imagen final
 FROM openjdk:8-jdk-alpine
