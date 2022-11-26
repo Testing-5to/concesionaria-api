@@ -240,4 +240,45 @@ public class VentaService {
         return resultado;
     }
 
+    /**
+     * Método que devuelve la cantidad de autos vendidos por marca y por vendedor
+     *
+     * @param int anioInicio Año de inicio
+     * @param int anioFin Año de fin
+     * @return List<Object> Lista de autos vendidos por mes y año
+     */
+    public List<int[]> getVentasPorMes(int anioInicio, int anioFin) {
+
+        // Si el año de inicio es mayor al año de fin, se intercambian
+        if (anioInicio > anioFin) {
+            int aux = anioInicio;
+            anioInicio = anioFin;
+            anioFin = aux;
+        }
+
+        // Se obtienen las ventas
+        ArrayList<int[]> ventasPorMes = ventaRepository.getVentasPorPeriodo(anioInicio, anioFin);
+
+        // Cada elemento de la lista es un array de 4 elementos:
+        // 0: Cantidad de autos vendidos
+        // 1: Mes
+        // 2: Año
+        ArrayList<int[]> resultado = new ArrayList<>();
+
+        // Para cada fila de la consulta
+        for (int[] fila : ventasPorMes) {
+            // Se crea un array de 3 elementos
+            int[] ventaPorMes = new int[3];
+
+            // Se asignan los valores
+            ventaPorMes[0] = fila[0];
+            ventaPorMes[1] = fila[1];
+            ventaPorMes[2] = fila[2];
+
+            // Se agrega el array a la lista
+            resultado.add(ventaPorMes);
+        }
+
+        return resultado;
+    }
 }

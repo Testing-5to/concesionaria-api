@@ -94,4 +94,18 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     )
     public ArrayList<Object[]> getAutosVendidos(LocalDate fechaInicio, LocalDate fechaFin);
 
+    @Query(
+            value = "SELECT " +
+                    "SUM(venta.cantidad_vehiculos) AS \"cantidad autos vendidos\", " +
+                    "EXTRACT(month FROM venta.fecha) AS \"mes\", " +
+                    "EXTRACT(year FROM venta.fecha) AS \"anio\" " +
+                    "FROM venta " +
+                    "WHERE " +
+                    "EXTRACT(year FROM venta.fecha) >= ?1 AND EXTRACT(year FROM venta.fecha) <= ?2 " +
+                    "GROUP BY mes, anio " +
+                    "ORDER BY mes, anio ASC ",
+            nativeQuery = true
+    )
+    public ArrayList<int[]> getVentasPorPeriodo(int anioInicio, int anioFin);
+
 }

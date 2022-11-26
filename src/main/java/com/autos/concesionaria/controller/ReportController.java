@@ -98,10 +98,11 @@ public class ReportController {
     // Obtener ventas por mes
     @GetMapping("/ventasPorMes")
     public ResponseEntity<?> getVentasPorMes(
-            @RequestParam(required = false, name = "periodos", defaultValue = "2022") String periodos
+            @RequestParam(required = false, name = "anioInicio", defaultValue = "2022") int anioInicio,
+            @RequestParam(required = false, name = "anioFin", defaultValue = "2022") int anioFin
     ) {
         logger.info("Obteniendo ventas por mes");
-        return ResponseEntity.ok().body("Reporte de ventas por mes");
+        return ResponseEntity.ok(ventaService.getVentasPorMes(anioInicio, anioFin));
     }
 
 }
