@@ -163,9 +163,9 @@ public class VentaService {
             // Se asignan los valores
             utilidad[0] = fila[0];
             utilidad[1] = fila[1];
-            utilidad[2] = fila[2];
-            utilidad[3] = fila[3];
-            utilidad[4] = fila[4];
+            utilidad[2] = 0.0;
+            utilidad[3] = fila[2];
+            utilidad[4] = fila[3];
 
             // Cálculo de totales
             totalUtilidades += (Double) fila[0];
