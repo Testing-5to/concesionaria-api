@@ -11,6 +11,17 @@ services:
       - "SPRING_DATASOURCE_PASSWORD=docker"
     networks:
       - concesionaria
+    restart: always
+
+  front:
+    container_name: front
+    image: "leoozeballos/frontend-concesionaria:latest"
+    ports:
+      - "3000:3000"
+    networks:
+      - concesionaria
+    restart: always
+
   db:
     image: "postgres:latest"
     container_name: local_pgdb
@@ -24,6 +35,7 @@ services:
       - ./db:/var/lib/postgresql/data
     networks:
       - concesionaria
+    restart: always
 
   pgadmin:
     image: dpage/pgadmin4
@@ -38,6 +50,7 @@ services:
       - concesionaria
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+    restart: always
 
 networks:
   concesionaria:
