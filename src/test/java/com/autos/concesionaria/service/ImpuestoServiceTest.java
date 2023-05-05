@@ -100,6 +100,7 @@ class ImpuestoServiceTest {
         impuestoServiceTest.buscarImpuestoPorPaisYPrecioVenta(pais, precioVenta);
         // then
         //verify(impuestoRepository).findByRegion("Mundo");
+        verify(impuestoRepository).findByRegion(region);
         assertEquals(impuestoServiceTest.buscarImpuestoPorPaisYPrecioVenta(pais, precioVenta), impuesto);
     }
 }
