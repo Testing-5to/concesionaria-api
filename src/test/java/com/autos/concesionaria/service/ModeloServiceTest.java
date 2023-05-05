@@ -13,7 +13,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ModeloServiceTest {
@@ -60,6 +65,21 @@ public class ModeloServiceTest {
         modeloServiceTest.getModelo(id);
         // then
         verify(modeloRepository).findById(id);
+    }
+
+    @Test
+    void actualizarModelo(){
+        // given
+        Long id = 1L;
+        Modelo modelo = new Modelo();
+        modelo.setNombre("Nuevo modelo");
+        // when
+        when(modeloRepository.findById(id)).thenReturn(Optional.of(new Modelo()));
+        when(modeloRepository.save(any(Modelo.class))).thenReturn(modelo);
+        modeloServiceTest.actualizarModelo(id, modelo);
+        // then
+        verify(modeloRepository).saveAndFlush(modelo);
+        assertEquals(modeloServiceTest.actualizarModelo(id, modelo).getNombre(), modelo.getNombre());
     }
 
     @Test

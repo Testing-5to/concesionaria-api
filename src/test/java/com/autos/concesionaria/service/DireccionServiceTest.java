@@ -9,7 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class DireccionServiceTest {
 
@@ -65,6 +70,20 @@ class DireccionServiceTest {
         direccionServiceTest.crearDireccion(direccion);
         // then
         verify(direccionRepository).save(direccion);
+    }
+    @Test
+    void actualizarDireccionPorId(){
+        // given
+        Long id = 1L;
+        Direccion direccion = new Direccion();
+        direccion.setCalle("Nueva Calle");
+        // when
+        when(direccionRepository.findById(id)).thenReturn(Optional.of(new Direccion()));
+        when(direccionRepository.save(any(Direccion.class))).thenReturn(direccion);
+        direccionServiceTest.actualizarDireccionPorId(id, direccion);
+        // then
+        verify(direccionRepository).save(any(Direccion.class));
+        assertEquals(direccionServiceTest.actualizarDireccionPorId(id, direccion).getCalle(), direccion.getCalle());
     }
 
     @Test

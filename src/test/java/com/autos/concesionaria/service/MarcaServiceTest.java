@@ -11,7 +11,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MarcaServiceTest {
@@ -68,6 +73,21 @@ public class MarcaServiceTest {
         marcaServiceTest.getMarcasByPais(pais);
         // then
         verify(marcaRepository).findAllByPais_Nombre(pais);
+    }
+
+    @Test
+    void actualizarMarca() {
+        // given
+        Long id = 1L;
+        Marca marca = new Marca();
+        marca.setNombre("Nueva marca");
+        // when
+        when(marcaRepository.findById(id)).thenReturn(Optional.of(new Marca()));
+        when(marcaRepository.save(any(Marca.class))).thenReturn(marca);
+        marcaServiceTest.actualizarMarca(id, marca);
+        // then
+        verify(marcaRepository).save(any(Marca.class));
+        assertEquals(marcaServiceTest.actualizarMarca(id, marca).getNombre(), marca.getNombre());
     }
 
     @Test

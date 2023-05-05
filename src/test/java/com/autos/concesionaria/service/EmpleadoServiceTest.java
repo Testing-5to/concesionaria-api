@@ -12,7 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EmpleadoServiceTest {
@@ -60,6 +65,22 @@ public class EmpleadoServiceTest {
         // then
         verify(empleadoRepository).findById(id);
     }
+
+    @Test
+    void actualizarEmpleadoPorId() {
+        // given
+        Long id = 1L;
+        Empleado empleado = new Empleado();
+        empleado.setNombre("Nuevo empleado");
+        // when
+        when(empleadoRepository.findById(id)).thenReturn(Optional.of(new Empleado()));
+        when(empleadoRepository.saveAndFlush(any(Empleado.class))).thenReturn(empleado);
+        empleadoServiceTest.actualizarEmpleadoPorId(id, empleado);
+        // then
+        verify(empleadoRepository).saveAndFlush(any(Empleado.class));
+        assertEquals(empleadoServiceTest.actualizarEmpleadoPorId(id, empleado).getNombre(), empleado.getNombre());
+    }
+
 
     @Test
     void eliminarEmpleadoPorId() {

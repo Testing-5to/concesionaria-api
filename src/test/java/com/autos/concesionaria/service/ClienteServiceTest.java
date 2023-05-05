@@ -10,7 +10,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ClienteServiceTest {
@@ -59,6 +64,20 @@ class ClienteServiceTest {
         verify(clienteRepository).findById(id);
     }
 
+    @Test
+    void actualizarClientePorId(){
+        // given
+        Long id = 1L;
+        Cliente cliente = new Cliente();
+        cliente.setNombre("Nuevo Cliente");
+        // when
+        when(clienteRepository.findById(id)).thenReturn(Optional.of(new Cliente()));
+        when(clienteRepository.saveAndFlush(any(Cliente.class))).thenReturn(cliente);
+        clienteServiceTest.actualizarClientePorId(id, cliente);
+        // then
+        verify(clienteRepository).saveAndFlush(any(Cliente.class));
+        assertEquals(clienteServiceTest.actualizarClientePorId(id, cliente).getNombre(), cliente.getNombre());
+    }
     @Test
     void eliminarClientePorId() {
         // given
