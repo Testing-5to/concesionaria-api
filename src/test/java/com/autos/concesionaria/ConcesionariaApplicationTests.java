@@ -14,10 +14,10 @@ class ConcesionariaApplicationTests {
 
     @Test
     void test() {
-        int a = 1;
+        int a = 2;
         int b = 2;
 
-        assertEquals(3, a + b);
+        assertEquals(4, a + b);
     }
 
 }
