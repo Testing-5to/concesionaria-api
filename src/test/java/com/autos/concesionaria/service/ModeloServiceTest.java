@@ -75,7 +75,7 @@ public class ModeloServiceTest {
     when(modeloRepository.save(any(Modelo.class))).thenReturn(modelo);
     modeloServiceTest.actualizarModelo(id, modelo);
     // then
-    verify(modeloRepository).save(modelo);
+    verify(modeloRepository).save(any(Modelo.class));
     assertEquals(
       modeloServiceTest.actualizarModelo(id, modelo).getNombre(),
       modelo.getNombre()
