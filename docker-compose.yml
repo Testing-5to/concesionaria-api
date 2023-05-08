@@ -50,7 +50,6 @@ services:
       - concesionaria
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-    restart: always
 
 networks:
   concesionaria:
