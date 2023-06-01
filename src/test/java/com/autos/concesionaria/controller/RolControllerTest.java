@@ -41,7 +41,7 @@ class RolControllerTest {
     public void getRolesSucces() throws Exception {
 
         //create mocked entity
-        List<Rol> testResponse = new ArrayList<Rol>();
+        List<Rol> testResponse = new ArrayList<>();
         testResponse.add(new Rol(1L, "vendedor"));
 
 
@@ -51,7 +51,7 @@ class RolControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/rol")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                        .andExpect(status().isOk());
     }
 
     @Test
