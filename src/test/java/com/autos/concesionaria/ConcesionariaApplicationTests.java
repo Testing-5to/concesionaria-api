@@ -15,9 +15,9 @@ class ConcesionariaApplicationTests {
     @Test
     void test() {
         int a = 3;
-        int b = 3;
+        int b = 4;
 
-        assertEquals(6, a + b);
+        assertEquals(7, a + b);
     }
 
 }
