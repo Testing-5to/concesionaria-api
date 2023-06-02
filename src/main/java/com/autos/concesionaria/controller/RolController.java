@@ -63,10 +63,10 @@ public class RolController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarRol(@PathVariable Long id) {
         // Verifico que el rol no este asignado a un empleado
-        if (empleadoService.contarEmpleadosPorRol(id) > 0) {
+        if (empleadoService.contarEmpleadosPorRol(id) == 0) {
             rolService.eliminarRolPorId(id);
             logger.info("Eliminando rol por id: " + id);
-            return new ResponseEntity<String>("Rol borrado: " + id, HttpStatus.NO_CONTENT);
+            return ResponseEntity.ok("Rol borrado: " + id);
         } else {
             return new ResponseEntity<>("El rol no puede ser eliminado porque esta asignado a un empleado", HttpStatus.BAD_REQUEST);
         }
