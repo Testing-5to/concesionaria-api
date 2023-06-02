@@ -54,7 +54,7 @@ public class TipoVehiculoController {
     // Actualizar un tipo de vehiculo
     @PutMapping("/{id}")
     public ResponseEntity<TipoVehiculo> actualizarTipoVehiculo(@PathVariable Long id, @RequestBody TipoVehiculo tipoVehiculo) {
-logger.info("Actualizando tipo de vehiculo: " + tipoVehiculo.getNombre());
+    logger.info("Actualizando tipo de vehiculo: " + tipoVehiculo.getNombre());
         return new ResponseEntity<>(tipoVehiculoService.actualizarTipoVehiculoPorId(id, tipoVehiculo), HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ logger.info("Actualizando tipo de vehiculo: " + tipoVehiculo.getNombre());
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarTipoVehiculo(@PathVariable Long id) {
         // Buscamos si existen modelos asociados al tipo de vehiculo
-        if (modeloService.contarModelosPorTipoVehiculo(id) > 0) {
+        if (modeloService.contarModelosPorTipoVehiculo(id) == 0) {
             tipoVehiculoService.eliminarTipoVehiculoPorId(id);
             logger.info("Eliminando tipo de vehiculo por id: " + id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

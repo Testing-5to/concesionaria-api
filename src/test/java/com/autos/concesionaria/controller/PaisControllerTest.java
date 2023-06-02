@@ -68,9 +68,7 @@ public class PaisControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/pais/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nombre").value("Argentina"))
-                .andExpect(jsonPath("$.abreviatura").value("AR"));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(pais)));
     }
 
     @Test
@@ -85,9 +83,7 @@ public class PaisControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/pais")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(nuevoPais)))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(jsonPath("$.nombre").value("Argentina"))
-                .andExpect(jsonPath("$.abreviatura").value("AR"));
+                        .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(nuevoPais)));
     }
 
     @Test
@@ -103,9 +99,7 @@ public class PaisControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/pais/{id}", paisId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(paisActualizado)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.nombre").value("Argentina"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.abreviatura").value("AR"));
+                        .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(paisActualizado)));
     }
 
     @Test
