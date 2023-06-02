@@ -114,7 +114,7 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 0 provincias y 0 marcas asociadas al país
-        when(provinciaService.contarProvinciasPorPais(eq(paisId))).thenReturn(0);
+        when(provinciaService.contarProvincias(eq(paisId))).thenReturn(0);
         when(marcaService.contarMarcasPorPais(eq(paisId))).thenReturn(0);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
@@ -132,7 +132,7 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 1 provincia asociada al país
-        when(provinciaService.contarProvinciasPorPais(eq(paisId))).thenReturn(1);
+        when(provinciaService.contarProvincias(eq(paisId))).thenReturn(1);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
@@ -166,7 +166,7 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 1 provincia y 1 marca asociadas al país
-        when(provinciaService.contarProvinciasPorPais(eq(paisId))).thenReturn(1);
+        when(provinciaService.contarProvincias(eq(paisId))).thenReturn(1);
         when(marcaService.contarMarcasPorPais(eq(paisId))).thenReturn(1);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
