@@ -23,13 +23,8 @@ public class ClienteController {
 
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
-
-    // Inyectamos el servicio de cliente
-    @Autowired
     private final ClienteService clienteService;
-    @Autowired
     private final DireccionService direccionService;
-    @Autowired
     private final VentaService ventaService;
 
     // GET
@@ -71,7 +66,7 @@ public class ClienteController {
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         Cliente clienteActual = clienteService.buscarClientePorId(id);
-        Boolean direccionCambio = false;
+        boolean direccionCambio = false;
         Long direccionId = null;
         if (clienteActual == null) {
             logger.error("No se puede actualizar. El cliente con ID: " + id + " no existe");
