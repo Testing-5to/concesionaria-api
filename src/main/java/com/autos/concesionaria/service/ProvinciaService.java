@@ -3,7 +3,6 @@ package com.autos.concesionaria.service;
 import com.autos.concesionaria.entity.Provincia;
 import com.autos.concesionaria.repository.ProvinciaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +12,7 @@ import java.util.List;
 public class ProvinciaService {
 
     // Repositorio de Provincia
-    @Autowired
-    private ProvinciaRepository provinciaRepository;
+    private final ProvinciaRepository provinciaRepository;
 
     /**
      * Método que devuelve todas las provincias
@@ -28,7 +26,7 @@ public class ProvinciaService {
     /**
      * Método que devuelve las provincias por país
      *
-     * @param String pais Nombre del país
+     * @param pais Nombre del país
      * @return List<Provincia> Lista de provincias por país
      */
     public List<Provincia> buscarProvinciasByPais(String pais) {
@@ -38,7 +36,7 @@ public class ProvinciaService {
     /**
      * Método que devuelve una provincia por id
      *
-     * @param Long id Id de la provincia
+     * @param id Id de la provincia
      * @return Provincia Provincia
      */
     public Provincia buscarProvinciaPorId(Long id) {
@@ -48,7 +46,7 @@ public class ProvinciaService {
     /**
      * Método que crea una provincia
      *
-     * @param Provincia provincia Provincia
+     * @param provincia Provincia a crear
      * @return Provincia creada
      */
     public Provincia crearProvincia(Provincia provincia) {
@@ -58,22 +56,19 @@ public class ProvinciaService {
     /**
      * Método que actualiza una provincia
      *
-     * @param Long      id Id de la provincia
-     * @param Provincia provincia Provincia
+     * @param id Id de la provincia a actualizar
+     * @param provincia Provincia a actualizar
      * @return Provincia actualizada
      */
     public Provincia actualizarProvinciaPorId(Long id, Provincia provincia) {
-        Provincia provinciaActual = provinciaRepository.findById(id).orElse(null);
-        provinciaActual.setNombre(provincia.getNombre());
-        provinciaActual.setPais(provincia.getPais());
-        return provinciaRepository.saveAndFlush(provinciaActual);
+        provincia.setId(id);
+        return provinciaRepository.saveAndFlush(provincia);
     }
 
     /**
      * Método que elimina una provincia
      *
-     * @param Long id Id de la provincia
-     * @return Provincia eliminada
+     * @param id Id de la provincia
      */
     public void eliminarProvinciaPorId(Long id) {
         provinciaRepository.deleteById(id);
@@ -82,7 +77,7 @@ public class ProvinciaService {
     /**
      * Método que cuenta las provincias para un país
      *
-     * @param Long id Id del país
+     * @param id Id del país al que se le cuentan las provincias
      * @return int Cantidad de provincias para el país
      */
     public int contarProvinciasPorPais(Long id) {
