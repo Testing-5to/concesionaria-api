@@ -21,7 +21,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RolController.class)
@@ -64,8 +63,7 @@ public class RolControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/rol/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nombre").value("Administrador"));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(rol)));
     }
 
     @Test
@@ -79,8 +77,7 @@ public class RolControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(rol)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nombre").value("Administrador"));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(rol)));
     }
 
     @Test
@@ -94,8 +91,7 @@ public class RolControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(rol)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nombre").value("Administrador"));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(rol)));
     }
 
     @Test
