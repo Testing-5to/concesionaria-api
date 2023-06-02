@@ -3,7 +3,6 @@ package com.autos.concesionaria.service;
 import com.autos.concesionaria.entity.Localidad;
 import com.autos.concesionaria.repository.LocalidadRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.List;
 public class LocalidadService {
 
     // Repositorio de Localidad
-    @Autowired
     private LocalidadRepository localidadRepository;
+
+    public LocalidadService(LocalidadRepository localidadRepository) {
+        this.localidadRepository = localidadRepository;
+    }
 
     /**
      * Obtiene todas las localidades
@@ -28,10 +30,10 @@ public class LocalidadService {
     /**
      * Obtiene las localidades para una provincia
      *
-     * @param idProvincia Id de la provincia
+     * @param provincia Nombre de la provincia
      * @return List<Localidad> Lista de localidades
      */
-    public List<Localidad> buscarLocalidadesPorProvincia(String provincia) {
+    public List<Localidad> buscarLocalidades(String provincia) {
         return localidadRepository.findAllByProvincia_Nombre(provincia);
     }
 
@@ -41,52 +43,48 @@ public class LocalidadService {
      * @param id Id de la localidad
      * @return Localidad Localidad
      */
-    public Localidad buscarLocalidadPorId(Long id) {
+    public Localidad buscarLocalidad(Long id) {
         return localidadRepository.findById(id).orElse(null);
     }
 
     /**
      * Método que crea una nueva Localidad
      *
-     * @param Localidad localidad a crear
+     * @param localidad localidad a crear
      * @return Localidad creada
      */
     public Localidad crearLocalidad(Localidad localidad) {
-        return localidadRepository.save(localidad);
+        return localidadRepository.saveAndFlush(localidad);
     }
 
     /**
      * Método que actualiza una Localidad
      *
-     * @param Long      id de la localidad a actualizar
-     * @param Localidad localidad a actualizar
+     * @param id de la localidad a actualizar
+     * @param localidad a actualizar
      * @return Localidad actualizada
      */
-    public Localidad actualizarLocalidadPorId(Long id, Localidad localidad) {
-        Localidad localidadActual = localidadRepository.findById(id).orElse(null);
-        localidadActual.setNombre(localidad.getNombre());
-        localidadActual.setCodigoPostal(localidad.getCodigoPostal());
-        localidadActual.setProvincia(localidad.getProvincia());
-        return localidadRepository.saveAndFlush(localidadActual);
+    public Localidad actualizarLocalidad(Long id, Localidad localidad) {
+        localidad.setId(id);
+        return localidadRepository.saveAndFlush(localidad);
     }
 
     /**
      * Método que elimina una Localidad
      *
-     * @param Long id de la localidad a eliminar
-     * @return Localidad eliminada
+     * @param id de la localidad a eliminar
      */
-    public void eliminarLocalidadPorId(Long id) {
+    public void eliminarLocalidad(Long id) {
         localidadRepository.deleteById(id);
     }
 
     /**
      * Método que cuenta la cantidad de Localidades para una determinada Provincia
      *
-     * @param Long id de la provincia
+     * @param idProvincia de la provincia
      * @return int cantidad de localidades para una provincia
      */
-    public int contarLocalidadesPorProvincia(Long id) {
-        return localidadRepository.countByProvincia_Id(id);
+    public int contarLocalidadesPorProvincia(Long idProvincia) {
+        return localidadRepository.countByProvincia_Id(idProvincia);
     }
 }

@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface LocalidadRepository extends JpaRepository<Localidad, Long> {
-    public List<Localidad> findAllByProvincia_Nombre(String provincia);
-    public int countByProvincia_Id(Long id);
+    List<Localidad> findAllByProvincia_Nombre(String provincia);
+    int countByProvincia_Id(Long id);
 }
