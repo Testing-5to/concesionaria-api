@@ -39,7 +39,7 @@ public class ProvinciaService {
      * @param id Id de la provincia
      * @return Provincia Provincia
      */
-    public Provincia buscarProvinciaPorId(Long id) {
+    public Provincia buscarProvincia(Long id) {
         return provinciaRepository.findById(id).orElse(null);
     }
 
@@ -60,7 +60,7 @@ public class ProvinciaService {
      * @param provincia Provincia a actualizar
      * @return Provincia actualizada
      */
-    public Provincia actualizarProvinciaPorId(Long id, Provincia provincia) {
+    public Provincia actualizarProvincia(Long id, Provincia provincia) {
         provincia.setId(id);
         return provinciaRepository.saveAndFlush(provincia);
     }
@@ -70,17 +70,17 @@ public class ProvinciaService {
      *
      * @param id Id de la provincia
      */
-    public void eliminarProvinciaPorId(Long id) {
+    public void eliminarProvincia(Long id) {
         provinciaRepository.deleteById(id);
     }
 
     /**
      * Método que cuenta las provincias para un país
      *
-     * @param id Id del país al que se le cuentan las provincias
+     * @param idPais Id del país al que se le cuentan las provincias
      * @return int Cantidad de provincias para el país
      */
-    public int contarProvinciasPorPais(Long id) {
-        return provinciaRepository.countByPais_Id(id);
+    public int contarProvincias(Long idPais) {
+        return provinciaRepository.countByPais_Id(idPais);
     }
 }

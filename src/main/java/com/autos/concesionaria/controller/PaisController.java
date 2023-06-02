@@ -65,7 +65,7 @@ public class PaisController {
     // Eliminar un pais
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarPais(@PathVariable Long id) {
-        int cantidadProvincias = provinciaService.contarProvinciasPorPais(id);
+        int cantidadProvincias = provinciaService.contarProvincias(id);
         int cantidadMarcas = marcaService.contarMarcasPorPais(id);
         // Verifico que no haya provincias o marcas asociadas al pais
         if (cantidadProvincias == 0 && cantidadMarcas == 0) {
