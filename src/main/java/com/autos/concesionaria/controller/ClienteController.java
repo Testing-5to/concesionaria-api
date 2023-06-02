@@ -8,7 +8,6 @@ import com.autos.concesionaria.service.VentaService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -112,7 +111,7 @@ public class ClienteController {
             // Si no existen ventas asociadas al cliente, eliminamos el cliente
             clienteService.eliminarClientePorId(id);
             logger.info("Eliminando cliente con ID: " + id);
-            return new ResponseEntity<String>("Cliente eliminado: " + id, HttpStatus.OK);
+            return new ResponseEntity<>("Cliente eliminado: " + id, HttpStatus.OK);
         }
     }
 
