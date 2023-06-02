@@ -2,7 +2,8 @@ package com.autos.concesionaria.entity;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ImpuestoTest {
 
@@ -142,7 +143,7 @@ class ImpuestoTest {
     @Test
     void noArgsConstructor() {
         // given
-        Impuesto impuesto ;
+        Impuesto impuesto;
         // when
         impuesto = new Impuesto();
         // then

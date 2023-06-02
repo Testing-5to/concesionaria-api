@@ -67,7 +67,7 @@ class RolServiceTest {
         rolServiceTest.actualizarRolPorId(id, rol);
         // then
         verify(rolRepository).saveAndFlush(any(Rol.class));
-        assertEquals(rolServiceTest.actualizarRolPorId(id, rol). getNombre(), rol.getNombre());
+        assertEquals(rolServiceTest.actualizarRolPorId(id, rol).getNombre(), rol.getNombre());
     }
 
     @Test

@@ -4,8 +4,6 @@ import com.autos.concesionaria.entity.Pais;
 import com.autos.concesionaria.service.MarcaService;
 import com.autos.concesionaria.service.PaisService;
 import com.autos.concesionaria.service.ProvinciaService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +54,7 @@ public class PaisControllerTest {
 
         // Realizar la solicitud GET y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/pais")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(paises)));
     }
@@ -69,7 +67,7 @@ public class PaisControllerTest {
 
         // Realizar la solicitud GET y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/pais/1")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.nombre").value("Argentina"))
@@ -86,8 +84,8 @@ public class PaisControllerTest {
 
         // Realizar la solicitud POST con el nuevo país y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/pais")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(nuevoPais)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(nuevoPais)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(jsonPath("$.nombre").value("Argentina"))
                 .andExpect(jsonPath("$.abreviatura").value("AR"));
@@ -104,8 +102,8 @@ public class PaisControllerTest {
 
         // Realizar la solicitud PUT con el país actualizado y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/pais/{id}", paisId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(paisActualizado)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(paisActualizado)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nombre").value("Argentina"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.abreviatura").value("AR"));
@@ -127,6 +125,58 @@ public class PaisControllerTest {
 
         // Verificar que el método para borrar el país se haya llamado una vez
         Mockito.verify(paisService, Mockito.times(1)).borrarPaisPorId(Mockito.eq(paisId));
+    }
+
+    @Test
+    public void testBorrarPaisConProvincias() throws Exception {
+        // Datos de ejemplo para el país a borrar
+        Long paisId = 1L;
+
+        // Mockear el servicio para devolver 1 provincia asociada al país
+        Mockito.when(provinciaService.contarProvinciasPorPais(Mockito.eq(paisId))).thenReturn(1);
+
+        // Realizar la solicitud DELETE y verificar los resultados esperados
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el pais con id: " + paisId + " porque tiene provincias asociadas"));
+
+        // Verificar que el método para borrar el país no se haya llamado
+        Mockito.verify(paisService, Mockito.times(0)).borrarPaisPorId(Mockito.eq(paisId));
+    }
+
+    @Test
+    public void testBorrarPaisConMarcas() throws Exception {
+        // Datos de ejemplo para el país a borrar
+        Long paisId = 1L;
+
+        // Mockear el servicio para devolver 1 marca asociada al país
+        Mockito.when(marcaService.contarMarcasPorPais(Mockito.eq(paisId))).thenReturn(1);
+
+        // Realizar la solicitud DELETE y verificar los resultados esperados
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el pais con id: " + paisId + " porque tiene marcas asociadas"));
+
+        // Verificar que el método para borrar el país no se haya llamado
+        Mockito.verify(paisService, Mockito.times(0)).borrarPaisPorId(Mockito.eq(paisId));
+    }
+
+    @Test
+    public void testBorrarPaisConMarcasYProvincias() throws Exception {
+        // Datos de ejemplo para el país a borrar
+        Long paisId = 1L;
+
+        // Mockear el servicio para devolver 1 provincia y 1 marca asociadas al país
+        Mockito.when(provinciaService.contarProvinciasPorPais(Mockito.eq(paisId))).thenReturn(1);
+        Mockito.when(marcaService.contarMarcasPorPais(Mockito.eq(paisId))).thenReturn(1);
+
+        // Realizar la solicitud DELETE y verificar los resultados esperados
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el pais con id: " + paisId + " porque tiene provincias y marcas asociadas"));
+
+        // Verificar que el método para borrar el país no se haya llamado
+        Mockito.verify(paisService, Mockito.times(0)).borrarPaisPorId(Mockito.eq(paisId));
     }
 
 }

@@ -71,8 +71,9 @@ class DireccionServiceTest {
         // then
         verify(direccionRepository).save(direccion);
     }
+
     @Test
-    void actualizarDireccionPorId(){
+    void actualizarDireccionPorId() {
         // given
         Long id = 1L;
         Direccion direccion = new Direccion();

@@ -1,12 +1,7 @@
-
 package com.autos.concesionaria.controller;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.autos.concesionaria.entity.Rol;
+import com.autos.concesionaria.service.RolService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -20,8 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.autos.concesionaria.entity.Rol;
-import com.autos.concesionaria.service.RolService;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,6 +31,7 @@ class RolControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     @MockBean
     private RolService rolService;
 
@@ -49,9 +48,9 @@ class RolControllerTest {
         when(rolService.buscarRoles()).thenReturn(testResponse);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/rol")
-                        .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk());
+                .get("/api/v1/rol")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -66,9 +65,7 @@ class RolControllerTest {
                         .post("/api/v1/rol").content(toJson(rolResponse))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
-
     }
-
 
     private String toJson(Rol rolResponse) throws JsonProcessingException {
         return mapper.writeValueAsString(rolResponse);

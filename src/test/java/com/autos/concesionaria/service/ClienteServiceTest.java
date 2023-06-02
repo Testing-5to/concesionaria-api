@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -65,7 +65,7 @@ class ClienteServiceTest {
     }
 
     @Test
-    void actualizarClientePorId(){
+    void actualizarClientePorId() {
         // given
         Long id = 1L;
         Cliente cliente = new Cliente();
@@ -78,6 +78,7 @@ class ClienteServiceTest {
         verify(clienteRepository).saveAndFlush(any(Cliente.class));
         assertEquals(clienteServiceTest.actualizarClientePorId(id, cliente).getNombre(), cliente.getNombre());
     }
+
     @Test
     void eliminarClientePorId() {
         // given
