@@ -7,7 +7,6 @@ import com.autos.concesionaria.service.ProvinciaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,7 +21,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
@@ -115,8 +114,8 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 0 provincias y 0 marcas asociadas al país
-        Mockito.when(provinciaService.contarProvinciasPorPais(Mockito.eq(paisId))).thenReturn(0);
-        Mockito.when(marcaService.contarMarcasPorPais(Mockito.eq(paisId))).thenReturn(0);
+        when(provinciaService.contarProvinciasPorPais(eq(paisId))).thenReturn(0);
+        when(marcaService.contarMarcasPorPais(eq(paisId))).thenReturn(0);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
@@ -124,7 +123,7 @@ public class PaisControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("Pais borrado: " + paisId));
 
         // Verificar que el método para borrar el país se haya llamado una vez
-        Mockito.verify(paisService, Mockito.times(1)).borrarPaisPorId(Mockito.eq(paisId));
+        verify(paisService, times(1)).borrarPaisPorId(eq(paisId));
     }
 
     @Test
@@ -133,7 +132,7 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 1 provincia asociada al país
-        Mockito.when(provinciaService.contarProvinciasPorPais(Mockito.eq(paisId))).thenReturn(1);
+        when(provinciaService.contarProvinciasPorPais(eq(paisId))).thenReturn(1);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
@@ -141,7 +140,7 @@ public class PaisControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el pais con id: " + paisId + " porque tiene provincias asociadas"));
 
         // Verificar que el método para borrar el país no se haya llamado
-        Mockito.verify(paisService, Mockito.times(0)).borrarPaisPorId(Mockito.eq(paisId));
+        verify(paisService, times(0)).borrarPaisPorId(eq(paisId));
     }
 
     @Test
@@ -150,7 +149,7 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 1 marca asociada al país
-        Mockito.when(marcaService.contarMarcasPorPais(Mockito.eq(paisId))).thenReturn(1);
+        when(marcaService.contarMarcasPorPais(eq(paisId))).thenReturn(1);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
@@ -158,7 +157,7 @@ public class PaisControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el pais con id: " + paisId + " porque tiene marcas asociadas"));
 
         // Verificar que el método para borrar el país no se haya llamado
-        Mockito.verify(paisService, Mockito.times(0)).borrarPaisPorId(Mockito.eq(paisId));
+        verify(paisService, times(0)).borrarPaisPorId(eq(paisId));
     }
 
     @Test
@@ -167,8 +166,8 @@ public class PaisControllerTest {
         Long paisId = 1L;
 
         // Mockear el servicio para devolver 1 provincia y 1 marca asociadas al país
-        Mockito.when(provinciaService.contarProvinciasPorPais(Mockito.eq(paisId))).thenReturn(1);
-        Mockito.when(marcaService.contarMarcasPorPais(Mockito.eq(paisId))).thenReturn(1);
+        when(provinciaService.contarProvinciasPorPais(eq(paisId))).thenReturn(1);
+        when(marcaService.contarMarcasPorPais(eq(paisId))).thenReturn(1);
 
         // Realizar la solicitud DELETE y verificar los resultados esperados
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/pais/{id}", paisId))
@@ -176,7 +175,7 @@ public class PaisControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el pais con id: " + paisId + " porque tiene provincias y marcas asociadas"));
 
         // Verificar que el método para borrar el país no se haya llamado
-        Mockito.verify(paisService, Mockito.times(0)).borrarPaisPorId(Mockito.eq(paisId));
+        verify(paisService, times(0)).borrarPaisPorId(eq(paisId));
     }
 
 }
