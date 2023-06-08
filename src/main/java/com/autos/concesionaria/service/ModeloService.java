@@ -3,7 +3,6 @@ package com.autos.concesionaria.service;
 import com.autos.concesionaria.entity.Modelo;
 import com.autos.concesionaria.repository.ModeloRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
 public class ModeloService {
 
     // Repositorio de Modelo
-    @Autowired
     private final ModeloRepository modeloRepository;
 
     /**
@@ -73,8 +71,7 @@ public class ModeloService {
      * @return Modelo creado
      */
     public Modelo crearModelo(Modelo modelo) {
-        Modelo nuevoModelo = modeloRepository.save(modelo);
-        return nuevoModelo;
+        return modeloRepository.save(modelo);
     }
 
     /**
@@ -85,11 +82,8 @@ public class ModeloService {
      * @return Modelo actualizado
      */
     public Modelo actualizarModelo(Long id, Modelo modelo) {
-        Modelo modeloActual = modeloRepository.findById(id).orElse(null);
-        modeloActual.setNombre(modelo.getNombre());
-        modeloActual.setMarca(modelo.getMarca());
-        modeloActual.setTipoVehiculo(modelo.getTipoVehiculo());
-        return modeloRepository.save(modeloActual);
+        modelo.setId(id);
+        return modeloRepository.save(modelo);
     }
 
     /**

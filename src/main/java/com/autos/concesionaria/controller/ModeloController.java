@@ -6,7 +6,6 @@ import com.autos.concesionaria.service.VehiculoService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +22,7 @@ public class ModeloController {
     private static final Logger logger = LoggerFactory.getLogger(ModeloController.class);
 
     // Inyección de dependencias
-    @Autowired
     private final ModeloService modeloService;
-    @Autowired
     private final VehiculoService vehiculoService;
 
     // GET
@@ -33,13 +30,13 @@ public class ModeloController {
     @GetMapping
     public ResponseEntity<List<Modelo>> getModelos(@RequestParam(required = false) String marca, @RequestParam(required = false) String tipoVehiculo) {
         if (marca != null && tipoVehiculo != null) {
-            return new ResponseEntity<>(modeloService.getModelosByMarcaAndTipoVehiculo(marca, tipoVehiculo), HttpStatus.OK);
+            return ResponseEntity.ok(modeloService.getModelosByMarcaAndTipoVehiculo(marca, tipoVehiculo));
         } else if (marca != null) {
-            return new ResponseEntity<>(modeloService.getModelosByMarca(marca), HttpStatus.OK);
+            return ResponseEntity.ok(modeloService.getModelosByMarca(marca));
         } else if (tipoVehiculo != null) {
-            return new ResponseEntity<>(modeloService.getModelosByTipoVehiculo(tipoVehiculo), HttpStatus.OK);
+            return ResponseEntity.ok(modeloService.getModelosByTipoVehiculo(tipoVehiculo));
         } else {
-            return new ResponseEntity<>(modeloService.getModelos(), HttpStatus.OK);
+            return ResponseEntity.ok(modeloService.getModelos());
         }
     }
 
@@ -47,7 +44,7 @@ public class ModeloController {
     // Obtener un modelo por ID
     @GetMapping("/{id}")
     public ResponseEntity<Modelo> getModeloPorId(@PathVariable Long id) {
-        return new ResponseEntity<>(modeloService.getModelo(id), HttpStatus.OK);
+        return ResponseEntity.ok(modeloService.getModelo(id));
     }
 
     // POST
@@ -63,7 +60,7 @@ public class ModeloController {
     @PutMapping("/{id}")
     public ResponseEntity<Modelo> actualizarModelo(@PathVariable Long id, @RequestBody Modelo modelo) {
         logger.info("Actualizando modelo con id: " + id);
-        return new ResponseEntity<>(modeloService.actualizarModelo(id, modelo), HttpStatus.OK);
+        return ResponseEntity.ok(modeloService.actualizarModelo(id, modelo));
     }
 
     // DELETE
@@ -74,10 +71,10 @@ public class ModeloController {
         if (vehiculoService.countVehiculosByModelo(id) == 0) {
             modeloService.borrarModelo(id);
             logger.info("Borrando modelo con id: " + id);
-            return new ResponseEntity<String>("Modelo borrado: " + id, HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         } else {
             logger.info("No se puede borrar el modelo con id: " + id + " porque tiene vehiculos asociados");
-            return new ResponseEntity<>("No se puede borrar el modelo porque tiene vehiculos asociados", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body("No se puede borrar el modelo porque tiene vehiculos asociados");
         }
     }
 
