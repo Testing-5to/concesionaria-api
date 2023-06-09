@@ -48,8 +48,12 @@ class VehiculoControllerTest {
     @Test
     void getVehiculos() throws Exception {
         // given
+        Modelo modelo = new Modelo();
+        modelo.setNombre("Audi");
+
         Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setAnio(2023);
+        vehiculo.setModelo(modelo);
+
         List<Vehiculo> vehiculos = new ArrayList<>();
         vehiculos.add(vehiculo);
         // when
@@ -65,8 +69,7 @@ class VehiculoControllerTest {
         when(vehiculoService.getVehiculosByModelo(any(String.class))).thenReturn(vehiculos);
         // then
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/vehiculo")
-                        .content("Audi")
+                        .get("/api/v1/vehiculo?modelo={modelo}",modelo.getNombre())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(vehiculos)));
@@ -136,7 +139,8 @@ class VehiculoControllerTest {
         // then
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/vehiculo/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("No se puede borrar el vehiculo porque tiene ventas asociadas"));
 
         // when venta service devuelve 0 vehiculos asociadas a venta
         when(ventaService.getVentasByVehiculo(eq(id))).thenReturn(new ArrayList<>());
@@ -144,6 +148,8 @@ class VehiculoControllerTest {
         // then
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/vehiculo/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Vehiculo borrado"));
+
     }
 }
