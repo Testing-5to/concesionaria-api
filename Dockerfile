@@ -5,7 +5,7 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copy the built JAR file to the container
-COPY target/Concesionaria-0.0.1-SNAPSHOT.jar app.jar
+COPY target/*.jar app.jar
 
 # Copy the .env file to the container
 COPY .env .env
